@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <h:head>
+        <title>Event Page</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="../css/styleTable.css" />
+        <link rel="stylesheet" type="text/css" href="../css/css.css"/>
+        <link rel="stylesheet" href="../CalendarCss/jquery.ui.all.css" type="text/css"/>
+        <script type="text/javascript" src="../CalendarJS/jquery.ui.core.js"></script>
+        <script type="text/javascript" src="../CalendarJS/jquery.ui.widget.js"></script>
+        <script type="text/javascript" src="../CalendarJS/jquery.ui.datepicker.js"></script>
+        <style type="text/css">
+            label.error {
+                color: #ff4c00;
+                font-style: italic;
+            }
+            input.error {
+                border: 1px dotted red;
+            }
+
+        </style>
+        <style type="text/css">
+            .error { color: red; }
+        </style>
+        <script type="text/javascript">
+            /* configure date picker */
+            $(function() {
+                $(".datepickerBRD").datepicker({
+                    dateFormat: 'd M yy',
+                    firstDay: 1,
+                    minDate: new Date(),
+                    changeMonth: true, changeYear: true,
+                    showOtherMonths: true,
+                    mandatory: true
+                    
+                }),
+                
+                $(".datepicker").datepicker({
+                    dateFormat: 'd M yy',
+                    firstDay: 1,
+                    minDate: new Date(),
+                    changeMonth: true, changeYear: true,
+                    showOtherMonths: true,
+                    mandatory: true
+                })
+                ;
+            });
+            
+        </script>
+    </h:head>
+    <h:body>
+        <div id="main">
+            <div id="headerAdmin">
+                <a id="indexLink" href="index.htm"></a>
+                <div id="banner"></div>
+                <div style="height: 15px;background-color: white"></div>
+                <div id="colorBar"></div>
+                <div style="height: 15px;background-color: white"></div>
+            </div>
+            <div id="content">
+                <table id="bodytable" cellpadding="0px" cellspacing="0px">
+                    <tr>
+                        <td valign="top">
+                            <div id="indexLeftColumn">
+                                <div class="menu" id="menuDiv">
+                                    <div id="menu">
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="event.xhtml">Manager Event</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#">Manager Suggest</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#" >Manger Employee</a>
+                                        </div>
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Manager Request</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#" >Manager FAQs</a>
+                                        </div>
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Reports</a>
+                                        </div>                                        
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Logout</a>
+                                        </div>
+
+                                        <div class="Bitrhdaybox"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td align="left" valign="top">
+                            <div id="indexRightColumn">
+                                <h:form>
+                                    <table border="0" id="rounded-corner" width="600px">
+                                        <tbody>
+                                            <tr >
+                                                <td width="200">
+                                                    <label for="ID">
+                                                        <span >
+                                                            Event ID
+                                                        </span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <h:inputText value="#{eventBean.eventID}" class="text required" maxlength="10" id="txtID"/>                        
+                                                    <label for="ID" class="error" ></label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Event Title</td>
+                                                <td><h:inputText class="text required" id="txtName" maxlength="30" value="#{eventBean.eventTitle}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Description</td>
+                                                <td>
+                                                    <h:inputTextarea class="text required" id="txtDescription"  rows="4" cols="20" value="#{eventBean.description}"/>                        
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Image</td>
+                                                <td>
+                                                    <h:form enctype="multipart/form-data">
+                                                        <p:fileUpload
+                                                            fileUploadListener="#{eventBean.handleFileUpload}"
+                                                            update="messages" label="Choose a file"
+                                                            auto="true" sizeLimit="10485760"
+                                                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"                                 />
+                                                        <p:growl id="messages" showDetail="true" life="5000" />
+                                                    </h:form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Start Event Date</td>
+                                                <td>
+                                                    <div id="datepicker">
+                                                        <p:calendar value="#{eventBean.startDate}" id="popupStartdate" showOn="button"/>                                
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>End Event Date</td>
+                                                <td>
+                                                    <div id="datepicker">
+                                                        <p:calendar value="#{eventBean.endDate}" id="popupEnddate" showOn="button"/>                                
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Event Type</td>
+                                                <td>
+                                                    <h:selectOneMenu id="selectType" value="#{eventBean.choiceEventType}">
+                                                        <f:selectItems value="#{eventTypeBean.showAllEventType()}" var="eType"
+                                                                       itemLabel="#{eType.eventTypeName}" itemValue="#{eType.eventTypeID}"/>
+                                                    </h:selectOneMenu>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Status</td>
+                                                <td><h:inputText value="#{eventBean.status}"/></td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>Prize</td>
+                                                <td><h:inputText value="#{eventBean.prizeName}"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <h:commandButton class="submit button" value="Create" action="#{eventBean.addNewEvent()}"/> 
+                                                    <h:commandButton value="Reset" action="#{eventBean.reset()}"/>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </h:form>
+                                <f:view>
+                                    <h:form>
+                                        <h1><h:outputText value="List Event"/></h1>
+                                        <h:dataTable value="#{eventBean.showAll()}" var="item">
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="EventID"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.eventID}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Title"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.eventTitle}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Image"/>
+                                                </f:facet>
+                                                <h:graphicImage value="/images/event/#{item.image}" style="width: 100px;height: 100px"/>  
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Description"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.description}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="StartDate"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.startDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="EndDate"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.endDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Status"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.status}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="EventType"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.eventTypeID.eventTypeName}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Action"/>
+                                                </f:facet>
+                                                <h:commandButton value="Edit" action="#{eventBean.editEvent(item)}" style="width: 50px"/>
+                                                <h:commandButton value="Delete" action="#{eventBean.deleteEvent(item)}" style="width: 50px"/>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </h:form>
+                                </f:view>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="footerAdmin">
+                C1007L-Group1-FPT Aptech Computer Education
+            </div>
+
+        </div>
+    </h:body>
+</html>

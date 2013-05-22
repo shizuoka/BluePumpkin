@@ -1,0 +1,237 @@
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 920px;
+    text-align: center;
+    margin:  auto;
+   
+}
+
+hr {
+    border: 0;
+    background-color: #333;
+    height: 1px;
+    margin: 0px;
+    width: 300px;
+}
+
+table {
+    margin: 0px;
+    border-spacing: 0;
+    text-align: center;
+    border-style: none;
+}
+#main {
+    background: #eee ;
+}
+/*Header*/
+#header {
+    height:190px;
+    text-align: right;
+    padding: 0px;
+    margin: 0px;
+    width: 920px;
+    background-image: url(top_en_2.jpg);
+}
+
+#header #langFlag {
+    position:absolute;
+    top: 28px;
+    right: 0px;
+}
+
+#headerAdmin #colorBar {
+height: 26px;
+background-color: #9baff1
+}
+#headerAdmin #banner{
+    height: 87px;
+    padding: 0px;
+    margin: 0px;
+    width: 920px;
+    background-image: url(BluePumpkinIcon.JPG);
+    background-repeat: no-repeat;
+    background-color: white;
+}
+#header #headerLinks .unlogged {
+    float:left;
+    text-align:right;
+    margin-right:5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 0px;
+}
+#header #headerLinks .logoutBut {
+    float:right;
+    text-align:right;
+    margin-right:5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 0px;
+}
+#header #headerLinks .unlogged a {
+    font-size:11px;
+}
+
+#header #searchForm {
+    position: absolute;
+    top: 115px;
+    right: 21px;
+}
+
+#header #searchForm *{
+    vertical-align: middle;
+}
+
+#header #searchForm input {
+    border: none;
+}
+
+#header #searchField {
+    height: 20px;
+    width: 265px;
+    border-top: 1px solid #979797;
+    border-left: 1px solid #979797;
+}
+
+#header #searchButton{
+    margin-left: 8px;
+}
+
+#headerLinks a {
+    color: #444444;
+    text-decoration: none;
+    font-size: 10px;
+}
+/*/End Head*/
+/*content*/
+
+/*div #content {
+    width: 920px;
+}*/
+
+#content {
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+
+    background-color: #ffffff;
+}
+
+#navpath {
+    margin-top: 27px;
+    margin-bottom: 27px;
+}
+
+#moreNewsLink {
+    margin-top: 53px;
+    margin-bottom: 27px;
+}
+
+#bodytable{
+    margin: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+#indexRightColumnLogin{
+    width: 920px;
+    
+    vertical-align: middle;
+    list-style-type: none;
+    padding-bottom: 200px;
+    padding-top: 200px;
+}
+
+#indexRightColumn {
+    width: 712px;
+    vertical-align: top;
+   
+    font-family: 'Times New Roman',Times,serif;
+}
+#indexLeftColumn {
+    width: 208px;
+    background-color: #f7f7e9;
+
+}
+/*footer*/
+#footer {
+	clear: both;
+	float:none;
+	margin: 0;
+	width:100%;
+	margin-top: 20px;
+	padding: 0;
+	padding-left: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	border-top: 1px solid #cccccc;
+        width: 900px;
+}
+#footerAdmin {
+	clear: both;
+	float:none;
+	margin: 0;
+	width:100%;
+	margin-top: 20px;
+	padding: 0;
+	padding-left: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+        width: 900px;
+        background-color: #9baff1
+}
+/*menu*/
+.menu a {
+    color: #333333;
+    text-decoration: none;
+}
+
+.menu {
+    text-align: left;
+}
+
+.menu .label, .menu .labelCurrent {
+    padding-left:15px; /* 25*/
+    padding-top: 9px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #c4c4c4;
+    border-top: 1px solid #ffffff;
+    font-weight: bold;
+}
+
+.menu .firstLabel {
+    border-top: none;
+}
+
+.menu .submenu .label {
+    padding-left:25px; /*45*/
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.menu .submenu .submenu1 .label {
+    padding-left:35px;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.menu .submenu .submenu1 .submenu2 .label {
+    padding-left:45px;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.menu .submenu .submenu1 .submenu2 .submenu3 .label {
+    padding-left:55px;
+    font-size: 12px;
+    font-weight: normal;
+}

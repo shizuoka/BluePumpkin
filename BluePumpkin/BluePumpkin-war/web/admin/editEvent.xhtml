@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Management Edit Event Page</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="../css/styleTable.css" />
+        <link rel="stylesheet" type="text/css" href="../css/css.css"/>
+    </h:head>
+    <h:body>
+        <div id="main">
+            <div id="headerAdmin">
+                <a id="indexLink" href="index.htm"></a>
+                <div id="banner"></div>
+                <div style="height: 15px;background-color: white"></div>
+                <div id="colorBar"></div>
+                <div style="height: 15px;background-color: white"></div>
+            </div>
+            <div id="content">
+                <table id="bodytable" cellpadding="0px" cellspacing="0px">
+                    <tr>
+                        <td valign="top">
+                            <div id="indexLeftColumn">
+                                <div class="menu" id="menuDiv">
+                                    <div id="menu">
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="event.xhtml">Manager Event</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#">Manager Suggest</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#" >Manger Employee</a>
+                                        </div>
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Manager Request</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#" >Manager FAQs</a>
+                                        </div>
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Reports</a>
+                                        </div>                                        
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Logout</a>
+                                        </div>
+
+                                        <div class="Bitrhdaybox"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td align="left" valign="top">
+                            <div id="indexRightColumn">
+                                <h:form>                                                                                                              
+                                    <table border="1" id="rounded-corner">
+                                        <tbody>
+                                            <tr >
+                                                <td width="200">
+                                                    <label for="ID">
+                                                        <span >
+                                                            Event ID
+                                                        </span>
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <h:outputLabel value="#{eventBean.event.eventID}" class="text required" maxlength="10" id="txtID"/>                        
+                                                    <label for="ID" class="error" ></label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Event Title</td>
+                                                <td><h:inputText class="text required" id="txtName" maxlength="30" value="#{eventBean.event.eventTitle}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Description</td>
+                                                <td>
+                                                    <h:inputTextarea class="text required" id="txtDescription"  rows="4" cols="20" value="#{eventBean.event.description}"/>                        
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Image</td>
+                                                <td>
+                                                    <h:form enctype="multipart/form-data">
+                                                        <p:fileUpload
+                                                            fileUploadListener="#{eventBean.handleFileUpload}"
+                                                            update="messages" label="Choose a file"
+                                                            auto="true" sizeLimit="10485760"
+                                                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"                                 />
+                                                        <p:growl id="messages" showDetail="true" life="5000" />
+                                                    </h:form>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Start Event Date</td>
+                                                <td>
+                                                    <div id="datepicker">
+                                                        <p:calendar value="#{eventBean.event.startDate}" id="popupStartdate" showOn="button"/>                                
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>End Event Date</td>
+                                                <td>
+                                                    <div id="datepicker">
+                                                        <p:calendar value="#{eventBean.event.endDate}" id="popupEnddate" showOn="button"/>                                
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Event Type</td>
+                                                <td><h:outputLabel value="#{eventBean.event.eventTypeID.eventTypeName}"/>
+                                                    <h:selectOneMenu id="selectType" value="#{eventBean.choiceEventType}">
+                                                        <f:selectItems value="#{eventTypeBean.showAllEventType()}" var="eType"
+                                                                       itemLabel="#{eType.eventTypeName}" itemValue="#{eType.eventTypeID}"/>
+                                                    </h:selectOneMenu>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Status</td>
+                                                <td><h:inputText value="#{eventBean.event.status}"/></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <h:commandButton class="submit button" value="Update" action="#{eventBean.updateEvent()}"/> 
+                                                    <h:commandButton value="Cancel" action="#{eventBean.cancel()}"/>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>                                    
+                                </h:form>                              
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="footerAdmin">
+                C1007L-Group1-FPT Aptech Computer Education
+            </div>
+
+        </div>
+    </h:body>
+</html>

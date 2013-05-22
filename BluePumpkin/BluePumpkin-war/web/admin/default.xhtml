@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+    <h:head>
+        <title>Default Administrator Page</title>
+        <link rel="stylesheet" type="text/css" href="../css/css.css"/>
+        <link rel="stylesheet" type="text/css" media="screen" href="../css/styleTable.css" />
+    </h:head>
+    <h:body>
+        <div id="main">
+            <div id="headerAdmin">
+                <a id="indexLink" href="index.htm"></a>
+                <div id="banner"></div>
+                <div style="height: 15px;background-color: white"></div>
+                <div id="colorBar"></div>
+                <div style="height: 15px;background-color: white"></div>
+            </div>
+            <div id="content">
+                <table id="bodytable" cellpadding="0px" cellspacing="0px">
+                    <tr>
+                        <td valign="top">
+                            <div id="indexLeftColumn">
+                                <div class="menu" id="menuDiv">
+                                    <div id="menu">
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="addEventType.xhtml">Manager Event</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#">Manager Suggest</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#" >Manger Employee</a>
+                                        </div>
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Manager Request</a>
+                                        </div>
+                                        <div class="label firstLabel">
+                                            <a class="rubric_link" href="#" >Manager FAQs</a>
+                                        </div>
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Reports</a>
+                                        </div>                                        
+                                        <div class="label firstLabel" >
+                                            <a class="rubric_link" href="#">Logout</a>
+                                        </div>
+
+                                        <div class="Bitrhdaybox"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td align="left" valign="top">
+                            <div id="indexRightColumn">
+                                <f:view>
+                                    <h:form>
+                                        <h1><h:outputText value="List"/></h1>
+                                        <h:dataTable value="#{prizeBean.showAllPrize()}" var="item">
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="PrizeID"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.prizeID}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="PrizeName"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.prizeName}"/>
+                                            </h:column>
+                                            <h:column>
+                                                <f:facet name="header">
+                                                    <h:outputText value="Event"/>
+                                                </f:facet>
+                                                <h:outputText value="#{item.eventID.eventTitle}"/>
+                                            </h:column>
+                                        </h:dataTable>
+                                    </h:form>
+                                </f:view>
+
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="footerAdmin">
+                C1007L-Group1-FPT Aptech Computer Education
+            </div>
+
+        </div>
+    </h:body>
+</html>
