@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Regiter Event Page</title>
+        <script type="text/javascript" src="LightboxJS/prototype.js"></script>
+        <script type="text/javascript" src="LightboxJS/scriptaculous.js?load=effects,builder"></script>
+        <script type="text/javascript" src="LightboxJS/lightbox.js"></script>
+        <link rel="stylesheet" href="css/css.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="css/styleTable.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
+    </h:head>
+    <h:body>
+        <h:form>
+            <fieldset style="text-align: left" >
+                <legend><h3>Register Event</h3></legend>
+                <div align="center">
+                    <c:forEach items="#{eventBean.showAll()}" var="event">
+                        <table width="650" id="rounded-corner">
+                            <tr>
+                                <th colspan="2" align="center"><h4><h:outputLabel value="#{event.eventTitle}"/></h4></th>
+                            </tr>
+                            <tr>
+
+                                <td>
+                                    <table>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>
+                                                    <a href="#{event.image}" rel="lightbox">
+                                                        <img title="Click to zoom" src="images/event/#{event.image}" width="140" height="140"/>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="450" align="left">#{event.description}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td align="right">
+                                                                    <h:commandLink value="Detail" action="#{eventBean.detailEvent(event.eventID)}" onclick="new Effect.Highlight(this.parentNode, { startcolor: '#dddddd',
+                                                                        endcolor: '#ffffff' })"/>                                                                                                                             
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>                            
+                            </tr>
+
+                            <tr>
+                                <td colspan="6">                                
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                    </c:forEach>
+                </div>
+
+            </fieldset>
+        </h:form>
+    </h:body>
+</html>

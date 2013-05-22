@@ -1,0 +1,62 @@
+#lightbox{	position: absolute;	left: 0; width: 100%; z-index: 100; text-align: center; line-height: 0;}
+#lightbox img{ width: auto; height: auto;}
+#lightbox a img{ border: none; }
+
+#outerImageContainer{ position: relative; background-color: #fff; width: 250px; height: 250px; margin: 0 auto; }
+#imageContainer{ padding: 10px; }
+
+#loading{ position: absolute; top: 40%; left: 0%; height: 25%; width: 100%; text-align: center; line-height: 0; }
+#hoverNav{ position: absolute; top: 0; left: 0; height: 100%; width: 100%; z-index: 10; }
+#imageContainer>#hoverNav{ left: 0;}
+#hoverNav a{ outline: none;}
+
+#prevLink, #nextLink{ width: 49%; height: 100%; background-image: url(data:image/gif;base64,AAAA); /* Trick IE into showing hover */ display: block; }
+#prevLink { left: 0; float: left;}
+#nextLink { right: 0; float: right;}
+#prevLink:hover, #prevLink:visited:hover { background: url(../LightboxImages/prevlabel.gif) left 15% no-repeat; }
+#nextLink:hover, #nextLink:visited:hover { background: url(../LightboxImages/nextlabel.gif) right 15% no-repeat; }
+
+#imageDataContainer{ font: 10px Verdana, Helvetica, sans-serif; background-color: #fff; margin: 0 auto; line-height: 1.4em; overflow: auto; width: 100%	; }
+
+#imageData{	padding:0 10px; color: #666; }
+#imageData #imageDetails{ width: 70%; float: left; text-align: left; }	
+#imageData #caption{ font-weight: bold;	}
+#imageData #numberDisplay{ display: block; clear: left; padding-bottom: 1.0em;	}			
+#imageData #bottomNavClose{ width: 66px; float: right;  padding-bottom: 0.7em; outline: none;}	 	
+
+#overlay{ position: absolute; top: 0; left: 0; z-index: 90; width: 100%; height: 500px; background-color: #000; }
+#titlepage {height:24px; background-color:#1F464C;}
+.title{ color:#EEEEEE; font-size:90%; font-weight:bold; }
+#tableheader {height:55px; margin-top:8px;}
+.search {float:left; padding:6px; border:1px solid #c6d5e1; background:#fff}
+#tableheader select {float:left; font-size:80%; width:125px; padding:2px 4px 4px}
+#tableheader input {float:left; font-size:80%; width:225px; padding:2px 4px 4px; margin-left:4px}
+.details {float:right; padding-top:12px}
+.details div {float:left; margin-left:15px; font-size:80%px}
+
+.tinytable {width:700px; border:1px solid #c6d5e1;font-family:Arial, Helvetica, sans-serif;}
+.tinytable th {text-align:center; color:#4f6b72; border:1px solid #fff; background:#c6d5e1;}
+.tinytable th h3 {font-size:80%;font-weight:bold;}
+.tinytable td {font-size:80%;border:1px solid #c6d5e1;}
+.tinytable .content { padding-left:10px; padding-top:5px; padding-bottom:5px; padding-right:10px;}
+.tinytable .head h3 {cursor:pointer;}
+.tinytable .desc h3 {cursor:pointer;}
+.tinytable .asc h3 {cursor:pointer;}
+.tinytable .evenrow td {background:#fff;}
+.tinytable .oddrow td {background:#ddd;}
+.tinytable td.evenselected {background:#ddd;}
+.tinytable td.oddselected {background:#fff;}
+.tinytable tfoot {background:#fff; font-weight:bold;}
+.tinytable tfoot td {padding:6px 8px 8px;}
+
+#tablefooter {height:15px; margin-top:20px;}
+#tablenav {float:left;}
+#tablenav img {cursor:pointer;}
+#tablelocation {float:right; font-size:80%;}
+#tablelocation select {margin-right:3px;}
+#tablelocation div {float:left; margin-left:15px;}
+.page {margin-top:2px; font-style:italic;}
+#selectedrow td {background:#c6d5e1;}
+
+
+

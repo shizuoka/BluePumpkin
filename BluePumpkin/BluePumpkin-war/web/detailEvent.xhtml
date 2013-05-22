@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Detail Event Page</title>
+        <link rel="stylesheet" type="text/css" media="screen" href="css/styleTable.css" />
+        <link rel="stylesheet" type="text/css" href="css/css.css"/>
+    </h:head>
+    <h:body>        
+        <table width="650" border="1" id="rounded-corner">
+            <tr>
+                <td colspan="2"><div align="center">
+                        <h2 class="style1">Event Detail </h2>
+                    </div></td>
+            </tr>
+            <tr>
+                <td> <div align="right">Event ID </div></td>
+                <td>#{eventBean.event.eventID}</td>
+            </tr>
+            <tr>
+                <td><div align="right">Event Name </div></td>
+                <td>#{eventBean.event.eventTitle}</td>
+            </tr>
+            <tr>
+                <td><div align="right">Description</div></td>
+                <td><textarea name="" rows="4" cols="20" disabled="true">
+                        #{eventBean.event.description}
+                    </textarea></td>
+            </tr>              
+            <tr>
+                <td><div align="right">Start Event Date</div></td>
+                <td>
+                    <h:outputText value="#{eventBean.event.startDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText></td>
+            </tr>
+            <tr>
+                <td><div align="right">End Event Date</div></td>
+                <td><h:outputText value="#{eventBean.event.endDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText></td>
+            </tr>
+            <tr>
+                <td><div align="right">Event Type</div></td>
+                <td>#{eventBean.event.eventTypeID.eventTypeName}</td>
+            </tr>                              
+        </table>
+        <a href="registerEvent.xhtml">Back Register Event</a>
+        <tt></tt>
+        <h:form><h:commandLink value="Register Event" action="#{registerBean.registerEvent(eventBean.event.eventID)}"/></h:form>
+    </h:body>
+</html>

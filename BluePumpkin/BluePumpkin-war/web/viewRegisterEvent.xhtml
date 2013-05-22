@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>View Register Event</title>
+        <link rel="stylesheet" href="css/styleTable.css" type="text/css" media="screen" />
+    </h:head>
+    <h:body>
+
+        <fieldset style="text-align: left">
+            <legend><h3>View Event Request</h3></legend>
+            <div align="center">
+                <table id="rounded-corner">
+                    <thead>
+                        <tr>
+                            <th><h4>Employee Name</h4></th>
+                            <th><h4>Event Name</h4></th>
+                            <th><h4>Request Date</h4></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>                    
+                        <c:forEach items="#{registerBean.showAllRegister()}" var="reg">
+                            <tr>                                
+                                <td align="center">#{reg.employeeID.fullName}</td>
+                                <td align="center" height="15px">#{reg.eventID.eventTitle}</td>
+                                <td align="center" height="15px"><h:outputText value="#{reg.registerDate}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </h:outputText></td>
+                                <td align="center">
+                                    <h:commandButton value="Cancel" action="#"/>
+                                    <h:inputHidden value="#{reg.registerID}"/>
+                                </td>                                
+                            </tr>           
+                        </c:forEach>
+                    </tbody>
+                    <tr>
+                        <td colspan="4">
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </fieldset>        
+    </h:body>
+</html>

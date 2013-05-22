@@ -133,6 +133,10 @@ public class EventBean implements Serializable {
     public List<Event> showAll() {
         return eventFacade.findAll();
     }
+
+    public Event findByEventID(String id) {
+        return eventFacade.findByEventID(id);
+    }
     //Primitives
     private static final int BUFFER_SIZE = 6124;
 
@@ -213,7 +217,7 @@ public class EventBean implements Serializable {
         if (del) {
             message = "Delete Event Successfull";
             return "event.xhtml?result=" + message + "&faces-redirect=true";
-        }else{
+        } else {
             message = "Delete Event Unsuccessful";
             return "event.xhtml?result=" + message + "&faces-redirect=true";
         }
@@ -230,5 +234,13 @@ public class EventBean implements Serializable {
 
     public String cancel() {
         return "event.xhtml?faces-redirect=true";
+    }        
+
+    public String detailEvent(String eventID) {
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+//        session.setAttribute("detailEvent", e);        
+        event= eventFacade.findByEventID(eventID);        
+        return "detailEvent.xhtml?EventID=" + eventID + "&faces-redirect=true";
     }
 }

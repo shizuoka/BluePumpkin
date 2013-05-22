@@ -248,7 +248,7 @@ and open the template in the editor.
                                                     <h:outputText value="Action"/>
                                                 </f:facet>
                                                 <h:commandButton value="Edit" action="#{eventBean.editEvent(item)}" style="width: 50px"/>
-                                                <h:commandButton value="Delete" action="#{eventBean.deleteEvent(item)}" style="width: 50px"/>
+                                                <h:commandButton value="Delete" action="#{eventBean.deleteEvent(item)}" onclick="return confirm('Are you sure?')" style="width: 50px"/>
                                             </h:column>
                                         </h:dataTable>
                                     </h:form>

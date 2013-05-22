@@ -60,6 +60,13 @@ public class RegisterEvent implements Serializable {
         this.registerID = registerID;
     }
 
+    public RegisterEvent(Date registerDate, Boolean isAccept, Event eventID, Employee employeeID) {
+        this.registerDate = registerDate;
+        this.isAccept = isAccept;
+        this.eventID = eventID;
+        this.employeeID = employeeID;
+    }        
+
     public Integer getRegisterID() {
         return registerID;
     }

@@ -30,6 +30,10 @@ public class EventFacade extends AbstractFacade<Event> {
         super(Event.class);
     }
 
+    public Event findByEventID(String eventID) {
+        return (Event) em.createNamedQuery("Event.findByEventID").setParameter("eventID", eventID).getSingleResult();
+    }
+
     public boolean addNewEvent(String eventID, String eventTitle, String des, Date startDate, Date endDate, String status, String eventTypeID) {
         EventType et = em.find(EventType.class, eventTypeID);
         Event e = new Event();
