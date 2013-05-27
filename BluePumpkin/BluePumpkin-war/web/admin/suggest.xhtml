@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Management Suggest Page</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="List"/></h1>
+                <h:dataTable value="#{suggestBean.showNotAcceptRegister()}" var="item">    
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Event"/>
+                        </f:facet>
+                        <h:outputText value="#{item.eventID.eventTitle}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Employee"/>
+                        </f:facet>
+                        <h:outputText value="#{item.employeeID.fullName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="RegisterDate"/>
+                        </f:facet>
+                        <h:outputText value="#{item.registerDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                        </h:outputText>
+                    </h:column>                    
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="State"/>
+                        </f:facet>
+                        <c:if test="#{item.isAccept==false}">
+                            <h:outputText value="Not Yet Accept" style="color: red"/>  
+                        </c:if>                                                                                                    
+                    </h:column>                      
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Action"/>
+                        </f:facet>
+                        <h:commandButton value="Accept" action="#{suggestBean.acceptRegist(item.registerID)}"/>
+                    </h:column> 
+                </h:dataTable>
+            </h:form>
+        </f:view>
+
+    </h:body>
+</html>

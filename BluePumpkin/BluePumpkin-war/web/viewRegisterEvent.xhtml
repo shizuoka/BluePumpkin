@@ -23,17 +23,24 @@ and open the template in the editor.
                             <th><h4>Employee Name</h4></th>
                             <th><h4>Event Name</h4></th>
                             <th><h4>Request Date</h4></th>
+                            <th><h4>Status</h4></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>                    
-                        <c:forEach items="#{registerBean.showAllRegister()}" var="reg">
+                        <c:forEach items="#{registerBean.registerEventByEmployee}" var="reg">
                             <tr>                                
                                 <td align="center">#{reg.employeeID.fullName}</td>
                                 <td align="center" height="15px">#{reg.eventID.eventTitle}</td>
                                 <td align="center" height="15px"><h:outputText value="#{reg.registerDate}">
                                         <f:convertDateTime pattern="MM/dd/yyyy" />
                                     </h:outputText></td>
+                                <c:if test="#{reg.isAccept==true}">
+                                    <td align="center" height="15px"><h:outputText value="Accepted"/></td>
+                                </c:if>    
+                                <c:if test="#{reg.isAccept==false}">
+                                    <td align="center" height="15px"><h:outputText value="Not Yet Accept"/></td>
+                                </c:if>
                                 <td align="center">
                                     <h:commandButton value="Cancel" action="#"/>
                                     <h:inputHidden value="#{reg.registerID}"/>

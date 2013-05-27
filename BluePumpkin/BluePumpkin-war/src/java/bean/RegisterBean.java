@@ -50,4 +50,8 @@ public class RegisterBean implements Serializable {
     public List<RegisterEvent> showAllRegister() {
         return registerEventFacade.findAll();
     }
+
+    public List<RegisterEvent> getRegisterEventByEmployee() {
+        return registerEventFacade.getRegisterEventByEmployee("E02");
+    }
 }

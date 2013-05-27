@@ -8,6 +8,7 @@ import entities.Employee;
 import entities.Event;
 import entities.RegisterEvent;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,5 +39,21 @@ public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
         RegisterEvent r = new RegisterEvent(d, Boolean.FALSE, e, emp);
         em.persist(r);
         return true;
+    }
+
+    public List<RegisterEvent> findByIsAccept() {
+        return em.createNamedQuery("RegisterEvent.findByIsAccept").setParameter("isAccept", Boolean.FALSE).getResultList();
+    }
+
+    public boolean acceptRegist(int registID) {
+        RegisterEvent r = em.find(RegisterEvent.class, registID);
+        r.setIsAccept(Boolean.TRUE);
+        em.merge(r);
+        return true;
+    }
+
+    public List<RegisterEvent> getRegisterEventByEmployee(String employeeID) {
+        return em.createQuery("select r from RegisterEvent r where r.employeeID.employeeID = :employeeID")
+                .setParameter("employeeID", employeeID).getResultList();
     }
 }
