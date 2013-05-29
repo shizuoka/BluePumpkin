@@ -10,49 +10,115 @@ and open the template in the editor.
       xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>Management Suggest Page</title>
+        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
     </h:head>
     <h:body>
-        <f:view>
-            <h:form>
-                <h1><h:outputText value="List"/></h1>
-                <h:dataTable value="#{suggestBean.showNotAcceptRegister()}" var="item">    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Event"/>
-                        </f:facet>
-                        <h:outputText value="#{item.eventID.eventTitle}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Employee"/>
-                        </f:facet>
-                        <h:outputText value="#{item.employeeID.fullName}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="RegisterDate"/>
-                        </f:facet>
-                        <h:outputText value="#{item.registerDate}">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
-                        </h:outputText>
-                    </h:column>                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="State"/>
-                        </f:facet>
-                        <c:if test="#{item.isAccept==false}">
-                            <h:outputText value="Not Yet Accept" style="color: red"/>  
-                        </c:if>                                                                                                    
-                    </h:column>                      
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Action"/>
-                        </f:facet>
-                        <h:commandButton value="Accept" action="#{suggestBean.acceptRegist(item.registerID)}"/>
-                    </h:column> 
-                </h:dataTable>
-            </h:form>
-        </f:view>
+        <div id="panelwrap">
 
+            <div class="header">
+                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
+
+                <div class="header_right">Welcome Admin, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
+
+                <div class="menu">
+                    <ul>
+                        <li><a href="index.xhtml" class="selected">Main page</a></li>
+                        <li><a href="addEventType.xhtml">Manager Event</a></li>
+                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
+                        <li><a href="#">Manger Employee</a></li>
+                        <li><a href="#">Manager Request</a></li>
+                        <li><a href="#">Manager FAQs</a></li>
+                        <li><a href="#">Reports</a></li>                        
+                    </ul>
+                </div>
+
+            </div>       
+
+            <div class="center_content">  
+
+                <div id="right_wrap">
+                    <div id="right_content"> 
+                        <h:form>
+                            <h2>Tables Event Type</h2> 
+                            <table id="rounded-corner">
+                                <thead>
+                                    <tr>                                    
+                                        <th>Event</th>
+                                        <th>Employee</th>                                    
+                                        <th>RegisterDate</th>                                    
+                                        <th>State</th>
+                                        <th>Accept</th>
+                                    </tr>
+                                </thead>
+                               
+                                <tbody>
+                                    <c:forEach items="#{suggestBean.showNotAcceptRegister()}" var="suggest">
+                                        <tr class="odd">                                        
+                                            <td>#{suggest.eventID.eventTitle}</td>
+                                            <td>#{suggest.employeeID.fullName}</td>                                        
+                                            <td><h:outputText value="#{suggest.registerDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                                </h:outputText></td> 
+                                            <td><c:if test="#{item.isAccept==false}">
+                                                    <h:outputText value="Not Yet Accept" style="color: red"/>  
+                                                </c:if></td> 
+                                            <td><h:commandButton value="Accept" action="#{suggestBean.acceptRegist(item.registerID)}"/></td>                                        
+                                        </tr>  
+                                    </c:forEach>
+                                </tbody>
+                            </table>  
+                        </h:form>             
+
+                    </div>
+                </div><!-- end of right content-->
+
+
+                <div class="sidebar" id="sidebar">
+                    <h2>Browse categories</h2>
+
+                    <ul>
+                        <li><a href="#" class="selected">Main page</a></li>
+                        <li><a href="#">Template settings</a></li>
+                        <li><a href="#">Add page</a></li>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                    </ul>
+
+                    <h2>Page Section</h2>
+
+                    <ul>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                        <li><a href="#">Docs and info</a></li>
+                    </ul> 
+
+                    <h2>User Settings</h2>
+
+                    <ul>
+                        <li><a href="#">Edit user</a></li>
+                        <li><a href="#">Add users</a></li>
+                        <li><a href="#">Manage users</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>   
+
+                    <h2>Text Section</h2> 
+                    <div class="sidebar_section_text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </div>         
+
+                </div>             
+
+
+                <div class="clear"></div>
+            </div> <!--end of center_content-->
+
+            <div class="footer">
+                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
+            </div>
+
+        </div>     
     </h:body>
 </html>

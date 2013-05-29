@@ -6,14 +6,13 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
-        <title>Manage Event Page</title>
+        <title>Administrator Index Page</title>
         <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
-        <!-- jQuery file -->        
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>            
     </h:head>
     <h:body>
         <div id="panelwrap">
@@ -95,11 +94,11 @@ and open the template in the editor.
                         </div>
 
                         <ul id="tabsmenu" class="tabsmenu">
-                            <li class="active"><a href="#tab1">Form Add Structure</a></li>                                                      
+                            <li class="active"><a href="#tab1">Form Edit Structure</a></li>                                                     
                         </ul>
                         
                         <div id="tab2" class="tabcontent">                              
-                            <h3>Add New Event</h3>
+                            <h3>Tab Add New Event</h3>
                             <h:form>
                                 <div class="form">
 
@@ -159,7 +158,7 @@ and open the template in the editor.
                                     </div>
 
                                     <div class="form_row">
-                                        <h:commandButton class="form_submit" value="Create" action="#{eventBean.addNewEvent()}"/> 
+                                        <h:commandButton class="form_submit" value="Create" action="#{eventBean.add()}"/> 
                                         <h:commandButton value="Reset" action="#{eventBean.reset()}"/>
                                     </div>                                                                
 
