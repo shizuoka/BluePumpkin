@@ -230,6 +230,7 @@ public class EventBean implements Serializable {
         startDate = null;
         endDate = null;
         status = "";
+        prizeName="";
     }
 
     public String cancel() {

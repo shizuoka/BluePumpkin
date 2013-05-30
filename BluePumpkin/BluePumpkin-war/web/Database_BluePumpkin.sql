@@ -1,4 +1,4 @@
-﻿use master 
+use master 
 go
 create database BluePumpkin
 go
@@ -14,10 +14,21 @@ create table Employee(
 	DateOfBirth date	
 )
 go
+select * from Employee
+go
+insert into Employee values('E01','Trung Thanh',1,'Ha Noi','thanhbt_C00411@fpt.aptech.ac.vn','0915382186','10/22/1986')
+insert into Employee values('E02','Quang Phat',1,'Nam Dinh','phatvq_C00491@fpt.aptech.ac.vn','0987654321','05/23/1988')
+insert into Employee values('E03','Van Son',1,'Hai Phong','sonpv_C00388@fpt.aptech.ac.vn','0908070605','06/06/1990')
+go
 create table Roles(
 	RoleID int primary key identity(1,1),
 	RoleName varchar(50),	
 )
+go
+insert into Roles values('admin')
+insert into Roles values('employee')
+go
+select * from Roles
 go
 create table Account(
 	AccountID int primary key identity(1,1),
@@ -26,12 +37,26 @@ create table Account(
 	RoleID int foreign key references Roles(RoleID)
 )
 go
+select * from Account
+go
+insert into Account values('E01','123456',1)
+insert into Account values('E02','123456',2)
+insert into Account values('E03','123456',2)
+go
+select e.FullName from Employee e inner join Account a on e.EmployeeID=a.UserName 
+go
 --Bảng về các loại hình sự kiện như meetings,games,competitions,etc...
 create table EventType(
 	EventTypeID varchar(30) primary key,
 	EventTypeName varchar(50),
 	DescriptionType ntext
 )
+go
+insert into EventType values('ET01','Meeting','This is the first type event')
+insert into EventType values('ET02','Competiton','This is the second type event')
+insert into EventType values('ET03','Game','This is the third type event')
+go
+select * from EventType
 go
 --Bảng các chương trình dựa trên các loại hình sự kiện trên
 create table Event(
@@ -45,12 +70,27 @@ create table Event(
 	EventTypeID varchar(30) foreign key references EventType(EventTypeID) ON DELETE CASCADE ON Update CASCADE
 )
 go
+insert into Event values('EV01','Event No1','event1.jpg','Meeting of delegates or representatives.','01/01/2013','01/05/2013','Incoming','ET01')
+insert into Event values('EV02','Event No2','event2.jpg','The industry is generally regulated under the tourism sector.','02/06/2013','02/09/2013','Incoming','ET01')
+insert into Event values('EV03','Event No3','event3.jpg','A ceremony may only be performed by a person with certain authority. ','03/12/2012','03/20/2012','Ended','ET02')
+insert into Event values('EV04','Event No4','event4.jpg','Meeting and reaching higher quality of services','11/17/2013','11/11/2013','Incoming','ET02')
+insert into Event values('EV05','Event No5','event5.jpg','Competition can have both beneficial and detrimental effects.','05/01/2012','05/08/2012','Ended','ET03')
+insert into Event values('EV06','Event No6','event6.jpg','Experts have also questioned the constructiveness of competition in profitability.','06/06/2013','06/12/2013','Incoming','ET03')
+insert into Event values('EV07','Event No7','event7.jpg','Companies also compete for financing on the capital markets.','08/13/2013','08/19/2013','Incoming','ET02')
+insert into Event values('EV08','Event No8','event8.jpg','Competition law has also been sold as good medicine to provide better public services.','07/22/2013','07/26/2013','Incoming','ET01')
+insert into Event values('EV09','Event No9','event9.jpg','Competitive sports are governed by codified rules agreed upon by the participants.','09/09/2013','09/16/2013','Incoming','ET03')
+insert into Event values('EV010','Event No10','event10.jpg','Critics of competition as a motivating factor in education systems.','10/18/2013','10/22/2013','Incoming','ET03')
+go
+select * from Event
+go
 --Bảng thông tin giải đáp các thắc mắc 
 create table FAQ(
 	FAQID int primary key identity(1,1),
 	Question ntext,
 	Answer ntext,	
 )
+go
+select * from FAQ
 go
 --Bảng đăng ký tham gia các sự kiện,ngày đăng ký cũng như trạng thái việc được chấp nhận hay từ chối tham gia
 create table RegisterEvent(
@@ -61,6 +101,8 @@ create table RegisterEvent(
 	EventID varchar(30) foreign key references Event(EventID) ON DELETE CASCADE ON Update CASCADE
 )
 go
+select * from RegisterEvent
+go
 --Bảng thông tin về giải thưởng của các sự kiện diễn ra 
 create table Prizes(
 	PrizeID int primary key identity(1,1),
@@ -68,11 +110,21 @@ create table Prizes(
 	EventID varchar(30) foreign key references Event(EventID) ON DELETE CASCADE ON Update CASCADE
 )
 go
+select * from Prizes
+go
+insert into Prizes values('Laptop VaiO','EV01')
+insert into Prizes values('Iphone 5','EV03')
+go
 create table PrizesDetail(
 	PrizesDetailID int primary key identity(1,1),
 	EmployeeID varchar(30) foreign key references Employee(EmployeeID) ON DELETE CASCADE ON Update CASCADE,
 	PrizeID int foreign key references Prizes(PrizeID) ON DELETE CASCADE ON Update CASCADE
 )
+go
+insert into PrizesDetail values('E02','1')
+insert into PrizesDetail values('E03','2')
+go
+select * from PrizesDetail
 go
 --Bảng chi tiết danh sách cần liên hệ
 create table Request(
@@ -82,9 +134,13 @@ create table Request(
 	Message varchar(max)
 )
 go
+select * from Request
+go
 
 create table Response(
 	RequestID uniqueidentifier primary key,
 	Content ntext,
 	foreign key(RequestID) references Request(RequestID)
 )
+go
+select * from Response
