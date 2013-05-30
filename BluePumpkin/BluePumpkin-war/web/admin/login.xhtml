@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Administrator Login Page</title>
+        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <div id="loginpanelwrap">
+
+                <div class="loginheader">
+                    <div class="logintitle"><a href="#">Blue Pumpkin Administrator Login Panel</a></div>
+                </div>
+
+
+                <div class="loginform">                
+                    <div class="loginform_row">
+                        <label>Username:</label>
+                        <h:inputText value="#{loginBean.username}" class="loginform_input"/>                    
+                    </div>
+                    <div class="loginform_row">
+                        <label>Password:</label>
+                        <h:inputSecret value="#{loginBean.password}" class="loginform_input"/>                    
+                    </div>
+                    <div class="loginform_row">
+                        <h:commandButton value="Login" action="#{loginBean.login()}" class="loginform_submit"/>                     
+                    </div>                 
+                    <div class="clear"></div>
+                    <c:if test="#{not empty loginBean.msg}">
+                        <h:outputText value="#{loginBean.msg}"/>
+                    </c:if>
+                </div>            
+            </div>
+        </h:form>
+    </h:body>
+</html>

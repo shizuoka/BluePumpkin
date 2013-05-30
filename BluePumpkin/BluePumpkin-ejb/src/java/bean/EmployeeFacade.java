@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class EmployeeFacade extends AbstractFacade<Employee> {
+
     @PersistenceContext(unitName = "BluePumpkin-ejbPU")
     private EntityManager em;
 
@@ -26,5 +27,20 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
     public EmployeeFacade() {
         super(Employee.class);
     }
+
+    public boolean createEmployee(Employee emp) {
+        boolean flag = false;
+        try {
+            em.persist(emp);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
     
+    public Employee getMaxEmployeeID() {
+        return (Employee) em.createQuery("select e from Employee e where e.employeeID = (select MAX(e2.employeeID) from Employee e2)").getSingleResult();
+    }
 }

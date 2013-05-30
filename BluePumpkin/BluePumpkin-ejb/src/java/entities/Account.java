@@ -55,6 +55,12 @@ public class Account implements Serializable {
         this.accountID = accountID;
     }
 
+    public Account(String passWord, Roles roleID, Employee userName) {        
+        this.passWord = passWord;
+        this.roleID = roleID;
+        this.userName = userName;
+    }        
+
     public Integer getAccountID() {
         return accountID;
     }

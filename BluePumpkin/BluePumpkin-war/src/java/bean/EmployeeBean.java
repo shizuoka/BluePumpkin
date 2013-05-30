@@ -4,14 +4,18 @@
  */
 package bean;
 
+import entities.Account;
 import entities.Employee;
+import entities.Roles;
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import util.control;
 
 /**
  *
@@ -21,6 +25,10 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class EmployeeBean implements Serializable {
 
+    @EJB
+    private RolesFacade rolesFacade;
+    @EJB
+    private AccountFacade accountFacade;
     @EJB
     private EmployeeFacade employeeFacade;
 
@@ -54,5 +62,135 @@ public class EmployeeBean implements Serializable {
             }
         }
         return "index.xhtml";
+    }
+
+    public void showDOB() {
+        Date current = new Date();
+        int date = current.getDate();
+        int month = (current.getMonth()) + 1;
+        DateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
+        List<Employee> lstEmployee = employeeFacade.findAll();
+        for (Employee employee : lstEmployee) {
+            String dob = employee.getDateOfBirth().toString();
+            System.out.println(dob);
+        }
+    }
+    private String employeeID;
+    private String fullName;
+    private Boolean gender;
+    private String address;
+    private String email;
+    private String phone;
+    private Date dateOfBirth;
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Boolean getGender() {
+        return gender;
+    }
+
+    public void setGender(Boolean gender) {
+        this.gender = gender;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+    private String roles;
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+    private int chooseRole;
+
+    public int getChooseRole() {
+        return chooseRole;
+    }
+
+    public void setChooseRole(int chooseRole) {
+        this.chooseRole = chooseRole;
+    }    
+   
+    private String msg;
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public String createEmpAccount() {
+        Employee e = new Employee(employeeID, fullName, gender, address, email, phone, dateOfBirth);
+        boolean result_1 = employeeFacade.createEmployee(e);
+        if (result_1) {
+            String password = "123456";
+            String newEmployeeID = employeeFacade.getMaxEmployeeID().getEmployeeID();
+            boolean result_2 = accountFacade.createAccount(control.generateMD5(password), chooseRole, newEmployeeID);
+            if (result_2) {
+                msg = "Create New Employee Successfull";
+                return "createAccount.xhtml?result=" + msg + "&faces-redirect=true";
+            } else {
+                msg = "Create Fail";
+                return "createAccount.xhtml?result=" + msg + "&faces-redirect=true";
+            }
+        }
+        msg = "Error";
+        return "createAccount.xhtml?result=" + msg + "&faces-redirect=true";
+    }
+
+    public List<Account> showAllAccount() {
+        return accountFacade.findAll();
+    }
+
+    public List<Roles> showAllRole() {
+        return rolesFacade.findAll();
     }
 }

@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import util.control;
 import util.sessionTool;
 
 /**
@@ -54,7 +55,6 @@ public class LoginBean implements Serializable {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-    
     private boolean isLogged;
 
     public boolean isIsLogged() {
@@ -63,27 +63,37 @@ public class LoginBean implements Serializable {
 
     public void setIsLogged(boolean isLogged) {
         this.isLogged = isLogged;
-    }    
+    }
 
-    public String loginEmployee() {
-        Account acc = accountFacade.loginEmployee(username, password);
+    public String login() {
+        Account acc = accountFacade.login(username, control.generateMD5(password));
         if (acc == null) {
             msg = "Username or Password isn't correct...";
         } else {
             if (acc.getRoleID().getRoleName().equalsIgnoreCase("employee")) {
                 sessionTool.setUpSession("employee", acc.getUserName().getFullName());
-                isLogged=true;
+                isLogged = true;
+                return "index.xhtml?faces-redirect=true";
+            } else if (acc.getRoleID().getRoleName().equalsIgnoreCase("admin")) {
+                sessionTool.setUpSession("admin", acc.getUserName().getFullName());
+                isLogged = true;
                 return "index.xhtml?faces-redirect=true";
             } else {
-                msg = "Access denied !!! You don't have permission";
+                msg = "Access denied !!! You don't have permission";                  
             }
         }
+        return "";
+    }
+
+    public String logOutEmployee() {
+        sessionTool.removeSession("employee");
+        isLogged = false;
         return "index.xhtml?faces-redirect=true";
     }
-    
-     public String logOutEmployee() {
-        sessionTool.removeSession("employee");
-        isLogged=false;
-        return "index.xhtml?faces-redirect=true";
+
+    public String logOutAdmin() {
+        sessionTool.removeSession("admin");
+        isLogged = false;
+        return "login.xhtml?faces-redirect=true";
     }
 }

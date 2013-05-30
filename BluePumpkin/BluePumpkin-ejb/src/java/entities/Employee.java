@@ -79,6 +79,16 @@ public class Employee implements Serializable {
         this.employeeID = employeeID;
     }
 
+    public Employee(String employeeID, String fullName, Boolean gender, String address, String email, String phone, Date dateOfBirth) {
+        this.employeeID = employeeID;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
+    }        
+
     public String getEmployeeID() {
         return employeeID;
     }
