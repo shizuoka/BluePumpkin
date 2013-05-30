@@ -47,6 +47,11 @@ public class Faq implements Serializable {
     public Faq() {
     }
 
+    public Faq(String question, String answer) {
+        this.question = question;
+        this.answer = answer;
+    }
+    
     public Faq(Integer faqid) {
         this.faqid = faqid;
     }

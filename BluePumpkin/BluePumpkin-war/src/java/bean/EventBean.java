@@ -140,33 +140,33 @@ public class EventBean implements Serializable {
     //Primitives
     private static final int BUFFER_SIZE = 6124;
 
-    public void handleFileUpload(FileUploadEvent event) {
-        ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-
-        File result = new File(extContext.getRealPath("//WEB-INF//files//" + event.getFile().getFileName()));
-        System.out.println(extContext.getRealPath("//WEB-INF//files//" + event.getFile().getFileName()));
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(result);
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int bulk;
-            InputStream inputStream = event.getFile().getInputstream();
-            while (true) {
-                bulk = inputStream.read(buffer);
-                if (bulk < 0) {
-                    break;
-                }
-                fileOutputStream.write(buffer, 0, bulk);
-                fileOutputStream.flush();
-            }
-            fileOutputStream.close();
-            inputStream.close();
-            FacesMessage msg = new FacesMessage("File Description", "file name: " + event.getFile().getFileName() + " File size: " + event.getFile().getSize() / 1024 + " Kb Content type: " + event.getFile().getContentType() + " the file was uploaded.");
-        } catch (IOException e) {
-            e.printStackTrace();
-            FacesMessage error = new FacesMessage(FacesMessage.SEVERITY_ERROR, " the files were not uploaded!", "");
-            FacesContext.getCurrentInstance().addMessage(null, error);
-        }
-    }
+//    public void handleFileUpload(FileUploadEvent event) {
+//        ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+//
+//        File result = new File(extContext.getRealPath("//WEB-INF//files//" + event.getFile().getFileName()));
+//        System.out.println(extContext.getRealPath("//WEB-INF//files//" + event.getFile().getFileName()));
+//        try {
+//            FileOutputStream fileOutputStream = new FileOutputStream(result);
+//            byte[] buffer = new byte[BUFFER_SIZE];
+//            int bulk;
+//            InputStream inputStream = event.getFile().getInputstream();
+//            while (true) {
+//                bulk = inputStream.read(buffer);
+//                if (bulk < 0) {
+//                    break;
+//                }
+//                fileOutputStream.write(buffer, 0, bulk);
+//                fileOutputStream.flush();
+//            }
+//            fileOutputStream.close();
+//            inputStream.close();
+//            FacesMessage msg = new FacesMessage("File Description", "file name: " + event.getFile().getFileName() + " File size: " + event.getFile().getSize() / 1024 + " Kb Content type: " + event.getFile().getContentType() + " the file was uploaded.");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            FacesMessage error = new FacesMessage(FacesMessage.SEVERITY_ERROR, " the files were not uploaded!", "");
+//            FacesContext.getCurrentInstance().addMessage(null, error);
+//        }
+//    }
 
     public String addNewEvent() {
         boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, status, this.choiceEventType);
