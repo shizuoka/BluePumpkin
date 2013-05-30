@@ -27,4 +27,9 @@ public class AccountFacade extends AbstractFacade<Account> {
         super(Account.class);
     }
     
+    public Account loginEmployee(String username, String password) {
+        return (Account) ((em.createQuery("SELECT a FROM Account a WHERE a.userName.employeeID = :username and a.passWord = :password")
+                .setParameter("username", username).setParameter("password", password)).getSingleResult());
+    }
+    
 }
