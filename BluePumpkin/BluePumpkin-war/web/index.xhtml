@@ -71,10 +71,10 @@ and open the template in the editor.
                                             <p><span>Password:</span>
                                                 <h:inputSecret id="password" value="#{loginBean.password}" class="login_input"/>                                                 
                                             </p>
-                                            <h:commandButton id="login_submit" action="#{loginBean.login()}" image="images/templatemo_login.jpg"/>                                        
+                                            <h:commandButton id="login_submit" action="#{loginBean.loginEmployee()}" image="images/templatemo_login.jpg"/>                                        
                                         </h:form>
-                                        <c:if test="#{not empty loginBean.msg}">
-                                            <h:outputText value="#{loginBean.msg}" style="color: red"/>
+                                        <c:if test="#{not empty requestScope.error}">
+                                            <h:outputText value="#{requestScope.error}" style="color: red"/>
                                         </c:if>
                                     </div>     
                                 </c:if>

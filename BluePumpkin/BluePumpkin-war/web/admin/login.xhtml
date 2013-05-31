@@ -20,7 +20,6 @@ and open the template in the editor.
                     <div class="logintitle"><a href="#">Blue Pumpkin Administrator Login Panel</a></div>
                 </div>
 
-
                 <div class="loginform">                
                     <div class="loginform_row">
                         <label>Username:</label>
@@ -31,13 +30,13 @@ and open the template in the editor.
                         <h:inputSecret value="#{loginBean.password}" class="loginform_input"/>                    
                     </div>
                     <div class="loginform_row">
-                        <h:commandButton value="Login" action="#{loginBean.login()}" class="loginform_submit"/>                     
+                        <h:commandButton value="Login" action="#{loginBean.loginAdmin()}" class="loginform_submit"/>                     
                     </div>                 
-                    <div class="clear"></div>
-                    <c:if test="#{not empty loginBean.msg}">
-                        <h:outputText value="#{loginBean.msg}"/>
+                    <div class="clear"></div>    
+                    <c:if test="#{not empty requestScope.error}">
+                        <h:outputText value="#{requestScope.error}" style="color: red"/>
                     </c:if>
-                </div>            
+                </div>                 
             </div>
         </h:form>
     </h:body>
