@@ -71,8 +71,12 @@ public class EmployeeBean implements Serializable {
         DateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
         List<Employee> lstEmployee = employeeFacade.findAll();
         for (Employee employee : lstEmployee) {
-            String dob = employee.getDateOfBirth().toString();
-            System.out.println(dob);
+            int dt=(employee.getDateOfBirth().getDate())+2;
+            int mt=((employee.getDateOfBirth()).getMonth())+1;
+            if(dt==date&&mt==month){
+                System.out.println("Happy Birthday To:"+employee.getFullName());
+            }
+            System.out.println(dt+"/"+mt);
         }
     }
     private String employeeID;
