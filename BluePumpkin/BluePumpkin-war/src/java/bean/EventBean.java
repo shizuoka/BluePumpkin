@@ -5,28 +5,17 @@
 package bean;
 
 import entities.Event;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import org.apache.taglibs.standard.tag.common.xml.ForEachTag;
-import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -292,7 +281,8 @@ public class EventBean implements Serializable {
     }
 
     public void statistic() {
-        List<Event> listEvent = eventFacade.findByDate();
+        
+        List<Event> listEvent = eventFacade.findAll();
         int totalEvent = listEvent.size();
         int incoming = 0, oncoming = 0, ended = 0;
         for (int i = 0; i < totalEvent; i++) {
@@ -331,28 +321,19 @@ public class EventBean implements Serializable {
     }
 
     public String redirectStatistic() {
-//        try {
-//            String str_date = "11-June-07";
-//            DateFormat formatter;
-//            Date date;
-//            formatter = new SimpleDateFormat("dd-MMM-yy");
-//            date = (Date) formatter.parse(str_date);
-//            java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
-//            System.out.println("Today is " + timeStampDate);
-//        } catch (ParseException e) {
-//            System.out.println("Exception :" + e);
-//        }
         return "customer-statistic.xhtml?fromDate=" + fromDate.toString() + "&toDate=" + todate.toString() + "&faces-redirect=true";
     }
 
-    public void customerStatistic() {
-
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-//        String fromDate = (String) session.getAttribute("fromDate");
-//        String toDate = (String) session.getAttribute("toDate");
-
-        List<Event> listEvent = eventFacade.findByDate();
+    public void customerStatistic() throws ParseException {
+//        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+//        String fromdate = (String) session.getAttribute("fromDate");
+//        String todate = (String) session.getAttribute("toDate");
+//        DateFormat formatter;
+//        formatter = new SimpleDateFormat("MM/dd/yyyy");
+//        Date fromdate = (Date) formatter.parse(fromDate.toString());
+//        Date toDate = (Date) formatter.parse(todate.toString());
+        
+        List<Event> listEvent = eventFacade.findByDate(fromDate, todate);
         int totalEvent = listEvent.size();
         int incoming = 0, oncoming = 0, ended = 0;
         for (int i = 0; i < totalEvent; i++) {
@@ -365,10 +346,10 @@ public class EventBean implements Serializable {
             }
         }
 
-        setTotal(1);
-        setIncoming(2);
-        setOncoming(3);
-        setEnded(4);
+        setTotal(totalEvent);
+        setIncoming(incoming);
+        setOncoming(oncoming);
+        setEnded(ended);
     }
 //    public Statistic statistic(){        
 //        List<Event> listEvent = eventFacade.findAll();

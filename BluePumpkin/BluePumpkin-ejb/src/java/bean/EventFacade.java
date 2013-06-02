@@ -86,7 +86,7 @@ public class EventFacade extends AbstractFacade<Event> {
         return em.createQuery("select TOP "+limit+" e from Event e").getResultList();
     }
     
-    public List<Event> findByDate(){
-        return em.createQuery("select e from Event e where e.startDate >= '01/01/2013' and e.startDate <= '12/17/2013'").getResultList();
+    public List<Event> findByDate(Date fromDate, Date toDate){
+        return em.createNamedQuery("Event.findByDate").setParameter("fromDate", fromDate).setParameter("toDate", toDate).getResultList();
     }
 }
