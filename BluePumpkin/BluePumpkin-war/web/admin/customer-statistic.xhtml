@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Statistic Page</title>
+        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>            
+    </h:head>
+    <h:body>
+        <div id="panelwrap">
+
+            <div class="header">
+                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
+
+                <div class="header_right">Welcome #{sessionScope.admin}, <a href="#" class="settings">Settings</a> 
+                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+
+                <div class="menu">
+                    <ul>
+                        <li><a href="index.xhtml" class="selected">Main page</a></li>
+                        <li><a href="addEventType.xhtml">Manager Event</a></li>
+                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
+                        <li><a href="#">Manger Employee</a></li>
+                        <li><a href="#">Manager Request</a></li>
+                        <li><a href="#">Manager FAQs</a></li>
+                        <li><a href="statistic.xhtml">Reports</a></li>                        
+                    </ul>
+                </div>
+
+            </div>       
+
+            <div class="center_content">  
+
+                <div id="right_wrap">
+                    <div id="right_content">
+                        <h:form>
+
+                            <div class="form_row">
+                                <label>From date:</label>
+                                <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                            </div>
+
+                            <div class="form_row">
+                                <label>To date:</label>
+                                <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
+                            </div>
+                            <h:commandButton action="#{eventBean.redirectStatistic()}" image="../images/icon/search.gif" title=""/>
+                            
+                        </h:form>
+                        #{eventBean.customerStatistic()}<br />
+                        Number of events:#{eventBean.total}<br />
+                        Number of events incoming:#{eventBean.incoming}<br />
+                        Number of events oncoming:#{eventBean.oncoming}<br />
+                        Number of events ended:#{eventBean.ended}<br />
+                        <h2>Tables Event</h2> 
+
+                        <table id="rounded-corner">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>EventID</th>
+                                    <th>Title</th>
+                                    <th>Image</th>
+                                    <th>Description</th>
+                                    <th>StartDate</th>
+                                    <th>EndDate</th>
+                                    <th>Status</th>
+                                    <th>Type</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                <c:forEach items="#{eventBean.showAll()}" var="event">
+                                    <tr class="odd">
+                                        <td><input type="checkbox" name="" /></td>
+                                        <td>#{event.eventID}</td>
+                                        <td>#{event.eventTitle}</td>
+                                        <td><h:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>  </td>
+                                        <td>#{event.description}</td>
+                                        <td><h:outputText value="#{event.startDate}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                            </h:outputText></td>
+                                        <td><h:outputText value="#{event.endDate}">
+                                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                                            </h:outputText></td>
+                                        <td>#{event.status}</td>
+                                        <td>#{event.eventTypeID.eventTypeName}</td>
+                                        <h:form>
+                                            <td><h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/></td>
+                                            <td><h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/></td>                                        
+                                        </h:form>
+                                    </tr>  
+                                </c:forEach>
+                            </tbody>
+                        </table>                        
+
+                        <div class="form_sub_buttons">
+                            <a href="#" class="button green">Edit selected</a>
+                            <a href="#" class="button red">Delete selected</a>
+                        </div>
+                    </div>
+                </div><!-- end of right content-->
+
+
+                <div class="sidebar" id="sidebar">
+                    <h2>Browse categories</h2>
+
+                    <ul>
+                        <li><a href="#" class="selected">Main page</a></li>
+                        <li><a href="#">Template settings</a></li>
+                        <li><a href="#">Add page</a></li>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                    </ul>
+
+                    <h2>Page Section</h2>
+
+                    <ul>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                        <li><a href="#">Docs and info</a></li>
+                    </ul> 
+
+                    <h2>User Settings</h2>
+
+                    <ul>
+                        <li><a href="#">Edit user</a></li>
+                        <li><a href="#">Add users</a></li>
+                        <li><a href="#">Manage users</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>   
+
+                    <h2>Text Section</h2> 
+                    <div class="sidebar_section_text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </div>         
+
+                </div>             
+
+
+                <div class="clear"></div>
+            </div> <!--end of center_content-->
+
+            <div class="footer">
+                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
+            </div>
+
+        </div>
+    </h:body>
+</html>

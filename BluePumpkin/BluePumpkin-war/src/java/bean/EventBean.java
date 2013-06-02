@@ -10,8 +10,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -19,6 +25,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.apache.taglibs.standard.tag.common.xml.ForEachTag;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -167,7 +174,6 @@ public class EventBean implements Serializable {
 //            FacesContext.getCurrentInstance().addMessage(null, error);
 //        }
 //    }
-
     public String addNewEvent() {
         boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, status, this.choiceEventType);
         if (add) {
@@ -230,18 +236,153 @@ public class EventBean implements Serializable {
         startDate = null;
         endDate = null;
         status = "";
-        prizeName="";
+        prizeName = "";
     }
 
     public String cancel() {
         return "event.xhtml?faces-redirect=true";
-    }        
+    }
 
     public String detailEvent(String eventID) {
 //        FacesContext context = FacesContext.getCurrentInstance();
 //        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
 //        session.setAttribute("detailEvent", e);        
-        event= eventFacade.findByEventID(eventID);        
+        event = eventFacade.findByEventID(eventID);
         return "detailEvent.xhtml?EventID=" + eventID + "&faces-redirect=true";
     }
+//    
+//    public int totalEventByStatus(String status){
+//        return eventFacade.findByStatus(status).size();
+//    }
+    private int total;
+    private int incoming;
+    private int oncoming;
+    private int ended;
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getIncoming() {
+        return incoming;
+    }
+
+    public void setIncoming(int incoming) {
+        this.incoming = incoming;
+    }
+
+    public int getOncoming() {
+        return oncoming;
+    }
+
+    public void setOncoming(int oncoming) {
+        this.oncoming = oncoming;
+    }
+
+    public int getEnded() {
+        return ended;
+    }
+
+    public void setEnded(int ended) {
+        this.ended = ended;
+    }
+
+    public void statistic() {
+        List<Event> listEvent = eventFacade.findByDate();
+        int totalEvent = listEvent.size();
+        int incoming = 0, oncoming = 0, ended = 0;
+        for (int i = 0; i < totalEvent; i++) {
+            if (listEvent.get(i).getStatus().equals("Incoming")) {
+                incoming++;
+            } else if (listEvent.get(i).getStatus().equals("Ended")) {
+                ended++;
+            } else {
+                oncoming++;
+            }
+        }
+
+        setTotal(totalEvent);
+        setIncoming(incoming);
+        setOncoming(oncoming);
+        setEnded(ended);
+
+    }
+    private Date fromDate;
+    private Date todate;
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getTodate() {
+        return todate;
+    }
+
+    public void setTodate(Date todate) {
+        this.todate = todate;
+    }
+
+    public String redirectStatistic() {
+//        try {
+//            String str_date = "11-June-07";
+//            DateFormat formatter;
+//            Date date;
+//            formatter = new SimpleDateFormat("dd-MMM-yy");
+//            date = (Date) formatter.parse(str_date);
+//            java.sql.Timestamp timeStampDate = new Timestamp(date.getTime());
+//            System.out.println("Today is " + timeStampDate);
+//        } catch (ParseException e) {
+//            System.out.println("Exception :" + e);
+//        }
+        return "customer-statistic.xhtml?fromDate=" + fromDate.toString() + "&toDate=" + todate.toString() + "&faces-redirect=true";
+    }
+
+    public void customerStatistic() {
+
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
+//        String fromDate = (String) session.getAttribute("fromDate");
+//        String toDate = (String) session.getAttribute("toDate");
+
+        List<Event> listEvent = eventFacade.findByDate();
+        int totalEvent = listEvent.size();
+        int incoming = 0, oncoming = 0, ended = 0;
+        for (int i = 0; i < totalEvent; i++) {
+            if (listEvent.get(i).getStatus().equals("Incoming")) {
+                incoming++;
+            } else if (listEvent.get(i).getStatus().equals("Ended")) {
+                ended++;
+            } else {
+                oncoming++;
+            }
+        }
+
+        setTotal(1);
+        setIncoming(2);
+        setOncoming(3);
+        setEnded(4);
+    }
+//    public Statistic statistic(){        
+//        List<Event> listEvent = eventFacade.findAll();
+//        int totalEvent =  listEvent.size();
+//        int incoming = 0, oncoming = 0, ended = 0;
+//        for(int i = 0; i<totalEvent; i ++){
+//            if(listEvent.get(i).getStatus().equals("Incoming")) {
+//                incoming++;
+//            }else if (listEvent.get(i).getStatus().equals("Ended")){
+//                ended ++;
+//            }else
+//                oncoming ++;            
+//        }
+//        Statistic statistic = new Statistic(totalEvent, incoming, oncoming, ended);
+//        return statistic;
+//    }
 }

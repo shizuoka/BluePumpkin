@@ -7,6 +7,7 @@ package bean;
 import entities.Event;
 import entities.EventType;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -71,5 +72,21 @@ public class EventFacade extends AbstractFacade<Event> {
     public boolean deleteEvent(Event e) {
         em.remove(em.merge(e));
         return true;
+    }
+    
+//    public int searchStatistic(String status){
+//        return (Integer)em.createQuery("select count(e.eventID) from Event e where e.status = :status").setParameter("status", status).s;
+//    }
+    
+    public List<Event> findByStatus(String status){
+        return em.createNamedQuery("Event.findByStatus").setParameter("status", status).getResultList();
+    }
+    
+    public List<Event> listEvent(int limit){
+        return em.createQuery("select TOP "+limit+" e from Event e").getResultList();
+    }
+    
+    public List<Event> findByDate(){
+        return em.createQuery("select e from Event e where e.startDate >= '01/01/2013' and e.startDate <= '12/17/2013'").getResultList();
     }
 }

@@ -41,6 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Event.findByEndDate", query = "SELECT e FROM Event e WHERE e.endDate = :endDate"),
     @NamedQuery(name = "Event.findByStatus", query = "SELECT e FROM Event e WHERE e.status = :status")})
 public class Event implements Serializable {
+    @Column(name = "numberEmployee")
+    private Integer numberEmployee;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -186,6 +188,14 @@ public class Event implements Serializable {
     @Override
     public String toString() {
         return "entities.Event[ eventID=" + eventID + " ]";
+    }
+
+    public Integer getNumberEmployee() {
+        return numberEmployee;
+    }
+
+    public void setNumberEmployee(Integer numberEmployee) {
+        this.numberEmployee = numberEmployee;
     }
     
 }
