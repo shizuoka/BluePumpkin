@@ -49,6 +49,11 @@ public class PrizesDetail implements Serializable {
     public PrizesDetail(Integer prizesDetailID) {
         this.prizesDetailID = prizesDetailID;
     }
+    
+    public PrizesDetail(Prizes prizeID, Employee employeeID) {
+        this.prizeID = prizeID;
+        this.employeeID = employeeID;
+    }
 
     public Integer getPrizesDetailID() {
         return prizesDetailID;

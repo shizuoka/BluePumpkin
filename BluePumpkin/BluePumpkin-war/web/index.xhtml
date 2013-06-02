@@ -52,7 +52,9 @@ and open the template in the editor.
                             <ul>
                                 <li><a href="index.xhtml" target="_parent" class="current">Home</a></li>
                                 <li><a href="registerEvent.xhtml" target="_parent">Event</a></li>
-                                <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
+                                <c:if test="#{loginBean.isLogged==true}">  
+                                    <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
+                                </c:if>
                                 <li><a href="viewStatistic.xhtml" target="_parent">View Statistic</a></li>
                                 <li><a href="#" target="_parent">Our Company</a></li>
                                 <li><a href="#" target="_parent">Contact Information</a></li>
@@ -81,7 +83,7 @@ and open the template in the editor.
                                 <c:if test="#{loginBean.isLogged==true}">
                                     <h:form id="frmLogout">
                                         <div id="login_form">
-                                            Hi,#{sessionScope.employee}
+                                            Hi,#{sessionScope.employee.userName.fullName}.
                                             <h:commandLink value="Logout" action="#{loginBean.logOutEmployee()}"/>
                                         </div>
                                     </h:form>

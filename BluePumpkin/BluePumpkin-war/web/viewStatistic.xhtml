@@ -6,7 +6,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>View Statistics Page</title>
     </h:head>
@@ -15,7 +16,12 @@ and open the template in the editor.
             <h1>Statistics Information</h1>
             From :<p:calendar value="#{controlBean.fromDate}" id="popupFromdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/><br/>
             To :<p:calendar value="#{controlBean.toDate}" id="popupTodate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/><br/>
-            <h:commandButton value="View" action="#"/>
+            <h:commandButton value="View" action="#{controlBean.findByDate()}"/>
         </h:form>
+        <c:forEach items="#{controlBean.listEventByDate}" var="findByDate">
+            <h:outputText value="#{findByDate.eventID}"/><br/>
+            <h:outputText value="#{findByDate.startDate}"/><br/>
+            <h:outputText value="#{findByDate.endDate}"/><br/>
+        </c:forEach>
     </h:body>
 </html>

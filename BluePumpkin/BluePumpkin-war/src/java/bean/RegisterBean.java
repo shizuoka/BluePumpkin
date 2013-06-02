@@ -4,12 +4,16 @@
  */
 package bean;
 
+import entities.Account;
 import entities.RegisterEvent;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import util.sessionTool;
 
 /**
  *
@@ -21,6 +25,7 @@ public class RegisterBean implements Serializable {
 
     @EJB
     private RegisterEventFacade registerEventFacade;
+    private HttpServletRequest rq;
 
     /**
      * Creates a new instance of RegisterBean
@@ -38,12 +43,16 @@ public class RegisterBean implements Serializable {
     }
 
     public String registerEvent(String eventID) {
-        boolean register = registerEventFacade.registerEvent(eventID, "E02");
+        Account account = (Account) sessionTool.getDownSession("employee");
+        boolean register = registerEventFacade.registerEvent(eventID, account.getUserName().getEmployeeID());
         if (register) {
             return "viewRegisterEvent.xhtml?faces-redirect=true";
         } else {
-            message = "Register Fail";
-            return "detailEvent.xhtml?result=" + message + "&faces-redirect=true";
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("msg", "Register Fail !!!");
+            return "detailEvent.xhtml";
+//            message = "Register Fail";
+//            return "detailEvent.xhtml?result=" + message + "&faces-redirect=true";
         }
     }
 
@@ -52,6 +61,7 @@ public class RegisterBean implements Serializable {
     }
 
     public List<RegisterEvent> getRegisterEventByEmployee() {
-        return registerEventFacade.getRegisterEventByEmployee("E02");
+        Account account = (Account) sessionTool.getDownSession("employee");
+        return registerEventFacade.getRegisterEventByEmployee(account.getUserName().getEmployeeID());
     }
 }

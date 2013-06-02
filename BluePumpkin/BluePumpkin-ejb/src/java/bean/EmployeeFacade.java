@@ -39,8 +39,20 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         }
         return flag;
     }
-    
+
     public Employee getMaxEmployeeID() {
         return (Employee) em.createQuery("select e from Employee e where e.employeeID = (select MAX(e2.employeeID) from Employee e2)").getSingleResult();
+    }
+
+    public boolean deleteEmployee(Employee emp) {
+        boolean flag = false;
+        try {
+            em.remove(em.merge(emp));
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
     }
 }

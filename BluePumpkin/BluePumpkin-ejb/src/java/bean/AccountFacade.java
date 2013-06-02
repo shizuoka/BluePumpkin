@@ -52,10 +52,12 @@ public class AccountFacade extends AbstractFacade<Account> {
         return flag;
     }
 
-    public boolean deleteAccount(Account acc) {
+    public boolean deleteAccountEmp(Account acc) {
         boolean flag = false;
-        try {
+        try {            
+            Employee emp = em.find(Employee.class, acc.getUserName().getEmployeeID());
             em.remove(em.merge(acc));
+            em.remove(em.merge(emp));
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Manager Employee Page</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="List"/></h1>
+                <h:dataTable value="#{employeeBean.showAllEmployee()}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="EmpID"/>
+                        </f:facet>
+                        <h:outputText value="#{item.employeeID}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Name"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fullName}"/>
+                    </h:column>                    
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Address"/>
+                        </f:facet>
+                        <h:outputText value="#{item.address}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Email"/>
+                        </f:facet>
+                        <h:outputText value="#{item.email}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Phone"/>
+                        </f:facet>
+                        <h:outputText value="#{item.phone}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="DateOfBirth"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dateOfBirth}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Action"/>
+                        </f:facet>
+                        <h:commandButton value="Delete" action="#{employeeBean.deleteEmployee(item)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+            <c:if test="#{not empty requestScope.msg}">
+                <h:outputText value="#{requestScope.msg}" style="color: blue"/>
+            </c:if>
+        </f:view>
+
+    </h:body>
+</html>

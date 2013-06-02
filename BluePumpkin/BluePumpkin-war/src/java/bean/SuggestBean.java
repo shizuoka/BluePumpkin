@@ -10,6 +10,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -21,6 +23,7 @@ public class SuggestBean implements Serializable {
 
     @EJB
     private RegisterEventFacade registerEventFacade;
+    private HttpServletRequest rq;
 
     /**
      * Creates a new instance of SuggestBean
@@ -61,11 +64,16 @@ public class SuggestBean implements Serializable {
     public String acceptRegist(int registID) {
         boolean accept = registerEventFacade.acceptRegist(registID);
         if (accept) {
-            msg = "Register ID " + registID + " accepted";
-            return "suggest.xhtml?result=" + msg + "&faces-redirect=true";
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("msg", "Register ID " + registID + " accepted");            
+//            msg = "Register ID " + registID + " accepted";
+//            return "suggest.xhtml?result=" + msg + "&faces-redirect=true";
         } else {
-            msg = "Register ID " + registID + " not yet accepted";
-            return "suggest.xhtml?result=" + msg + "&faces-redirect=true";
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("msg", "Register ID " + registID + " not accepted");
+//            msg = "Register ID " + registID + " not yet accepted";
+//            return "suggest.xhtml?result=" + msg + "&faces-redirect=true";
         }
+        return "suggest.xhtml";
     }
 }
