@@ -82,8 +82,9 @@ public class EventFacade extends AbstractFacade<Event> {
         return em.createNamedQuery("Event.findByStatus").setParameter("status", status).getResultList();
     }
     
-    public List<Event> listEvent(int limit){
-        return em.createQuery("select TOP "+limit+" e from Event e").getResultList();
+    public List<Event> showEventsTop(int limit){
+        return em.createQuery("select e from Event e order by e.eventID DESC").setMaxResults(limit).getResultList();
+        //return em.createQuery("select e from Event e ORDER BY e.eventID DESC").g;
     }
     
     public List<Event> findByDate(Date fromDate, Date toDate){

@@ -42,7 +42,7 @@ public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
     }
 
     public List<RegisterEvent> findByIsAccept() {
-        return em.createNamedQuery("RegisterEvent.findByIsAccept").setParameter("isAccept", Boolean.FALSE).getResultList();
+        return em.createNamedQuery("RegisterEvent.findByIsAccept").setParameter("isAccept", Boolean.TRUE).getResultList();
     }
 
     public boolean acceptRegist(int registID) {
@@ -55,5 +55,10 @@ public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
     public List<RegisterEvent> getRegisterEventByEmployee(String employeeID) {
         return em.createQuery("select r from RegisterEvent r where r.employeeID.employeeID = :employeeID")
                 .setParameter("employeeID", employeeID).getResultList();
+    }
+
+    public List<RegisterEvent> countRegisterByStatus(String eventId) {
+        return em.createQuery("select r from RegisterEvent r where r.eventID.eventID = :eventId and r.isAccept = :isAccept")
+                .setParameter("eventId", eventId).setParameter("isAccept", Boolean.TRUE).getResultList();
     }
 }

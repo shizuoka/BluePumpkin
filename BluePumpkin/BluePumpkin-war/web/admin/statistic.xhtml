@@ -61,32 +61,32 @@ and open the template in the editor.
                         Number of events incoming:#{eventBean.incoming}<br />
                         Number of events oncoming:#{eventBean.oncoming}<br />
                         Number of events ended:#{eventBean.ended}<br />
+                        <c:forEach items="#{eventBean.showEventsTop()}" var="statistic">                            
+                            <script type="text/javascript">
+                                google.load("visualization", "1", {packages:["corechart"]});
+                                google.setOnLoadCallback(drawChart);
+                                function drawChart() {
+                                    var eventId = '#{statistic.eventId}';
+                                    var event = '#{statistic.event}';
+                                    var total = #{statistic.totalEmp};
+                                    var empRe = #{statistic.empRe};
+                                    var empNotRe = #{statistic.empNotRe};
+                                    var data = google.visualization.arrayToDataTable([
+                                        ['Tong so nhan vien', total],
+                                        ['So nhan vien dang ky', empRe],
+                                        ['So nhan vien khong dang ky',  empNotRe],
+                                    ]);
 
-                        <script type="text/javascript">
-                            google.load("visualization", "1", {packages:["corechart"]});
-                            google.setOnLoadCallback(drawChart);
-                            function drawChart() {
-                                var total = #{eventBean.total};
-                                var incoming = #{eventBean.incoming};
-                                var oncoming = #{eventBean.oncoming};
-                                var ended = #{eventBean.ended};
-                                var data = google.visualization.arrayToDataTable([
-                                    ['Number of events', total],
-                                    ['Number of events incoming', incoming],
-                                    ['Number of events oncoming',  oncoming],
-                                    ['Number of events ended:',  ended],
-                                ]);
+                                    var options = {
+                                        title: event
+                                    };
 
-                                var options = {
-                                    title: 'Number of events'
-                                };
-
-                                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                                chart.draw(data, options);
-                            }
-                        </script>
-
-                        <div id="chart_div" style="width: 700px; height: 500px;"></div>                        
+                                    var chart = new google.visualization.PieChart(document.getElementById('#{statistic.eventId}'));
+                                    chart.draw(data, options);
+                                }
+                            </script>
+                            <div id="#{statistic.eventId}" class="chart" style="width: 400px; height: 200px;"></div>   
+                        </c:forEach>
                     </div>
                 </div><!-- end of right content-->
 

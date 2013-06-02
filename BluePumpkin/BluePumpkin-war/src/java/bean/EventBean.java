@@ -4,11 +4,13 @@
  */
 package bean;
 
+import enties.Statistic;
 import entities.Event;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -24,6 +26,8 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @SessionScoped
 public class EventBean implements Serializable {
+    @EJB
+    private RegisterEventFacade registerEventFacade;
 
     @EJB
     private PrizesFacade prizesFacade;
@@ -351,6 +355,10 @@ public class EventBean implements Serializable {
         setOncoming(oncoming);
         setEnded(ended);
     }
+    
+    private Statistic statistic;
+    
+    
 //    public Statistic statistic(){        
 //        List<Event> listEvent = eventFacade.findAll();
 //        int totalEvent =  listEvent.size();
@@ -366,4 +374,25 @@ public class EventBean implements Serializable {
 //        Statistic statistic = new Statistic(totalEvent, incoming, oncoming, ended);
 //        return statistic;
 //    }
+
+    public Statistic getStatistic() {
+        return statistic;
+    }
+
+    public void setStatistic(Statistic statistic) {
+        this.statistic = statistic;
+    }
+    
+    public List<Statistic> showEventsTop() {
+        List<Event> list = eventFacade.showEventsTop(5);        
+        List<Statistic> listSta = new ArrayList<Statistic>();
+        
+        for(int i = 0; i<list.size(); i ++){
+            int numberEm = list.get(i).getNumberEmployee();
+            int countRegister = registerEventFacade.countRegisterByStatus(list.get(i).getEventID()).size();            
+            Statistic sta = new Statistic(list.get(i).getEventID(), list.get(i).getEventTitle(), numberEm, countRegister, numberEm - countRegister);
+            listSta.add(sta);
+        }
+        return listSta;
+    }
 }
