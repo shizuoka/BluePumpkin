@@ -66,12 +66,25 @@ public class LoginBean implements Serializable {
     public void setIsLogged(boolean isLogged) {
         this.isLogged = isLogged;
     }
+    
+    private Account acc;
+
+    public Account getAcc() {
+         if(acc == null){
+            acc = new Account();
+        }
+        return acc;
+    }
+
+    public void setAcc(Account acc) {
+        this.acc = acc;
+    }    
 
     public String loginEmployee() {
-        Account acc = accountFacade.login(username, control.generateMD5(password));
+        acc = accountFacade.login(username, control.generateMD5(password));
         if (acc != null) {
             if (acc.getRoleID().getRoleName().equalsIgnoreCase("employee")) {
-                sessionTool.setUpSession("employee", acc.getUserName().getFullName());
+                sessionTool.setUpSession("employee", acc);
                 isLogged = true;
             } else {
                 HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -92,7 +105,7 @@ public class LoginBean implements Serializable {
             return "login.xhtml";
         } else {
             if (acc.getRoleID().getRoleName().equalsIgnoreCase("admin")) {
-                sessionTool.setUpSession("admin", acc.getUserName().getFullName());
+                sessionTool.setUpSession("admin", acc);
                 isLogged = true;
                 return "index.xhtml?faces-redirect=true";
             } else {

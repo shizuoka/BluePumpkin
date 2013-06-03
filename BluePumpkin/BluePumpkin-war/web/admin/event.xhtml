@@ -21,16 +21,16 @@ and open the template in the editor.
             <div class="header">
                 <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                <div class="header_right">Welcome Admin, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
 
                 <div class="menu">
                     <ul>
                         <li><a href="index.xhtml" class="selected">Main page</a></li>
                         <li><a href="addEventType.xhtml">Manager Event</a></li>
                         <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="#">Manger Employee</a></li>
+                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
                         <li><a href="#">Manager Request</a></li>
-                        <li><a href="#">Manager FAQs</a></li>
+                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
                         <li><a href="#">Reports</a></li>                        
                     </ul>
                 </div>
@@ -87,7 +87,10 @@ and open the template in the editor.
                                     </tr>  
                                 </c:forEach>
                             </tbody>
-                        </table>                        
+                        </table>
+                        <c:if test="#{not empty requestScope.del}">
+                            <h:outputText value="#{requestScope.del}" style="color: red"/>
+                        </c:if>
 
                         <div class="form_sub_buttons">
                             <a href="#" class="button green">Edit selected</a>
@@ -97,7 +100,7 @@ and open the template in the editor.
                         <ul id="tabsmenu" class="tabsmenu">
                             <li class="active"><a href="#tab1">Form Add Structure</a></li>                                                      
                         </ul>
-                        
+
                         <div id="tab2" class="tabcontent">                              
                             <h3>Add New Event</h3>
                             <h:form>
@@ -149,11 +152,6 @@ and open the template in the editor.
                                     </div>
 
                                     <div class="form_row">
-                                        <label>Status:</label>
-                                        <h:inputText value="#{eventBean.status}"/>
-                                    </div>
-
-                                    <div class="form_row">
                                         <label>Prize:</label>
                                         <h:inputText value="#{eventBean.prizeName}"/>
                                     </div>
@@ -164,68 +162,14 @@ and open the template in the editor.
                                     </div>                                                                
 
                                     <div class="clear"></div>
+                                    <c:if test="#{not empty requestScope.add}">
+                                        <h:outputText value="#{requestScope.add}" style="color: red"/>
+                                    </c:if>
                                 </div>
-                            </div>
-                        </td>
-                        <td align="left" valign="top">
-                            <div id="indexRightColumn">
-                                <h:form>
-                                    <table border="0" id="rounded-corner" width="600px">
-                                        <tbody>
-                                            <tr >
-                                                <td width="200">
-                                                    <label for="ID">
-                                                        <span >
-                                                            Event ID
-                                                        </span>
-                                                    </label>
-                                                </td>
-                                                <td>
-                                                    <h:inputText value="#{eventBean.eventID}" class="text required" maxlength="10" id="txtID"/>                        
-                                                    <label for="ID" class="error" ></label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Event Title</td>
-                                                <td><h:inputText class="text required" id="txtName" maxlength="30" value="#{eventBean.eventTitle}" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Description</td>
-                                                <td>
-                                                    <h:inputTextarea class="text required" id="txtDescription"  rows="4" cols="20" value="#{eventBean.description}"/>                        
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Image</td>
-                                                <td>
-                                                    <h:form enctype="multipart/form-data">
-                                                        <p:fileUpload
-                                                            fileUploadListener="#"
-                                                            update="messages" label="Choose a file"
-                                                            auto="true" sizeLimit="10485760"
-                                                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"                                 />
-                                                        <p:growl id="messages" showDetail="true" life="5000" />
-                                                    </h:form>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Start Event Date</td>
-                                                <td>
-                                                    <div id="datepicker">
-                                                        <p:calendar value="#{eventBean.startDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>End Event Date</td>
-                                                <td>
-                                                    <div id="datepicker">
-                                                        <p:calendar value="#{eventBean.endDate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                
-                                                    </div>
-
-                    </div>
-                </div><!-- end of right content-->
-
+                            </h:form>
+                        </div>
+                    </div><!-- end of right content-->
+                </div>
 
                 <div class="sidebar" id="sidebar">
                     <h2>Browse categories</h2>

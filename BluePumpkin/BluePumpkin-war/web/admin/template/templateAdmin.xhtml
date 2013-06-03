@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <head>
+        <title>Template Admin Page</title>
+        <link rel="stylesheet" type="text/css" href="../../css/styleAdmin.css" />
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/> 
+    </head>
+    <body>
+        <div id="panelwrap">
+            <ui:insert name="header">
+                <ui:include src="header.xhtml"/>
+            </ui:insert>
+
+            <ui:insert name="content">
+                <ui:include src="content.xhtml"/>
+            </ui:insert>
+
+            <ui:insert name="leftMenu">
+                <ui:include src="leftMenu.xhtml"/>
+            </ui:insert>
+
+            <ui:insert name="footer">
+                <ui:include src="footer.xhtml"/>
+            </ui:insert>
+        </div>        
+    </body>
+</html>

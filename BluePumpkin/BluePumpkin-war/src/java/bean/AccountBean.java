@@ -11,6 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import util.control;
+import util.sessionTool;
 
 /**
  *
@@ -29,7 +31,6 @@ public class AccountBean implements Serializable {
      */
     public AccountBean() {
     }
-    
     private String oldPassword;
     private String newPassword;
     private String retypePassword;
@@ -56,20 +57,20 @@ public class AccountBean implements Serializable {
 
     public void setRetypePassword(String retypePassword) {
         this.retypePassword = retypePassword;
-    }    
+    }
 
-    public void deleteAccount(Account acc) {
-        boolean del = accountFacade.deleteAccount(acc);
+    public void deleteAccountEmp(Account acc) {
+        boolean del = accountFacade.deleteAccountEmp(acc);
         if (del) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete Account Successful !!!");
+            rq.setAttribute("msg", "Delete Account Of EmpID " + acc.getUserName().getEmployeeID() + " Successful !!!");
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete Account UnSuccessful !!!");
+            rq.setAttribute("msg", "Delete Account Of EmpID " + acc.getUserName().getEmployeeID() + " UnSuccessful !!!");
         }
     }
-    
-    public void changePassword(){
-        
+
+    public void changePassword() {
+        sessionTool.getDownSession("employee");
     }
 }

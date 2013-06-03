@@ -19,16 +19,16 @@ and open the template in the editor.
             <div class="header">
                 <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                <div class="header_right">Welcome Admin, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
 
                 <div class="menu">
                     <ul>
                         <li><a href="index.xhtml" class="selected">Main page</a></li>
                         <li><a href="addEventType.xhtml">Manager Event</a></li>
                         <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="#">Manger Employee</a></li>
+                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
                         <li><a href="#">Manager Request</a></li>
-                        <li><a href="#">Manager FAQs</a></li>
+                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
                         <li><a href="#">Reports</a></li>                        
                     </ul>
                 </div>
@@ -51,7 +51,7 @@ and open the template in the editor.
                                         <th>Accept</th>
                                     </tr>
                                 </thead>
-                               
+
                                 <tbody>
                                     <c:forEach items="#{suggestBean.showNotAcceptRegister()}" var="suggest">
                                         <tr class="odd">                                        
@@ -60,14 +60,17 @@ and open the template in the editor.
                                             <td><h:outputText value="#{suggest.registerDate}">
                                                     <f:convertDateTime pattern="MM/dd/yyyy"/>
                                                 </h:outputText></td> 
-                                            <td><c:if test="#{item.isAccept==false}">
+                                            <td><c:if test="#{suggest.isAccept==false}">
                                                     <h:outputText value="Not Yet Accept" style="color: red"/>  
                                                 </c:if></td> 
-                                            <td><h:commandButton value="Accept" action="#{suggestBean.acceptRegist(item.registerID)}"/></td>                                        
+                                            <td><h:commandButton value="Accept" action="#{suggestBean.acceptRegist(suggest.registerID)}"/></td>                                        
                                         </tr>  
                                     </c:forEach>
                                 </tbody>
-                            </table>  
+                            </table>
+                            <c:if test="#{not empty requestScope.msg}">                                
+                                    <h:outputText value="#{requestScope.msg}" style="color: red;text-align: center"/>                                
+                            </c:if>
                         </h:form>             
 
                     </div>

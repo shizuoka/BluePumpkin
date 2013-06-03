@@ -4,8 +4,11 @@
  */
 package bean;
 
+import entities.Event;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -16,7 +19,9 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class ControlBean implements Serializable{
-
+    @EJB
+    private EventFacade eventFacade;
+    
     /**
      * Creates a new instance of ControlBean
      */
@@ -40,6 +45,20 @@ public class ControlBean implements Serializable{
 
     public void setToDate(Date ToDate) {
         this.ToDate = ToDate;
+    }
+    
+    private List<Event> listEventByDate;
+
+    public List<Event> getListEventByDate() {
+        return listEventByDate;
+    }
+
+    public void setListEventByDate(List<Event> listEventByDate) {
+        this.listEventByDate = listEventByDate;
+    }    
+    
+    public void findByDate(){
+        listEventByDate=eventFacade.findByDate();        
     }
     
 }

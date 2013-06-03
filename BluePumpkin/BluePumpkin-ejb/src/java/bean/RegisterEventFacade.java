@@ -42,7 +42,7 @@ public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
     }
 
     public List<RegisterEvent> findByIsAccept() {
-        return em.createNamedQuery("RegisterEvent.findByIsAccept").setParameter("isAccept", Boolean.TRUE).getResultList();
+        return em.createNamedQuery("RegisterEvent.findByIsAccept").setParameter("isAccept", Boolean.FALSE).getResultList();
     }
 
     public boolean acceptRegist(int registID) {

@@ -10,95 +10,173 @@ and open the template in the editor.
       xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>Create Account Page</title>
+        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
     </h:head>
     <h:body>
+        <div id="panelwrap">
 
-        <f:view>
-            <h:form>
-                <h1><h:outputText value="List"/></h1>
-                <h:dataTable value="#{employeeBean.showAllAccount()}" var="item">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="AccountID"/>
-                        </f:facet>
-                        <h:outputText value="#{item.accountID}"/>
-                    </h:column>                    
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Role"/>
-                        </f:facet>
-                        <h:outputText value="#{item.roleID.roleName}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="EmployeeID"/>
-                        </f:facet>
-                        <h:outputText value="#{item.userName.employeeID}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Name"/>
-                        </f:facet>
-                        <h:outputText value="#{item.userName.fullName}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Action"/>
-                        </f:facet>
-                        <h:commandButton value="Delete" action="#{accountBean.deleteAccount(item)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
-                    </h:column>
-                </h:dataTable>
-            </h:form>
-            <c:if test="#{not empty requestScope.msg}">
-                <h:outputText value="#{requestScope.msg}" style="color: red"/>
-            </c:if>
-        </f:view>
-        <h:form>
-            <table>
-                <tr>
-                    <td>EmployeeID:</td>
-                    <td><h:inputText value="#{employeeBean.employeeID}"/></td>
-                </tr>
-                <tr>
-                    <td>FullName:</td>
-                    <td><h:inputText value="#{employeeBean.fullName}"/></td>
-                </tr>
-                <tr>
-                    <td>Gender:</td>
-                    <td><h:selectOneRadio value="#{employeeBean.gender}">
-                            <f:selectItem itemLabel="Male" itemValue="1"></f:selectItem>
-                            <f:selectItem itemLabel="Female" itemValue="0"></f:selectItem>
-                        </h:selectOneRadio> </td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td><h:inputText value="#{employeeBean.address}"/></td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td><h:inputText value="#{employeeBean.email}"/></td>
-                </tr>
-                <tr>
-                    <td>Phone</td>
-                    <td><h:inputText value="#{employeeBean.phone}"/></td>
-                </tr>
-                <tr>
-                    <td>Date Of Birth</td>
-                    <td><h:inputText value="#{employeeBean.dateOfBirth}">
-                            <f:convertDateTime pattern="MM/dd/yyyy"/>
-                        </h:inputText></td>
-                </tr>
-                <tr>
-                    <td>Role</td>
-                    <td><h:selectOneMenu value="#{employeeBean.chooseRole}">
-                            <f:selectItems value="#{employeeBean.showAllRole()}" var="role" itemLabel="#{role.roleName}" itemValue="#{role.roleID}"/>
-                        </h:selectOneMenu></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><h:commandButton value="Create" action="#{employeeBean.createEmpAccount()}"/></td>
-                </tr>
-            </table>               
+            <div class="header">
+                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-        </h:form>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a> 
+                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+
+                <div class="menu">
+                    <ul>
+                        <li><a href="index.xhtml" class="selected">Main page</a></li>
+                        <li><a href="addEventType.xhtml">Manager Event</a></li>
+                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
+                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
+                        <li><a href="#">Manager Request</a></li>
+                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
+                        <li><a href="#">Reports</a></li>                        
+                    </ul>
+                </div>
+
+            </div>       
+
+            <div class="center_content">  
+
+                <div id="right_wrap">
+                    <div id="right_content">             
+                        <h2>View All Account</h2> 
+                        <h:form>
+                            <h1><h:outputText value="List"/></h1>
+                            <h:dataTable value="#{employeeBean.showAllAccount()}" var="item">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="AccountID"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.accountID}"/>
+                                </h:column>                    
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Role"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.roleID.roleName}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="EmployeeID"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.userName.employeeID}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.userName.fullName}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Action"/>
+                                    </f:facet>
+                                    <h:commandButton value="Delete" action="#{accountBean.deleteAccountEmp(item)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
+                                </h:column>
+                            </h:dataTable>
+                        </h:form>
+                        <c:if test="#{not empty requestScope.msg}">
+                            <h:outputText value="#{requestScope.msg}" style="color: red"/>
+                        </c:if>
+
+                        <h:form>
+                            <table>
+                                <tr>
+                                    <td>EmployeeID:</td>
+                                    <td><h:inputText value="#{employeeBean.employeeID}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>FullName:</td>
+                                    <td><h:inputText value="#{employeeBean.fullName}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Gender:</td>
+                                    <td><h:selectOneRadio value="#{employeeBean.gender}">
+                                            <f:selectItem itemLabel="Male" itemValue="1"></f:selectItem>
+                                            <f:selectItem itemLabel="Female" itemValue="0"></f:selectItem>
+                                        </h:selectOneRadio> </td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td><h:inputText value="#{employeeBean.address}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><h:inputText value="#{employeeBean.email}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td><h:inputText value="#{employeeBean.phone}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Date Of Birth</td>
+                                    <td><h:inputText value="#{employeeBean.dateOfBirth}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                        </h:inputText></td>
+                                </tr>
+                                <tr>
+                                    <td>Role</td>
+                                    <td><h:selectOneMenu value="#{employeeBean.chooseRole}">
+                                            <f:selectItems value="#{employeeBean.showAllRole()}" var="role" itemLabel="#{role.roleName}" itemValue="#{role.roleID}"/>
+                                        </h:selectOneMenu></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><h:commandButton value="Create" action="#{employeeBean.createEmpAccount()}"/></td>
+                                </tr>
+                            </table>               
+                            <c:if test="#{not empty requestScope.add}">                                
+                                <h:outputText value="#{requestScope.add}" style="color: red;text-align: center"/>                                
+                            </c:if>
+                        </h:form>
+                    </div>
+                </div><!-- end of right content-->
+
+
+                <div class="sidebar" id="sidebar">
+                    <h2>Browse categories</h2>
+
+                    <ul>
+                        <li><a href="#" class="selected">Main page</a></li>
+                        <li><a href="#">Template settings</a></li>
+                        <li><a href="#">Add page</a></li>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                    </ul>
+
+                    <h2>Page Section</h2>
+
+                    <ul>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                        <li><a href="#">Docs and info</a></li>
+                    </ul> 
+
+                    <h2>User Settings</h2>
+
+                    <ul>
+                        <li><a href="#">Edit user</a></li>
+                        <li><a href="#">Add users</a></li>
+                        <li><a href="#">Manage users</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>   
+
+                    <h2>Text Section</h2> 
+                    <div class="sidebar_section_text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </div>         
+
+                </div>             
+
+                <div class="clear"></div>
+            </div> <!--end of center_content-->
+
+            <div class="footer">
+                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
+            </div>
+
+        </div>
     </h:body>
 </html>

@@ -80,7 +80,7 @@ insert into Event values('EV06','Event No6','event6.jpg','Experts have also ques
 insert into Event values('EV07','Event No7','event7.jpg','Companies also compete for financing on the capital markets.','08/13/2013','08/19/2013','Incoming','ET02',3)
 insert into Event values('EV08','Event No8','event8.jpg','Competition law has also been sold as good medicine to provide better public services.','07/22/2013','07/26/2013','Incoming','ET01',3)
 insert into Event values('EV09','Event No9','event9.jpg','Competitive sports are governed by codified rules agreed upon by the participants.','09/09/2013','09/16/2013','Incoming','ET03',3)
-insert into Event values('EV010','Event No10','event10.jpg','Critics of competition as a motivating factor in education systems.','10/18/2013','10/22/2013','Incoming','ET03',3)
+insert into Event values('EV10','Event No10','event10.jpg','Critics of competition as a motivating factor in education systems.','10/18/2013','10/22/2013','Incoming','ET03',3)
 go
 select * from Event
 go
@@ -114,7 +114,15 @@ go
 select * from Prizes
 go
 insert into Prizes values('Laptop VaiO','EV01')
+insert into Prizes values('Dell','EV02')
 insert into Prizes values('Iphone 5','EV03')
+insert into Prizes values('Lenovo','EV04')
+insert into Prizes values('HP','EV05')
+insert into Prizes values('Galaxy S4','EV06')
+insert into Prizes values('Alienware','EV07')
+insert into Prizes values('Sony','EV08')
+insert into Prizes values('Toshiba','EV09')
+insert into Prizes values('G3 HD','EV10')
 go
 create table PrizesDetail(
 	PrizesDetailID int primary key identity(1,1),

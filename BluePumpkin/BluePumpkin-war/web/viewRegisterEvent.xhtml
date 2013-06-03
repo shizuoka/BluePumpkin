@@ -11,7 +11,7 @@ and open the template in the editor.
     <h:head>
         <title>View Register Event</title>
         <link rel="stylesheet" href="css/styleTable.css" type="text/css" media="screen" />
-        
+
         <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
         <link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -55,7 +55,9 @@ and open the template in the editor.
                             <ul>
                                 <li><a href="index.xhtml" target="_parent" class="current">Home</a></li>
                                 <li><a href="registerEvent.xhtml" target="_parent">Event</a></li>
-                                <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
+                                <c:if test="#{loginBean.isLogged==true}">  
+                                    <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
+                                </c:if>
                                 <li><a href="viewStatistic.xhtml" target="_parent">View Statistic</a></li>
                                 <li><a href="#" target="_parent">Our Company</a></li>
                                 <li><a href="#" target="_parent">Contact Information</a></li>
@@ -84,7 +86,7 @@ and open the template in the editor.
                                 <c:if test="#{loginBean.isLogged==true}">
                                     <h:form id="frmLogout">
                                         <div id="login_form">
-                                            Hi,#{sessionScope.employee}
+                                            Hi,#{sessionScope.employee.userName.fullName}
                                             <h:commandLink value="Logout" action="#{loginBean.logOutEmployee()}"/>
                                         </div>
                                     </h:form>
@@ -118,48 +120,53 @@ and open the template in the editor.
                     </div> <!-- end of sidebar -->
 
                     <div id="templatemo_content">
-                        <fieldset style="text-align: left">
-                            <legend><h3>View Event Request</h3></legend>
-                            <div align="center">
-                                <table id="rounded-corner">
-                                    <thead>
+                        <c:if test="#{not empty sessionScope.employee}">                        
+                            <fieldset style="text-align: left">
+                                <legend><h3>View Event Request</h3></legend>
+                                <div align="center">
+                                    <table id="rounded-corner">
+                                        <thead>
+                                            <tr>
+                                                <th><h4>Employee Name</h4></th>
+                                                <th><h4>Event Name</h4></th>
+                                                <th><h4>Request Date</h4></th>
+                                                <th><h4>Status</h4></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                    
+                                            <c:forEach items="#{registerBean.registerEventByEmployee}" var="reg">
+                                                <tr>                                
+                                                    <td align="center">#{reg.employeeID.fullName}</td>
+                                                    <td align="center" height="15px">#{reg.eventID.eventTitle}</td>
+                                                    <td align="center" height="15px"><h:outputText value="#{reg.registerDate}">
+                                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                        </h:outputText></td>
+                                                    <c:if test="#{reg.isAccept==true}">
+                                                        <td align="center" height="15px"><h:outputText value="Accepted"/></td>
+                                                    </c:if>    
+                                                    <c:if test="#{reg.isAccept==false}">
+                                                        <td align="center" height="15px"><h:outputText value="Not Yet Accept" style="color: red;"/></td>
+                                                    </c:if>
+                                                    <td align="center">
+                                                        <h:commandButton value="Cancel" action="#"/>
+                                                        <h:inputHidden value="#{reg.registerID}"/>
+                                                    </td>                                
+                                                </tr>           
+                                            </c:forEach>
+                                        </tbody>
                                         <tr>
-                                            <th><h4>Employee Name</h4></th>
-                                            <th><h4>Event Name</h4></th>
-                                            <th><h4>Request Date</h4></th>
-                                            <th><h4>Status</h4></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>                    
-                                        <c:forEach items="#{registerBean.registerEventByEmployee}" var="reg">
-                                            <tr>                                
-                                                <td align="center">#{reg.employeeID.fullName}</td>
-                                                <td align="center" height="15px">#{reg.eventID.eventTitle}</td>
-                                                <td align="center" height="15px"><h:outputText value="#{reg.registerDate}">
-                                                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                                                    </h:outputText></td>
-                                                <c:if test="#{reg.isAccept==true}">
-                                                    <td align="center" height="15px"><h:outputText value="Accepted"/></td>
-                                                </c:if>    
-                                                <c:if test="#{reg.isAccept==false}">
-                                                    <td align="center" height="15px"><h:outputText value="Not Yet Accept"/></td>
-                                                </c:if>
-                                                <td align="center">
-                                                    <h:commandButton value="Cancel" action="#"/>
-                                                    <h:inputHidden value="#{reg.registerID}"/>
-                                                </td>                                
-                                            </tr>           
-                                        </c:forEach>
-                                    </tbody>
-                                    <tr>
-                                        <td colspan="4">
+                                            <td colspan="4">
 
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </fieldset>  
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </fieldset>  
+                        </c:if>
+                        <c:if test="#{empty sessionScope.employee}">  
+                            <a href="index.xhtml" style="color: blue;font-size: 18px;">You have to login to view </a>                            
+                        </c:if>
                     </div>
 
                     <div class="cleaner"></div>    

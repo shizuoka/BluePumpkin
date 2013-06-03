@@ -19,16 +19,16 @@ and open the template in the editor.
             <div class="header">
                 <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                <div class="header_right">Welcome Admin, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
 
                 <div class="menu">
                     <ul>
                         <li><a href="index.xhtml" class="selected">Main page</a></li>
                         <li><a href="addEventType.xhtml">Manager Event</a></li>
                         <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="#">Manger Employee</a></li>
+                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
                         <li><a href="#">Manager Request</a></li>
-                        <li><a href="#">Manager FAQs</a></li>
+                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
                         <li><a href="#">Reports</a></li>                        
                     </ul>
                 </div>
@@ -97,11 +97,17 @@ and open the template in the editor.
                                     <div class="form_row">
                                         <h:commandButton class="form_submit" value="Add" action="#{eventTypeBean.addEventType()}"/>
                                         <h:commandButton value="Reset" action="#{eventTypeBean.reset()}"/>                                        
-                                    </div>  
+                                    </div> 
+
+                                    <c:if test="#{not empty requestScope.msg}">
+                                        <div class="form_row">
+                                            <h:outputText value="#{requestScope.msg}" style="color: red;text-align: center"/>
+                                        </div>
+                                    </c:if>                                    
 
                                     <div class="form_row">
                                         <a href="event.xhtml">Create New Event</a>
-                                    </div>
+                                    </div>                                                                        
 
                                     <div class="clear"></div>
                                 </div>

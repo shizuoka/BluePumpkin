@@ -84,7 +84,7 @@ and open the template in the editor.
                                 <c:if test="#{loginBean.isLogged==true}">
                                     <h:form id="frmLogout">
                                         <div id="login_form">
-                                            Hi,#{sessionScope.employee}
+                                            Hi,#{sessionScope.employee.userName.fullName}
                                             <h:commandLink value="Logout" action="#{loginBean.logOutEmployee()}"/>
                                         </div>
                                     </h:form>
@@ -154,11 +154,20 @@ and open the template in the editor.
                             <tr>
                                 <td><div align="right">Event Type</div></td>
                                 <td>#{eventBean.event.eventTypeID.eventTypeName}</td>
-                            </tr>                              
+                            </tr> 
+                            <tr>
+                                <td colspan="2">
+                                    <h:form><h:commandButton value="Register" action="#{registerBean.registerEvent(eventBean.event.eventID)}"/>
+                                    </h:form>
+                                </td>
+                            </tr>
                         </table>
-                        <a href="registerEvent.xhtml">Back Register Event</a>
-                        <tt></tt>
-                        <h:form><h:commandLink value="Register Event" action="#{registerBean.registerEvent(eventBean.event.eventID)}"/></h:form>
+                        <c:if test="#{not empty requestScope.msg}">
+                            <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>
+                        </c:if>
+                        <br/>
+                        <a href="registerEvent.xhtml">Back to View All Event</a>
+                        <tt></tt>                        
                     </div>
 
                     <div class="cleaner"></div>    
