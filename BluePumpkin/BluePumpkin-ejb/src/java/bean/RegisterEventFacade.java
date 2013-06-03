@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -60,5 +61,12 @@ public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
     public List<RegisterEvent> countRegisterByStatus(String eventId) {
         return em.createQuery("select r from RegisterEvent r where r.eventID.eventID = :eventId and r.isAccept = :isAccept")
                 .setParameter("eventId", eventId).setParameter("isAccept", Boolean.TRUE).getResultList();
+    }
+
+    public int count(String evenID) {
+        Query x = em.createQuery("SELECT r FROM RegisterEvent r WHERE r.eventID.eventID = :eventID");
+        x.setParameter("eventID", evenID);
+        int result = x.getResultList().size();
+        return result;
     }
 }
