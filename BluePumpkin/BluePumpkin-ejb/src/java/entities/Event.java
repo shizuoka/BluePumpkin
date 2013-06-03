@@ -80,7 +80,7 @@ public class Event implements Serializable {
 
     public Event() {
     }
-
+      
     public Event(String eventID) {
         this.eventID = eventID;
     }

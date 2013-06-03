@@ -4,20 +4,17 @@
  */
 package bean;
 
+import enties.EventDetail;
 import enties.Statistic;
 import entities.Event;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -26,9 +23,9 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @SessionScoped
 public class EventBean implements Serializable {
+
     @EJB
     private RegisterEventFacade registerEventFacade;
-
     @EJB
     private PrizesFacade prizesFacade;
     @EJB
@@ -285,7 +282,7 @@ public class EventBean implements Serializable {
     }
 
     public void statistic() {
-        
+
         List<Event> listEvent = eventFacade.findAll();
         int totalEvent = listEvent.size();
         int incoming = 0, oncoming = 0, ended = 0;
@@ -327,37 +324,101 @@ public class EventBean implements Serializable {
     public String redirectStatistic() {
         return "customer-statistic.xhtml?fromDate=" + fromDate.toString() + "&toDate=" + todate.toString() + "&faces-redirect=true";
     }
+    private EventDetail eventDetail;
+    private List<EventDetail> listEventIncoming;
+    private List<EventDetail> listEventOncoming;
+    private List<EventDetail> listEventEnded;
 
-    public void customerStatistic() throws ParseException {
-//        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-//        String fromdate = (String) session.getAttribute("fromDate");
-//        String todate = (String) session.getAttribute("toDate");
-//        DateFormat formatter;
-//        formatter = new SimpleDateFormat("MM/dd/yyyy");
-//        Date fromdate = (Date) formatter.parse(fromDate.toString());
-//        Date toDate = (Date) formatter.parse(todate.toString());
-        
+    public EventDetail getEventDetail() {
+        return eventDetail;
+    }
+
+    public void setEventDetail(EventDetail eventDetail) {
+        this.eventDetail = eventDetail;
+    }
+
+    public List<EventDetail> getListEventIncoming() {
+        return listEventIncoming;
+    }
+
+    public void setListEventIncoming(List<EventDetail> listEventIncoming) {
+        this.listEventIncoming = listEventIncoming;
+    }
+
+    public List<EventDetail> getListEventOncoming() {
+        return listEventOncoming;
+    }
+
+    public void setListEventOncoming(List<EventDetail> listEventOncoming) {
+        this.listEventOncoming = listEventOncoming;
+    }
+
+    public List<EventDetail> getListEventEnded() {
+        return listEventEnded;
+    }
+
+    public void setListEventEnded(List<EventDetail> listEventEnded) {
+        this.listEventEnded = listEventEnded;
+    }
+
+    public void customerStatistic() {
         List<Event> listEvent = eventFacade.findByDate(fromDate, todate);
+        List<EventDetail> listEventIncoming = new ArrayList<EventDetail>();
+        List<EventDetail> listEventOncoming = new ArrayList<EventDetail>();
+        List<EventDetail> listEventEnded = new ArrayList<EventDetail>();
         int totalEvent = listEvent.size();
         int incoming = 0, oncoming = 0, ended = 0;
+        Collections.reverse(listEvent);
+        
         for (int i = 0; i < totalEvent; i++) {
+            int numberEm = listEvent.get(i).getNumberEmployee();
+            int countRegister = registerEventFacade.countRegisterByStatus(listEvent.get(i).getEventID()).size();
+            String eventTitle = listEvent.get(i).getEventTitle();
+            String eventId = listEvent.get(i).getEventID();
+            Date startDate = listEvent.get(i).getStartDate();
+            Date endDate = listEvent.get(i).getEndDate();
+            String typeEvent = listEvent.get(i).getEventTypeID().getEventTypeName();
+            EventDetail eventDetail = new EventDetail(eventId, eventTitle, startDate, endDate, typeEvent, numberEm, countRegister);
             if (listEvent.get(i).getStatus().equals("Incoming")) {
+                listEventIncoming.add(eventDetail);                
                 incoming++;
             } else if (listEvent.get(i).getStatus().equals("Ended")) {
+                listEventEnded.add(eventDetail);
                 ended++;
             } else {
+                listEventOncoming.add(eventDetail);
                 oncoming++;
             }
         }
-
+        setListEventIncoming(listEventIncoming);
+        setListEventOncoming(listEventOncoming);
+        setListEventEnded(listEventEnded);
         setTotal(totalEvent);
         setIncoming(incoming);
         setOncoming(oncoming);
         setEnded(ended);
     }
-    
+
+    public List<EventDetail> statisticEventByStatus(String status) {
+        List<Event> listEvent = eventFacade.findByDate(fromDate, todate);
+        List<EventDetail> list = new ArrayList<EventDetail>();
+        for (int i = 0; i < listEvent.size(); i++) {
+            int numberEm = listEvent.get(i).getNumberEmployee();
+            int countRegister = registerEventFacade.countRegisterByStatus(listEvent.get(i).getEventID()).size();
+            String eventTitle = listEvent.get(i).getEventTitle();
+            String eventId = listEvent.get(i).getEventID();
+            Date startDate = listEvent.get(i).getStartDate();
+            Date endDate = listEvent.get(i).getEndDate();
+            String typeEvent = listEvent.get(i).getEventTypeID().getEventTypeName();
+            if (listEvent.get(i).getStatus().equals(status)) {
+                EventDetail event = new EventDetail(eventId, eventTitle, startDate, endDate, typeEvent, numberEm, countRegister);
+                list.add(event);
+            }
+        }
+        return list;
+    }
     private Statistic statistic;
-    
+
     
 //    public Statistic statistic(){        
 //        List<Event> listEvent = eventFacade.findAll();
@@ -374,7 +435,6 @@ public class EventBean implements Serializable {
 //        Statistic statistic = new Statistic(totalEvent, incoming, oncoming, ended);
 //        return statistic;
 //    }
-
     public Statistic getStatistic() {
         return statistic;
     }
@@ -382,14 +442,14 @@ public class EventBean implements Serializable {
     public void setStatistic(Statistic statistic) {
         this.statistic = statistic;
     }
-    
+
     public List<Statistic> showEventsTop() {
-        List<Event> list = eventFacade.showEventsTop(5);        
+        List<Event> list = eventFacade.showEventsTop(6);
         List<Statistic> listSta = new ArrayList<Statistic>();
-        
-        for(int i = 0; i<list.size(); i ++){
+
+        for (int i = 0; i < list.size(); i++) {
             int numberEm = list.get(i).getNumberEmployee();
-            int countRegister = registerEventFacade.countRegisterByStatus(list.get(i).getEventID()).size();            
+            int countRegister = registerEventFacade.countRegisterByStatus(list.get(i).getEventID()).size();
             Statistic sta = new Statistic(list.get(i).getEventID(), list.get(i).getEventTitle(), numberEm, countRegister, numberEm - countRegister);
             listSta.add(sta);
         }
