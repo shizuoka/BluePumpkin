@@ -18,6 +18,16 @@ public class EventDetail {
     private String typeEvent;
     private int totalEmp;
     private int empRe;
+    private String empWin;
+
+    public String getEmpWin() {
+        return empWin;
+    }
+
+    public void setEmpWin(String empWin) {
+        this.empWin = empWin;
+    }
+    
 
     public EventDetail(String eventId, String eventTitle, Date startDate, Date endDate, String typeEvent, int totalEmp, int empRe) {
         this.eventId = eventId;
@@ -27,6 +37,17 @@ public class EventDetail {
         this.typeEvent = typeEvent;
         this.totalEmp = totalEmp;
         this.empRe = empRe;
+    }
+
+    public EventDetail(String eventId, String eventTitle, Date startDate, Date endDate, String typeEvent, int totalEmp, int empRe, String empWin) {
+        this.eventId = eventId;
+        this.eventTitle = eventTitle;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.typeEvent = typeEvent;
+        this.totalEmp = totalEmp;
+        this.empRe = empRe;
+        this.empWin = empWin;
     }
 
     public String getEventId() {

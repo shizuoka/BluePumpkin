@@ -108,32 +108,28 @@ go
 create table Prizes(
 	PrizeID int primary key identity(1,1),
 	PrizeName varchar(30),
+	Weight int,
+	Description ntext,
+	numberOfPrize int,
 	EventID varchar(30) foreign key references Event(EventID) ON DELETE CASCADE ON Update CASCADE
 )
 go
 select * from Prizes
 go
-insert into Prizes values('Laptop VaiO','EV01')
-insert into Prizes values('Dell','EV02')
-insert into Prizes values('Iphone 5','EV03')
-insert into Prizes values('Lenovo','EV04')
-insert into Prizes values('HP','EV05')
-insert into Prizes values('Galaxy S4','EV06')
-insert into Prizes values('Alienware','EV07')
-insert into Prizes values('Sony','EV08')
-insert into Prizes values('Toshiba','EV09')
-insert into Prizes values('G3 HD','EV10')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'Laptop VaiO',1,'EV09')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'Dell',2,'EV09')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'Iphone 5',3,'EV09')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'Galaxy S4',4,'EV09')
 go
-create table PrizesDetail(
-	PrizesDetailID int primary key identity(1,1),
-	EmployeeID varchar(30) foreign key references Employee(EmployeeID) ON DELETE CASCADE ON Update CASCADE,
-	PrizeID int foreign key references Prizes(PrizeID) ON DELETE CASCADE ON Update CASCADE
+create table Winners
+(
+	Id int primary key identity,
+	EmployeesName varchar(50),
+	EmployeesId varchar(30),
+	IsWin bit,
+	PrizeID int foreign key references Prizes(PrizeID) ON DELETE CASCADE ON Update CASCADE,
+	
 )
-go
-insert into PrizesDetail values('E02','1')
-insert into PrizesDetail values('E03','2')
-go
-select * from PrizesDetail
 go
 --Bảng chi tiết danh sách cần liên hệ
 create table Request(
@@ -153,3 +149,35 @@ create table Response(
 )
 go
 select * from Response
+select * from Event
+select * from RegisterEvent
+go
+insert into RegisterEvent values(GETDATE(),1,'E01','EV03')
+insert into RegisterEvent values(GETDATE(),1,'E02','EV03')
+insert into RegisterEvent values(GETDATE(),1,'E03','EV03')
+insert into RegisterEvent values(GETDATE(),1,'E01','EV05')
+insert into RegisterEvent values(GETDATE(),1,'E02','EV05')
+insert into RegisterEvent values(GETDATE(),1,'E03','EV05')
+insert into RegisterEvent values(GETDATE(),1,'E01','EV09')
+insert into RegisterEvent values(GETDATE(),1,'E02','EV09')
+select * from Winners
+select * from Prizes
+go
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'Laptop VaiO',1,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'Dell',2,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'Iphone 5',3,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'Galaxy S4',4,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'Laptop VaiO',1,'EV05')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'Dell',2,'EV05')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'Iphone 5',3,'EV05')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'Galaxy S4',4,'EV05')
+insert into Winners values ('Trung Thanh','E01',1,5)
+insert into Winners values ('Quang Phat','E02',0,6)
+insert into Winners values ('Van Son','E03',0,7)
+
+insert into Winners values ('Trung Thanh','E01',1,9)
+insert into Winners values ('Quang Phat','E02',0,10)
+insert into Winners values ('Van Son','E03',0,11)
+
+update Event set Status = 'Oncoming' where EventID = 'EV09'
+update Event set Status = 'Oncoming' where EventID = 'EV08'

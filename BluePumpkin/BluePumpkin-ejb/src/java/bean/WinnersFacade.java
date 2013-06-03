@@ -4,8 +4,7 @@
  */
 package bean;
 
-import entities.Event;
-import entities.Prizes;
+import entities.Winners;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,8 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author SONPV90
  */
 @Stateless
-public class PrizesFacade extends AbstractFacade<Prizes> {
-
+public class WinnersFacade extends AbstractFacade<Winners> {
     @PersistenceContext(unitName = "BluePumpkin-ejbPU")
     private EntityManager em;
 
@@ -25,7 +23,12 @@ public class PrizesFacade extends AbstractFacade<Prizes> {
         return em;
     }
 
-    public PrizesFacade() {
-        super(Prizes.class);
+    public WinnersFacade() {
+        super(Winners.class);
+    }
+    
+    public String getWinner(String eventID){
+        return (String)em.createQuery("select w.employeesName FROM Winners w where w.isWin = 1 and w.prizeID.eventID.eventID = :eventID")
+                .setParameter("eventID", eventID).getSingleResult();
     }
 }

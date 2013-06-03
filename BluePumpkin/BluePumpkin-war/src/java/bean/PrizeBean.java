@@ -4,7 +4,6 @@
  */
 package bean;
 
-import entities.Account;
 import entities.Prizes;
 import entities.PrizesDetail;
 import entities.RegisterEvent;
@@ -15,7 +14,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import util.sessionTool;
 
 /**
  *
@@ -69,30 +67,30 @@ public class PrizeBean implements Serializable {
         return registerEventFacade.findAll();
     }
 
-    public String inputWinner(int prizeID) {
-        boolean result = prizesDetailFacade.inputWinner(prizeID, inputWinner);
-        if (result) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("info", "Pick the Winner Successful !!!");
-            return "prizes.xhtml";
-        } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("info", "Error,please try again!!!");
-            return "prizes.xhtml";
-        }
-    }
-
-    public String deleteWinnerDetail(int detailID) {
-        if (prizesDetailFacade.deleteWinnerDetail(detailID)) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("del", "Delete Information Successfull!!!");
-            return "prizes.xhtml";
-        } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("del", "Delete Unsuccessfull!!!");
-            return "prizes.xhtml";
-        }
-    }
+//    public String inputWinner(int prizeID) {
+//        boolean result = prizesDetailFacade.inputWinner(prizeID, inputWinner);
+//        if (result) {
+//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            rq.setAttribute("info", "Pick the Winner Successful !!!");
+//            return "prizes.xhtml";
+//        } else {
+//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            rq.setAttribute("info", "Error,please try again!!!");
+//            return "prizes.xhtml";
+//        }
+//    }
+//
+//    public String deleteWinnerDetail(int detailID) {
+//        if (prizesDetailFacade.deleteWinnerDetail(detailID)) {
+//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            rq.setAttribute("del", "Delete Information Successfull!!!");
+//            return "prizes.xhtml";
+//        } else {
+//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            rq.setAttribute("del", "Delete Unsuccessfull!!!");
+//            return "prizes.xhtml";
+//        }
+//    }
     private Prizes pz;
 
     public Prizes getPz() {

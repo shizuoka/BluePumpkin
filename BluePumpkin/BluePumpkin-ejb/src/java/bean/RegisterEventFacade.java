@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author TrungThanh
+ * @author SONPV90
  */
 @Stateless
 public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
@@ -57,8 +57,8 @@ public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
                 .setParameter("employeeID", employeeID).getResultList();
     }
 
-    public List<RegisterEvent> countRegisterByStatus(String eventId) {
+    public int countRegisterByStatus(String eventId) {
         return em.createQuery("select r from RegisterEvent r where r.eventID.eventID = :eventId and r.isAccept = :isAccept")
-                .setParameter("eventId", eventId).setParameter("isAccept", Boolean.TRUE).getResultList();
+                .setParameter("eventId", eventId).setParameter("isAccept", Boolean.TRUE).getResultList().size();
     }
 }

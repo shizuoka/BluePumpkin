@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author TrungThanh
+ * @author SONPV90
  */
 @Stateless
 public class AccountFacade extends AbstractFacade<Account> {

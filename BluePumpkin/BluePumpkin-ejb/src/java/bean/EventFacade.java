@@ -16,7 +16,7 @@ import javax.persistence.TemporalType;
 
 /**
  *
- * @author TrungThanh
+ * @author SONPV90
  */
 @Stateless
 public class EventFacade extends AbstractFacade<Event> {
@@ -37,7 +37,7 @@ public class EventFacade extends AbstractFacade<Event> {
         return (Event) em.createNamedQuery("Event.findByEventID").setParameter("eventID", eventID).getSingleResult();
     }
 
-    public boolean addNewEvent(String eventID, String eventTitle, String des, Date startDate, Date endDate, String status, String eventTypeID) {
+    public boolean addNewEvent(String eventID, String eventTitle, String des, Date startDate, Date endDate, String status, String eventTypeID,int noAccount) {
         boolean flag = false;
         try {
             EventType et = em.find(EventType.class, eventTypeID);
@@ -49,6 +49,7 @@ public class EventFacade extends AbstractFacade<Event> {
             e.setEndDate(endDate);
             e.setStatus(status);
             e.setEventTypeID(et);
+            e.setNumberEmployee(noAccount);
 
             et.getEventList().add(e);
             em.merge(et);
@@ -115,11 +116,17 @@ public class EventFacade extends AbstractFacade<Event> {
     }
     
     public List<Event> showEventsTop(int limit){
-        return em.createQuery("select e from Event e order by e.eventID DESC").setMaxResults(limit).getResultList();
+        return em.createQuery("select e from Event e WHERE e.status = 'Oncoming' OR e.status='Ended' order by e.eventID DESC").setMaxResults(limit).getResultList();
         //return em.createQuery("select e from Event e ORDER BY e.eventID DESC").g;
     }
     
     public List<Event> findByDate(Date fromDate, Date toDate){
         return em.createNamedQuery("Event.findByDate").setParameter("fromDate", fromDate).setParameter("toDate", toDate).getResultList();
     }
+    
+    public void changeStatus() {
+        em.createQuery("UPDATE Event s SET s.status = 'Oncoming' WHERE s.startDate <= "+new Date()+" AND s.endDate > "+new Date()).executeUpdate();
+        em.createQuery("UPDATE Event s SET s.status = 'Ended' WHERE s.endDate < GETDATE() AND s.status is not 'Ended'").executeUpdate();
+    }
+    
 }

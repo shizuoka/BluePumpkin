@@ -4,8 +4,7 @@
  */
 package bean;
 
-import entities.Event;
-import entities.Prizes;
+import entities.Response;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,8 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author SONPV90
  */
 @Stateless
-public class PrizesFacade extends AbstractFacade<Prizes> {
-
+public class ResponseFacade extends AbstractFacade<Response> {
     @PersistenceContext(unitName = "BluePumpkin-ejbPU")
     private EntityManager em;
 
@@ -25,7 +23,8 @@ public class PrizesFacade extends AbstractFacade<Prizes> {
         return em;
     }
 
-    public PrizesFacade() {
-        super(Prizes.class);
+    public ResponseFacade() {
+        super(Response.class);
     }
+    
 }

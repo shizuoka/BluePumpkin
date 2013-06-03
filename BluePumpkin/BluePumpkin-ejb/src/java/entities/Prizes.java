@@ -35,6 +35,15 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Prizes.findByPrizeID", query = "SELECT p FROM Prizes p WHERE p.prizeID = :prizeID"),
     @NamedQuery(name = "Prizes.findByPrizeName", query = "SELECT p FROM Prizes p WHERE p.prizeName = :prizeName")})
 public class Prizes implements Serializable {
+    @Column(name = "Weight")
+    private Integer weight;
+    @Size(max = 1073741823)
+    @Column(name = "Description")
+    private String description;
+    @Column(name = "numberOfPrize")
+    private Integer numberOfPrize;
+    @OneToMany(mappedBy = "prizeID")
+    private List<Winners> winnersList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -113,6 +122,39 @@ public class Prizes implements Serializable {
     @Override
     public String toString() {
         return "entities.Prizes[ prizeID=" + prizeID + " ]";
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getNumberOfPrize() {
+        return numberOfPrize;
+    }
+
+    public void setNumberOfPrize(Integer numberOfPrize) {
+        this.numberOfPrize = numberOfPrize;
+    }
+
+    @XmlTransient
+    public List<Winners> getWinnersList() {
+        return winnersList;
+    }
+
+    public void setWinnersList(List<Winners> winnersList) {
+        this.winnersList = winnersList;
     }
     
 }

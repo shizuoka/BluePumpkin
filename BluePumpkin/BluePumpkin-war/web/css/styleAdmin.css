@@ -206,3 +206,39 @@ input.loginform_submit{float:right; clear:both; margin:0px 5px 0 0px;color:#fff;
 
 .footer{height:50px;background-color:#e4e3e0; border-top:1px #fff solid; line-height:50px; padding:0 0 0 20px;}
 
+.form_statistic {
+    clear: both;
+    float: left;
+    margin: 0 0 10px;
+    width: 449px;
+}
+#form_statistic .form_statistic_row{
+    clear: both;
+    float: left;
+    margin: 0 0 10px;
+    width: 335px;
+}
+#form_statistic .form_statistic_row label{
+    float: left;
+    margin-right: 1em;
+    margin-top: 4px;
+    width: 80px;
+}
+.resuilt, #chart {
+    float: left;
+    width: 100%;
+}
+.resuilt ul li {
+    background: url("../images/list-icon.jpg") no-repeat scroll 0 5px transparent;
+    line-height: 30px;
+    list-style: none outside none;
+    padding-left: 32px;
+    padding-top: 2px;
+}
+.resuilt ul li span {
+    float: left;
+    width: 165px;
+}
+.chart{
+    float: left;
+}
