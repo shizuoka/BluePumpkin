@@ -181,3 +181,19 @@ insert into Winners values ('Van Son','E03',0,11)
 
 update Event set Status = 'Oncoming' where EventID = 'EV09'
 update Event set Status = 'Oncoming' where EventID = 'EV08'
+
+select * from Event
+
+create trigger AddAccountTrigger on Account
+for insert
+as
+begin
+	update Event
+	set numberEmployee = numberEmployee + 1
+	where Status in ('Oncoming', 'Incoming')
+end
+update Event
+set StartDate = '2013-06-02', EndDate = '2013-06-04'
+where EventID = 'EV01'
+
+select * from Event;
