@@ -11,7 +11,8 @@ create table Employee(
 	Address nvarchar(50),
 	Email varchar(100),
 	Phone varchar(20),
-	DateOfBirth date	
+	DateOfBirth date,
+	CreateDate date	
 )
 go
 select * from Employee
@@ -68,7 +69,8 @@ create table Event(
 	EndDate date,
 	Status varchar(30),
 	EventTypeID varchar(30) foreign key references EventType(EventTypeID) ON DELETE CASCADE ON Update CASCADE,
-	numberEmployee int
+	numberEmployee int,
+	CreateDate date
 )
 go
 insert into Event values('EV01','Event No1','event1.jpg','Meeting of delegates or representatives.','01/01/2013','01/05/2013','Incoming','ET01',3)
@@ -127,8 +129,7 @@ create table Winners
 	EmployeesName varchar(50),
 	EmployeesId varchar(30),
 	IsWin bit,
-	PrizeID int foreign key references Prizes(PrizeID) ON DELETE CASCADE ON Update CASCADE,
-	
+	PrizeID int foreign key references Prizes(PrizeID) ON DELETE CASCADE ON Update CASCADE
 )
 go
 --Bảng chi tiết danh sách cần liên hệ

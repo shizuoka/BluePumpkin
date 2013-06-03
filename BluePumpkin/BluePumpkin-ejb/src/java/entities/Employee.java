@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Employee.findByPhone", query = "SELECT e FROM Employee e WHERE e.phone = :phone"),
     @NamedQuery(name = "Employee.findByDateOfBirth", query = "SELECT e FROM Employee e WHERE e.dateOfBirth = :dateOfBirth")})
 public class Employee implements Serializable {
+    @Column(name = "CreateDate")
+    @Temporal(TemporalType.DATE)
+    private Date createDate;
     @OneToMany(mappedBy = "employeeID")
     private List<Request> requestList;
     private static final long serialVersionUID = 1L;
@@ -206,6 +209,14 @@ public class Employee implements Serializable {
 
     public void setRequestList(List<Request> requestList) {
         this.requestList = requestList;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
     
 }
