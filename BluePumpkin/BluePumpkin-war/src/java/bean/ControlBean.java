@@ -75,8 +75,8 @@ public class ControlBean implements Serializable{
     public void handleFileUpload(FileUploadEvent event) {
        
             ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();            
-            File result = new File(extContext.getRealPath("//web//images//" + event.getFile().getFileName()));
-            System.out.println(extContext.getRealPath("//web//images//" + event.getFile().getFileName()));
+            File result = new File(extContext.getRealPath("//images//event//" + event.getFile().getFileName()));
+            System.out.println(extContext.getRealPath("//images//event//" + event.getFile().getFileName()));
 
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream(result);

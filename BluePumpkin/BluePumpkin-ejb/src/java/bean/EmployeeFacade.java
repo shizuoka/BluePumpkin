@@ -5,7 +5,12 @@
 package bean;
 
 import entities.Employee;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.mail.internet.MailDateFormat;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -55,4 +60,11 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         }
         return flag;
     }
+    
+    public List<Employee> findEmployeeByBirthDate() {
+//        int date = new Date().getDate();
+//        int month = new Date().getMonth();
+        return (List<Employee>) em.createNativeQuery("select * from Employee where MONTH(DateOfBirth) = MONTH(GETDATE()) and DAY(DateOfBirth) = DAY(GETDATE())").getResultList();
+    }
 }
+

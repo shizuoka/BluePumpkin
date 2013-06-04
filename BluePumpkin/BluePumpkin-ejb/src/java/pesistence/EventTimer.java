@@ -23,7 +23,6 @@ public class EventTimer {
 
     @Schedule(minute = "*", second = "0", dayOfMonth = "*", month = "*", year = "*", hour = "19")
     public void myTimer() {
-        System.out.println(new Date());
         eventFacade.changeStatus();
     }
     

@@ -162,6 +162,37 @@ and open the template in the editor.
                                 </td>
                             </tr>
                         </table>
+                        <h:form>
+                            <table>
+                                <tr>
+                                    <td>Title</td>
+                                    <td>
+                                        <h:inputText value="#{employeeBean.comment.title}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Content</td>
+                                    <td>
+                                        <h:inputTextarea value="#{employeeBean.comment.content}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <h:commandButton value="Send" action="#{employeeBean.createComment(eventBean.event.eventID)}" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </h:form>
+                        <h3>Comments</h3>
+                        <ul>
+                            <c:forEach var="item" items="#{eventBean.getComments(eventBean.event.eventID)}">
+                                <li>
+                                    <span>#{item.title}</span>
+                                    <span>#{item.content}</span>
+                                </li>
+                            </c:forEach>
+                        </ul>
                         <c:if test="#{not empty requestScope.msg}">
                             <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>
                         </c:if>

@@ -6,7 +6,8 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Index Page</title>
         <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
@@ -94,6 +95,19 @@ and open the template in the editor.
 
                         <div class="sidebar_box">
                             <div class="sb_title">Latest Updates</div>
+                            <div>
+                                <h3>BirthDate</h3>
+                                <ui:repeat value="#{employeeBean.findEmployeeByBirthDate()}" var="e">
+                                <ul>
+                                        <li>
+                                            <span>
+                                                <h:outputText value="#{e[1]}" />
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </ui:repeat>
+                               
+                            </div>
                             <div class="sb_content">
 
                                 <div class="sb_news_box">

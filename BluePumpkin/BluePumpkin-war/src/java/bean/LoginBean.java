@@ -96,6 +96,8 @@ public class LoginBean implements Serializable {
         }
         return "index.xhtml";
     }
+    
+    
 
     public String loginAdmin() {
         Account acc = accountFacade.login(username, control.generateMD5(password));

@@ -5,6 +5,7 @@
 package bean;
 
 import entities.Account;
+import entities.Comments;
 import entities.Employee;
 import entities.Roles;
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import util.control;
+import util.sessionTool;
 
 /**
  *
@@ -26,6 +28,10 @@ import util.control;
 @ManagedBean
 @SessionScoped
 public class EmployeeBean implements Serializable {
+    @EJB
+    private EventFacade eventFacade;
+    @EJB
+    private CommentsFacade commentsFacade;
 
     @EJB
     private RolesFacade rolesFacade;
@@ -34,11 +40,13 @@ public class EmployeeBean implements Serializable {
     @EJB
     private EmployeeFacade employeeFacade;
     private HttpServletRequest rq;
+    
 
     /**
      * Creates a new instance of EmployeeBean
      */
     public EmployeeBean() {
+        comment = new Comments();
     }
     private String notification;
 
@@ -82,6 +90,19 @@ public class EmployeeBean implements Serializable {
             System.out.println(dt + "/" + mt);
         }
     }
+    
+    public void createComment(String eventId) {
+        Employee employeeId = ((Account) sessionTool.getDownSession("employee")).getUserName();
+        comment.setCreateDate(new Date());
+        comment.setEmployeeID(employeeId);
+        comment.setEventID(eventFacade.findByEventID(eventId));
+        commentsFacade.create(comment);
+    }
+    
+    public List<Employee> findEmployeeByBirthDate() {
+        return employeeFacade.findEmployeeByBirthDate();
+    }
+    
     private String employeeID;
     private String fullName;
     private Boolean gender;
@@ -89,6 +110,32 @@ public class EmployeeBean implements Serializable {
     private String email;
     private String phone;
     private Date dateOfBirth;
+    
+    private Comments comment;
+
+    public Comments getComment() {
+        return comment;
+    }
+
+    public void setComment(Comments comment) {
+        this.comment = comment;
+    }
+
+    public String getTitle() {
+        return comment.getTitle();
+    }
+
+    public void setTitle(String title) {
+        comment.setTitle(title);
+    }
+
+    public String getContent() {
+        return comment.getContent();
+    }
+
+    public void setContent(String content) {
+        comment.setContent(content);
+    }
 
     public String getEmployeeID() {
         return employeeID;

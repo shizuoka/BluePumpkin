@@ -16,10 +16,12 @@ create table Employee(
 )
 go
 select * from Employee
+select * from Employee where MONTH(DateOfBirth) = MONTH(GETDATE()) and DAY(DateOfBirth) = DAY(GETDATE())
 go
-insert into Employee values('E01','Trung Thanh',1,'Ha Noi','thanhbt_C00411@fpt.aptech.ac.vn','0915382186','10/22/1986')
-insert into Employee values('E02','Quang Phat',1,'Nam Dinh','phatvq_C00491@fpt.aptech.ac.vn','0987654321','05/23/1988')
-insert into Employee values('E03','Van Son',1,'Hai Phong','sonpv_C00388@fpt.aptech.ac.vn','0908070605','06/06/1990')
+insert into Employee values('E01','Trung Thanh',1,'Ha Noi','thanhbt_C00411@fpt.aptech.ac.vn','0915382186','10/22/1986', GETDATE())
+insert into Employee values('E02','Quang Phat',1,'Nam Dinh','phatvq_C00491@fpt.aptech.ac.vn','0987654321','05/23/1988', GETDATE())
+insert into Employee values('E03','Van Son',1,'Hai Phong','sonpv_C00388@fpt.aptech.ac.vn','0908070605','06/06/1990', GETDATE())
+insert into Employee values('E04','Thu',1,'Hai Phong','sonpv_C00388@fpt.aptech.ac.vn','0908070605','06/04/1990', GETDATE())
 go
 create table Roles(
 	RoleID int primary key identity(1,1),
@@ -73,16 +75,16 @@ create table Event(
 	CreateDate date
 )
 go
-insert into Event values('EV01','Event No1','event1.jpg','Meeting of delegates or representatives.','01/01/2013','01/05/2013','Incoming','ET01',3)
-insert into Event values('EV02','Event No2','event2.jpg','The industry is generally regulated under the tourism sector.','02/06/2013','02/09/2013','Incoming','ET01',3)
-insert into Event values('EV03','Event No3','event3.jpg','A ceremony may only be performed by a person with certain authority. ','03/12/2012','03/20/2012','Ended','ET02',3)
-insert into Event values('EV04','Event No4','event4.jpg','Meeting and reaching higher quality of services','11/17/2013','11/11/2013','Incoming','ET02',3)
-insert into Event values('EV05','Event No5','event5.jpg','Competition can have both beneficial and detrimental effects.','05/01/2012','05/08/2012','Ended','ET03',3)
-insert into Event values('EV06','Event No6','event6.jpg','Experts have also questioned the constructiveness of competition in profitability.','06/06/2013','06/12/2013','Incoming','ET03',3)
-insert into Event values('EV07','Event No7','event7.jpg','Companies also compete for financing on the capital markets.','08/13/2013','08/19/2013','Incoming','ET02',3)
-insert into Event values('EV08','Event No8','event8.jpg','Competition law has also been sold as good medicine to provide better public services.','07/22/2013','07/26/2013','Incoming','ET01',3)
-insert into Event values('EV09','Event No9','event9.jpg','Competitive sports are governed by codified rules agreed upon by the participants.','09/09/2013','09/16/2013','Incoming','ET03',3)
-insert into Event values('EV10','Event No10','event10.jpg','Critics of competition as a motivating factor in education systems.','10/18/2013','10/22/2013','Incoming','ET03',3)
+insert into Event values('EV01','Event No1','event1.jpg','Meeting of delegates or representatives.','01/01/2013','01/05/2013','Incoming','ET01',3, GETDATE())
+insert into Event values('EV02','Event No2','event2.jpg','The industry is generally regulated under the tourism sector.','02/06/2013','02/09/2013','Incoming','ET01',3, GETDATE())
+insert into Event values('EV03','Event No3','event3.jpg','A ceremony may only be performed by a person with certain authority. ','03/12/2012','03/20/2012','Ended','ET02',3, GETDATE())
+insert into Event values('EV04','Event No4','event4.jpg','Meeting and reaching higher quality of services','11/17/2013','11/11/2013','Incoming','ET02',3, GETDATE())
+insert into Event values('EV05','Event No5','event5.jpg','Competition can have both beneficial and detrimental effects.','05/01/2012','05/08/2012','Ended','ET03',3, GETDATE())
+insert into Event values('EV06','Event No6','event6.jpg','Experts have also questioned the constructiveness of competition in profitability.','06/06/2013','06/12/2013','Incoming','ET03',3, GETDATE())
+insert into Event values('EV07','Event No7','event7.jpg','Companies also compete for financing on the capital markets.','08/13/2013','08/19/2013','Incoming','ET02',3, GETDATE())
+insert into Event values('EV08','Event No8','event8.jpg','Competition law has also been sold as good medicine to provide better public services.','07/22/2013','07/26/2013','Incoming','ET01',3, GETDATE())
+insert into Event values('EV09','Event No9','event9.jpg','Competitive sports are governed by codified rules agreed upon by the participants.','09/09/2013','09/16/2013','Incoming','ET03',3, GETDATE())
+insert into Event values('EV10','Event No10','event10.jpg','Critics of competition as a motivating factor in education systems.','10/18/2013','10/22/2013','Incoming','ET03',3, GETDATE())
 go
 select * from Event
 go
@@ -132,24 +134,18 @@ create table Winners
 	PrizeID int foreign key references Prizes(PrizeID) ON DELETE CASCADE ON Update CASCADE
 )
 go
---Bảng chi tiết danh sách cần liên hệ
-create table Request(
-	RequestID uniqueidentifier default newid() primary key,
+create table Comments
+(
+	CommentId int identity primary key,
 	EmployeeID varchar(30) foreign key references Employee(EmployeeID),
-	Subject varchar(50),
-	Message varchar(max)
+	EventID varchar(30)foreign key references Event(EventID),
+	Title nvarchar(100) not null,
+	Content ntext not null,
+	CreateDate datetime
 )
 go
-select * from Request
+--Bảng chi tiết danh sách cần liên hệ
 go
-
-create table Response(
-	RequestID uniqueidentifier primary key,
-	Content ntext,
-	foreign key(RequestID) references Request(RequestID)
-)
-go
-select * from Response
 select * from Event
 select * from RegisterEvent
 go
@@ -193,8 +189,11 @@ begin
 	set numberEmployee = numberEmployee + 1
 	where Status in ('Oncoming', 'Incoming')
 end
-update Event
-set StartDate = '2013-06-02', EndDate = '2013-06-04'
-where EventID = 'EV01'
 
-select * from Event;
+update Event
+set Status = 'Oncoming'
+where StartDate <= GETDATE() and EndDate > GETDATE()
+
+update Event
+set Status = 'Ended'
+where EndDate < GETDATE() and Status = 'Ended'

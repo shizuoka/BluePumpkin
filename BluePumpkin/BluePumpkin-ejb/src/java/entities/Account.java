@@ -50,6 +50,13 @@ public class Account implements Serializable {
 
     public Account() {
     }
+    
+    public boolean isLoged() {
+        if(userName.equals("") || passWord.equals("")) {
+            return false;
+        }
+        return true;
+    }
 
     public Account(Integer accountID) {
         this.accountID = accountID;

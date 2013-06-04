@@ -39,6 +39,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Employee.findByPhone", query = "SELECT e FROM Employee e WHERE e.phone = :phone"),
     @NamedQuery(name = "Employee.findByDateOfBirth", query = "SELECT e FROM Employee e WHERE e.dateOfBirth = :dateOfBirth")})
 public class Employee implements Serializable {
+    @OneToMany(mappedBy = "employeeID")
+    private List<Comments> commentsList;
 
     @Column(name = "CreateDate")
     @Temporal(TemporalType.DATE)
@@ -198,10 +200,14 @@ public class Employee implements Serializable {
         }
         return true;
     }
+    
+    public String getES() {
+        return fullName + "(" + employeeID + ")";
+    }
 
     @Override
     public String toString() {
-        return "entities.Employee[ employeeID=" + employeeID + " ]";
+        return fullName + "(" + employeeID + ")";
     }
 
     @XmlTransient
@@ -220,4 +226,14 @@ public class Employee implements Serializable {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
+
+    @XmlTransient
+    public List<Comments> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(List<Comments> commentsList) {
+        this.commentsList = commentsList;
+    }
+     
 }

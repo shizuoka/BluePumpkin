@@ -6,6 +6,7 @@ package bean;
 
 import enties.EventDetail;
 import enties.Statistic;
+import entities.Comments;
 import entities.Event;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean
 @SessionScoped
 public class EventBean implements Serializable {
+    @EJB
+    private CommentsFacade commentsFacade;
 
     @EJB
     private AccountFacade accountFacade;
@@ -143,7 +147,6 @@ public class EventBean implements Serializable {
     }
     //Primitives
     private static final int BUFFER_SIZE = 6124;
-
 //    public void handleFileUpload(FileUploadEvent event) {
 //        ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
 //
@@ -171,9 +174,19 @@ public class EventBean implements Serializable {
 //            FacesContext.getCurrentInstance().addMessage(null, error);
 //        }
 //    }
+    private UploadedFile file;
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
+    }
+
     public String addNewEvent() {
         int noAccount = numberAccount();
-        boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount,new Date());
+        boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount, new Date());
         if (add) {
             String eID = eventFacade.getMaxEventID().getEventID();
 
@@ -191,6 +204,8 @@ public class EventBean implements Serializable {
 //            return "event.xhtml?result=" + message + "&faces-redirect=true";
         }
     }
+    
+    
 
     public int numberAccount() {
         return accountFacade.findAll().size();
@@ -401,6 +416,10 @@ public class EventBean implements Serializable {
 
     public void setListEventEnded(List<EventDetail> listEventEnded) {
         this.listEventEnded = listEventEnded;
+    }
+    
+    public List<Comments> getComments(String eventId) {
+        return commentsFacade.findCommentByEventId(eventId);
     }
 
     public String customerStatistic() {
