@@ -42,10 +42,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Event.findByStatus", query = "SELECT e FROM Event e WHERE e.status = :status"),
     @NamedQuery(name = "Event.findByDate", query = "SELECT e FROM Event e WHERE e.startDate >= :fromDate and e.startDate <= :toDate")})
 public class Event implements Serializable {
+
     @Column(name = "CreateDate")
     @Temporal(TemporalType.DATE)
     private Date createDate;
-
     @Column(name = "numberEmployee")
     private Integer numberEmployee;
     private static final long serialVersionUID = 1L;
@@ -83,9 +83,22 @@ public class Event implements Serializable {
 
     public Event() {
     }
-      
+
     public Event(String eventID) {
         this.eventID = eventID;
+    }
+
+    public Event(Date createDate, Integer numberEmployee, String eventID, String eventTitle, String image, String description, Date startDate, Date endDate, String status, EventType eventTypeID) {
+        this.createDate = createDate;
+        this.numberEmployee = numberEmployee;
+        this.eventID = eventID;
+        this.eventTitle = eventTitle;
+        this.image = image;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.status = status;
+        this.eventTypeID = eventTypeID;
     }
 
     public String getEventID() {

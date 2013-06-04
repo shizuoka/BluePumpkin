@@ -173,12 +173,11 @@ public class EmployeeBean implements Serializable {
         this.msg = msg;
     }
 
-    public String createEmpAccount() {
-        Employee e = new Employee(employeeID, fullName, gender, address, email, phone, dateOfBirth);
+    public String createEmpAccount() {        
+        Employee e = new Employee(new Date(), employeeID, fullName, gender, address, email, phone, dateOfBirth);
         boolean result_1 = employeeFacade.createEmployee(e);
         if (result_1) {
             String password = "123456";
-            String newEmployeeID = employeeFacade.getMaxEmployeeID().getEmployeeID();
             boolean result_2 = accountFacade.createAccount(control.generateMD5(password), chooseRole, e.getEmployeeID());
             if (result_2) {
                 rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

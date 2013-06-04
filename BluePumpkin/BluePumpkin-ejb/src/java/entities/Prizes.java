@@ -66,6 +66,14 @@ public class Prizes implements Serializable {
         this.prizeID = prizeID;
     }
 
+    public Prizes(Integer weight, String description, Integer numberOfPrize, String prizeName, Event eventID) {
+        this.weight = weight;
+        this.description = description;
+        this.numberOfPrize = numberOfPrize;
+        this.prizeName = prizeName;
+        this.eventID = eventID;
+    }        
+
     public Integer getPrizeID() {
         return prizeID;
     }

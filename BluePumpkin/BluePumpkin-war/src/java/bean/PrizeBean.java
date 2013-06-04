@@ -26,8 +26,6 @@ public class PrizeBean implements Serializable {
     @EJB
     private RegisterEventFacade registerEventFacade;
     @EJB
-    private PrizesDetailFacade prizesDetailFacade;
-    @EJB
     private PrizesFacade prizesFacade;
     private HttpServletRequest rq;
 
@@ -53,44 +51,15 @@ public class PrizeBean implements Serializable {
 
     public void setPrize_id(int prize_id) {
         this.prize_id = prize_id;
-    }    
+    }
 
     public List<Prizes> showAllPrize() {
         return prizesFacade.findAll();
     }
 
-    public List<PrizesDetail> showWinnerDetail() {
-        return prizesDetailFacade.findAll();
-    }
-
     public List<RegisterEvent> showAllRegister() {
         return registerEventFacade.findAll();
     }
-
-//    public String inputWinner(int prizeID) {
-//        boolean result = prizesDetailFacade.inputWinner(prizeID, inputWinner);
-//        if (result) {
-//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            rq.setAttribute("info", "Pick the Winner Successful !!!");
-//            return "prizes.xhtml";
-//        } else {
-//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            rq.setAttribute("info", "Error,please try again!!!");
-//            return "prizes.xhtml";
-//        }
-//    }
-//
-//    public String deleteWinnerDetail(int detailID) {
-//        if (prizesDetailFacade.deleteWinnerDetail(detailID)) {
-//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            rq.setAttribute("del", "Delete Information Successfull!!!");
-//            return "prizes.xhtml";
-//        } else {
-//            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            rq.setAttribute("del", "Delete Unsuccessfull!!!");
-//            return "prizes.xhtml";
-//        }
-//    }
     private Prizes pz;
 
     public Prizes getPz() {
@@ -100,8 +69,57 @@ public class PrizeBean implements Serializable {
     public void setPz(Prizes pz) {
         this.pz = pz;
     }
-    
-    public void pickWinner(Prizes p){
-        pz=p;
+    private String prizeName;
+    private int weight;
+    private String description;
+    private int numberOfPrize;
+
+    public String getPrizeName() {
+        return prizeName;
+    }
+
+    public void setPrizeName(String prizeName) {
+        this.prizeName = prizeName;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getNumberOfPrize() {
+        return numberOfPrize;
+    }
+
+    public void setNumberOfPrize(int numberOfPrize) {
+        this.numberOfPrize = numberOfPrize;
+    }
+
+    public String insertPrize(String eventID) {
+        boolean result = prizesFacade.addPrize(prizeName, weight, description, numberOfPrize, eventID);
+        if (result) {
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("msg", "Add New Successfull");
+        } else {
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("msg", "Add New UnSuccessfull");
+        }
+        return "addPrize.xhtml";
+    }
+
+    public void reset() {
+        prizeName = "";
+        description = "";
     }
 }

@@ -25,9 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean
 @SessionScoped
 public class EventBean implements Serializable {
+
     @EJB
     private AccountFacade accountFacade;
-
     @EJB
     private RegisterEventFacade registerEventFacade;
     @EJB
@@ -36,7 +36,6 @@ public class EventBean implements Serializable {
     private EventFacade eventFacade;
     @EJB
     private WinnersFacade winnersFacade;
-    
     private HttpServletRequest rq;
 
     /**
@@ -173,17 +172,17 @@ public class EventBean implements Serializable {
 //        }
 //    }
     public String addNewEvent() {
-        int noAccount=numberAccount();
-        boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType,noAccount);
+        int noAccount = numberAccount();
+        boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount,new Date());
         if (add) {
             String eID = eventFacade.getMaxEventID().getEventID();
-            
-                rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                rq.setAttribute("add", "Add New Event Successfull !!!");
-                return "event.xhtml";
+
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("add", "Add New Event Successfull !!!");
+            return "event.xhtml";
 //                message = "Add New Event Successfull";
 //                return "event.xhtml?result=" + message + "&faces-redirect=true";     
-    
+
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("add", "Add New Event Unsuccessfull !!!");
@@ -192,8 +191,8 @@ public class EventBean implements Serializable {
 //            return "event.xhtml?result=" + message + "&faces-redirect=true";
         }
     }
-    
-    public int numberAccount(){
+
+    public int numberAccount() {
         return accountFacade.findAll().size();
     }
     private Event event;
@@ -268,6 +267,20 @@ public class EventBean implements Serializable {
 //        session.setAttribute("detailEvent", e);        
         event = eventFacade.findByEventID(eventID);
         return "detailEvent.xhtml?EventID=" + eventID + "&faces-redirect=true";
+    }
+    private String evID;
+
+    public String getEvID() {
+        return evID;
+    }
+
+    public void setEvID(String evID) {
+        this.evID = evID;
+    }
+
+    public String redirectInsertPrize(String eventID) {
+        setEvID(eventID);
+        return "addPrize.xhtml?eventID=" + eventID + "&faces-redirect=true";
     }
 //    
 //    public int totalEventByStatus(String status){
@@ -398,7 +411,7 @@ public class EventBean implements Serializable {
         int totalEvent = listEvent.size();
         int incoming = 0, oncoming = 0, ended = 0;
         Collections.reverse(listEvent);
-        
+
         for (int i = 0; i < totalEvent; i++) {
             int numberEm = listEvent.get(i).getNumberEmployee();
             int countRegister = registerEventFacade.countRegisterByStatus(listEvent.get(i).getEventID());
@@ -407,10 +420,10 @@ public class EventBean implements Serializable {
             Date startDate = listEvent.get(i).getStartDate();
             Date endDate = listEvent.get(i).getEndDate();
             String typeEvent = listEvent.get(i).getEventTypeID().getEventTypeName();
-            
+
             if (listEvent.get(i).getStatus().equals("Incoming")) {
                 EventDetail eventDetail = new EventDetail(eventId, eventTitle, startDate, endDate, typeEvent, numberEm, countRegister);
-                listEventIncoming.add(eventDetail);                
+                listEventIncoming.add(eventDetail);
                 incoming++;
             } else if (listEvent.get(i).getStatus().equals("Ended")) {
                 String winner = winnersFacade.getWinner(listEvent.get(i).getEventID());

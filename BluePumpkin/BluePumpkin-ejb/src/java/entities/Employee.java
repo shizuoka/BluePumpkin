@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Employee.findByPhone", query = "SELECT e FROM Employee e WHERE e.phone = :phone"),
     @NamedQuery(name = "Employee.findByDateOfBirth", query = "SELECT e FROM Employee e WHERE e.dateOfBirth = :dateOfBirth")})
 public class Employee implements Serializable {
+
     @Column(name = "CreateDate")
     @Temporal(TemporalType.DATE)
     private Date createDate;
@@ -84,7 +85,8 @@ public class Employee implements Serializable {
         this.employeeID = employeeID;
     }
 
-    public Employee(String employeeID, String fullName, Boolean gender, String address, String email, String phone, Date dateOfBirth) {
+    public Employee(Date createDate, String employeeID, String fullName, Boolean gender, String address, String email, String phone, Date dateOfBirth) {
+        this.createDate = createDate;
         this.employeeID = employeeID;
         this.fullName = fullName;
         this.gender = gender;
@@ -92,7 +94,7 @@ public class Employee implements Serializable {
         this.email = email;
         this.phone = phone;
         this.dateOfBirth = dateOfBirth;
-    }        
+    }   
 
     public String getEmployeeID() {
         return employeeID;
@@ -218,5 +220,4 @@ public class Employee implements Serializable {
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
-    
 }
