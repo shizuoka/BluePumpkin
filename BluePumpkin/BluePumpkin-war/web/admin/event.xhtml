@@ -21,7 +21,8 @@ and open the template in the editor.
             <div class="header">
                 <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a>
+                <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
 
                 <div class="menu">
                     <ul>
@@ -31,7 +32,7 @@ and open the template in the editor.
                         <li><a href="createAccount.xhtml">Manger Employee</a></li>
                         <li><a href="#">Manager Request</a></li>
                         <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="#">Reports</a></li>                        
+                        <li><a href="statistic.xhtml">Reports</a></li>                        
                     </ul>
                 </div>
 
@@ -128,9 +129,11 @@ and open the template in the editor.
                                         <h:form enctype="multipart/form-data">
                                             <p:fileUpload
                                                 fileUploadListener="#{eventBean.handleFileUpload}"
-                                                update="messages" label="Choose a file"
+                                                mode="advanced" update="messages" label="Choose a file"
                                                 auto="true" sizeLimit="10485760"
-                                                allowTypes="/(\.|\/)(gif|jpe?g|png)$/"                                 />
+                                                allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                invalidSizeMessage="The maximum file size allowed is 10 Megabytes !"
+                                                invalidFileMessage="You are allowed to upload only images !"/>
                                             <p:growl id="messages" showDetail="true" life="5000" />
                                         </h:form>
                                     </div>

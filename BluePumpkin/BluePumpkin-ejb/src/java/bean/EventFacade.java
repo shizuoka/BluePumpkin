@@ -37,7 +37,7 @@ public class EventFacade extends AbstractFacade<Event> {
         return (Event) em.createNamedQuery("Event.findByEventID").setParameter("eventID", eventID).getSingleResult();
     }
 
-    public boolean addNewEvent(String eventID, String eventTitle, String des, Date startDate, Date endDate, String status, String eventTypeID,int noAccount,Date createDate) {
+    public boolean addNewEvent(String eventID, String eventTitle, String des, Date startDate, Date endDate, String status, String eventTypeID,int noAccount,Date createDate,String image) {
         boolean flag = false;
         try {
             EventType et = em.find(EventType.class, eventTypeID);
@@ -51,6 +51,7 @@ public class EventFacade extends AbstractFacade<Event> {
             e.setEventTypeID(et);
             e.setNumberEmployee(noAccount);
             e.setCreateDate(createDate);
+            e.setImage(image);
 
             et.getEventList().add(e);
             em.merge(et);

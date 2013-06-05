@@ -72,7 +72,7 @@ public class PrizeBean implements Serializable {
     private String prizeName;
     private int weight;
     private String description;
-    private int numberOfPrize;
+    private String numberOfPrize;
 
     public String getPrizeName() {
         return prizeName;
@@ -98,16 +98,16 @@ public class PrizeBean implements Serializable {
         this.description = description;
     }
 
-    public int getNumberOfPrize() {
+    public String getNumberOfPrize() {
         return numberOfPrize;
     }
 
-    public void setNumberOfPrize(int numberOfPrize) {
+    public void setNumberOfPrize(String numberOfPrize) {
         this.numberOfPrize = numberOfPrize;
     }
 
-    public String insertPrize(String eventID) {
-        boolean result = prizesFacade.addPrize(prizeName, weight, description, numberOfPrize, eventID);
+    public void insertPrize(String eventID) {
+        boolean result = prizesFacade.addPrize(prizeName, weight, description, Integer.parseInt(numberOfPrize), eventID);
         if (result) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("msg", "Add New Successfull");
@@ -115,11 +115,11 @@ public class PrizeBean implements Serializable {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("msg", "Add New UnSuccessfull");
         }
-        return "addPrize.xhtml";
     }
 
     public void reset() {
         prizeName = "";
         description = "";
+        numberOfPrize="";
     }
 }

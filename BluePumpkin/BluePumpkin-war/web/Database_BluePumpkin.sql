@@ -42,9 +42,9 @@ create table Account(
 go
 select * from Account
 go
-insert into Account values('E01','123456',1)
-insert into Account values('E02','123456',2)
-insert into Account values('E03','123456',2)
+insert into Account values('E01','e10adc3949ba59abbe56e057f20f883e',1)
+insert into Account values('E02','e10adc3949ba59abbe56e057f20f883e',2)
+insert into Account values('E03','e10adc3949ba59abbe56e057f20f883e',2)
 go
 select e.FullName from Employee e inner join Account a on e.EmployeeID=a.UserName 
 go
@@ -160,14 +160,14 @@ insert into RegisterEvent values(GETDATE(),1,'E02','EV09')
 select * from Winners
 select * from Prizes
 go
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'Laptop VaiO',1,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'Dell',2,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'Iphone 5',3,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'Galaxy S4',4,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'Laptop VaiO',1,'EV05')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'Dell',2,'EV05')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'Iphone 5',3,'EV05')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'Galaxy S4',4,'EV05')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'5000$',1,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'3000$',2,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'1000$',3,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'500$',4,'EV03')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'4000$',1,'EV05')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'2500$',2,'EV05')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'1250$',3,'EV05')
+insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'350$',4,'EV05')
 insert into Winners values ('Trung Thanh','E01',1,5)
 insert into Winners values ('Quang Phat','E02',0,6)
 insert into Winners values ('Van Son','E03',0,7)

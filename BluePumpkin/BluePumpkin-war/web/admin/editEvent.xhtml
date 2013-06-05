@@ -70,11 +70,14 @@ and open the template in the editor.
                                         <h:form enctype="multipart/form-data">
                                             <p:fileUpload
                                                 fileUploadListener="#{eventBean.handleFileUpload}"
-                                                update="messages" label="Choose a file"
+                                                mode="advanced" update="messages" label="Choose a file"
                                                 auto="true" sizeLimit="10485760"
-                                                allowTypes="/(\.|\/)(gif|jpe?g|png)$/"                                 />
+                                                allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                                invalidSizeMessage="The maximum file size allowed is 10 Megabytes !"
+                                                invalidFileMessage="You are allowed to upload only images !"/>
                                             <p:growl id="messages" showDetail="true" life="5000" />
                                         </h:form>
+                                        <h:inputHidden value="#{eventBean.event.image}"/>
                                     </div>
                                     <div class="form_row">
                                         <label>Start Event Date:</label>
