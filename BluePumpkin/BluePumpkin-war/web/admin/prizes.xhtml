@@ -74,7 +74,25 @@ and open the template in the editor.
                                                 <h:outputText value="PrizeName"/>
                                             </f:facet>
                                             <h:outputText value="#{item.prizeName}"/>
-                                        </h:column>                                                                                
+                                        </h:column>  
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Description"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.description}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="NumberOfPrize"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.numberOfPrize}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Weight"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.weight}"/>
+                                        </h:column>
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputText value="Action"/>
@@ -86,15 +104,31 @@ and open the template in the editor.
                                     Choose:
                                     <table>
                                         <tr>
+                                            <td>Prize ID:</td>
+                                            <td><h:outputText value="#{prizeBean.pz.prizeID}"/></td>
+                                        </tr>
+                                        <tr>
                                             <td>Event ID:</td>
                                             <td><h:outputText value="#{prizeBean.pz.eventID.eventID}"/></td>
                                         </tr>
                                         <tr>
+                                            <td>Employee Name</td>
+                                            <td><h:inputText value="#{prizeBean.employeeName}"/></td>
+                                        </tr>
+                                        <tr>
                                             <td>Employee ID:</td>
-                                            <td><h:inputText value="#{prizeBean.inputWinner}"/></td>
+                                            <td><h:inputText value="#{prizeBean.employeeID}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <h:selectOneRadio value="#{prizeBean.select1st}">
+                                                    <f:selectItem itemValue="1" itemLabel="1st"></f:selectItem>
+                                                    <f:selectItem itemValue="0" itemLabel="Another"></f:selectItem>
+                                                </h:selectOneRadio>
+                                            </td>
                                         </tr>
                                         <tr>                                            
-                                            <td colspan="2"><h:commandButton value="Submit" action="#{prizeBean.inputWinner(prizeBean.pz.prizeID)}"/></td>
+                                            <td colspan="2"><h:commandButton value="Submit" action="#{prizeBean.addWinner(prizeBean.pz.prizeID)}"/></td>
                                         </tr>
                                     </table>
                                     <c:if test="#{not empty requestScope.info}">
@@ -109,13 +143,7 @@ and open the template in the editor.
                             <div class="form">
                                 <h2>View List Winner Detail</h2> 
                                 <h:form>                                
-                                    <h:dataTable value="#{prizeBean.showWinnerDetail()}" var="detail">
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Detail_ID"/>
-                                            </f:facet>
-                                            <h:outputText value="#{detail.prizesDetailID}"/>
-                                        </h:column>
+                                    <h:dataTable value="#{prizeBean.showWinnerDetail()}" var="detail">                                        
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputText value="Event"/>
@@ -130,21 +158,27 @@ and open the template in the editor.
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputText value="WinnerEmpID"/>
+                                                <h:outputText value="Description"/>
                                             </f:facet>
-                                            <h:outputText value="#{detail.employeeID.employeeID}"/>
+                                            <h:outputText value="#{detail.prizeID.description}"/>
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputText value="Name"/>
+                                                <h:outputText value="WinnerEmpID"/>
                                             </f:facet>
-                                            <h:outputText value="#{detail.employeeID.fullName}"/>
+                                            <h:outputText value="#{detail.employeesId}"/>
                                         </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="WinnerName"/>
+                                            </f:facet>
+                                            <h:outputText value="#{detail.employeesName}"/>
+                                        </h:column>                                        
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputText value="Action"/>
                                             </f:facet>
-                                            <h:commandButton value="Delete" action="#{prizeBean.deleteWinnerDetail(detail.prizesDetailID)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
+                                            <h:commandButton value="Delete" action="#{prizeBean.deleteWinnerDetail(detail.id)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
                                         </h:column>
                                     </h:dataTable>
                                     <c:if test="#{not empty requestScope.del}">                                

@@ -7,6 +7,7 @@ package bean;
 import entities.Prizes;
 import entities.PrizesDetail;
 import entities.RegisterEvent;
+import entities.Winners;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 public class PrizeBean implements Serializable {
 
     @EJB
+    private WinnersFacade winnersFacade;
+    @EJB
     private RegisterEventFacade registerEventFacade;
     @EJB
     private PrizesFacade prizesFacade;
@@ -34,14 +37,23 @@ public class PrizeBean implements Serializable {
      */
     public PrizeBean() {
     }
-    private String inputWinner;
+    private String employeeName;
 
-    public String getInputWinner() {
-        return inputWinner;
+    public String getEmployeeName() {
+        return employeeName;
     }
 
-    public void setInputWinner(String inputWinner) {
-        this.inputWinner = inputWinner;
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
+    private String employeeID;
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
     }
     private int prize_id;
 
@@ -59,6 +71,10 @@ public class PrizeBean implements Serializable {
 
     public List<RegisterEvent> showAllRegister() {
         return registerEventFacade.findAll();
+    }
+
+    public List<Winners> showWinnerDetail() {
+        return winnersFacade.findAll();
     }
     private Prizes pz;
 
@@ -117,9 +133,43 @@ public class PrizeBean implements Serializable {
         }
     }
 
+    public void pickWinner(Prizes p) {
+        setPz(p);
+    }
+
     public void reset() {
         prizeName = "";
         description = "";
-        numberOfPrize="";
+        numberOfPrize = "";
+    }
+    private Boolean select1st;
+
+    public Boolean getSelect1st() {
+        return select1st;
+    }
+
+    public void setSelect1st(Boolean select1st) {
+        this.select1st = select1st;
+    }
+
+    public void addWinner(int prizeID) {
+        boolean addWinner = winnersFacade.addWinner(employeeName, employeeID, select1st, prizeID);
+        if (addWinner) {
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("info", "Pick the winner Successfull");
+        } else {
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("info", "Add New UnSuccessfull");
+        }
+    }
+
+    public void deleteWinnerDetail(int id) {
+        if (winnersFacade.deleteWinnerDetail(id)) {
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("del", "Delete detail Successful");
+        } else {
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("del", "Delete detail UnSuccessful");
+        }
     }
 }

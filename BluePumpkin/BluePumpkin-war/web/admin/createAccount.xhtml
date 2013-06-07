@@ -30,7 +30,7 @@ and open the template in the editor.
                         <li><a href="createAccount.xhtml">Manger Employee</a></li>
                         <li><a href="#">Manager Request</a></li>
                         <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="#">Reports</a></li>                        
+                        <li><a href="statistic.xhtml">Reports</a></li>                          
                     </ul>
                 </div>
 
@@ -77,7 +77,7 @@ and open the template in the editor.
                             </h:dataTable>
                         </h:form>
                         <c:if test="#{not empty requestScope.msg}">
-                            <h:outputText value="#{requestScope.msg}" style="color: red"/>
+                            <h:outputText value="#{requestScope.msg}" style="color: blue"/>
                         </c:if>
 
                         <h:form>
@@ -126,7 +126,7 @@ and open the template in the editor.
                                 </tr>
                             </table>               
                             <c:if test="#{not empty requestScope.add}">                                
-                                <h:outputText value="#{requestScope.add}" style="color: red;text-align: center"/>                                
+                                <h:outputText value="#{requestScope.add}" style="color: blue;text-align: center"/>                                
                             </c:if>
                         </h:form>
                     </div>

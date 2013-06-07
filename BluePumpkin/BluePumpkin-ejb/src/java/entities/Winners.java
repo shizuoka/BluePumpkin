@@ -8,6 +8,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,9 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Winners implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
+    @Basic(optional = false)    
     @Column(name = "Id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Size(max = 50)
     @Column(name = "EmployeesName")
@@ -56,6 +58,13 @@ public class Winners implements Serializable {
     public Winners(Integer id) {
         this.id = id;
     }
+
+    public Winners(String employeesName, String employeesId, Boolean isWin, Prizes prizeID) {
+        this.employeesName = employeesName;
+        this.employeesId = employeesId;
+        this.isWin = isWin;
+        this.prizeID = prizeID;
+    }        
 
     public Integer getId() {
         return id;

@@ -83,7 +83,7 @@ and open the template in the editor.
                                         <td>#{event.status}</td>
                                         <td>#{event.eventTypeID.eventTypeName}</td>
                                         <h:form>
-                                            <td><h:commandLink action="#{eventBean.redirectInsertPrize(event.eventID)}" value="Insert Prize"/></td>
+                                            <td><h:commandButton action="#{eventBean.redirectInsertPrize(event.eventID)}" image="../images/icon/prize.jpg" style="width: 16px;height: 16px"/></td>
                                             <td><h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/></td>
                                             <td><h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/></td>                                        
                                         </h:form>
