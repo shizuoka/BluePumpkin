@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="List"/></h1>
+                <h:dataTable value="#{prizeBean.listPrizes}" var="item">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="PrizeID"/>
+                        </f:facet>
+                        <h:outputText value="#{item.prizeID}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="PrizeName"/>
+                        </f:facet>
+                        <h:outputText value="#{item.prizeName}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="EventID"/>
+                        </f:facet>
+                        <h:outputText value="#{item.eventID.eventID}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Weight"/>
+                        </f:facet>
+                        <h:outputText value="#{item.weight}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Description"/>
+                        </f:facet>
+                        <h:outputText value="#{item.description}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="NumberOfPrize"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numberOfPrize}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <h:commandButton value="Review" action="#{registerBean.reviewEvent(item.eventID.eventID)}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <div id="emps_#{item.prizeID}}">
+                            <p:growl id="growl" showDetail="true" />  
+
+                            <p:commandButton value="Select Car" icon="ui-icon-extlink" action="dialog:selectCar">  
+                                <p:ajax event="dialogReturn" listener="#{registerBean.onDialogReturn(event)}" update="growl" />  
+                            </p:commandButton>  
+
+                        </div>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </f:view>
+
+    </h:body>
+</html>
+

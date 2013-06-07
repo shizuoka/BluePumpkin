@@ -5,14 +5,18 @@
 package bean;
 
 import entities.Account;
+import entities.Employee;
 import entities.RegisterEvent;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.SelectEvent;
 import util.sessionTool;
 
 /**
@@ -68,5 +72,33 @@ public class RegisterBean implements Serializable {
     public List<RegisterEvent> getRegisterEventByEmployee() {
         Account account = (Account) sessionTool.getDownSession("employee");
         return registerEventFacade.getRegisterEventByEmployee(account.getUserName().getEmployeeID());
+    }
+
+    public List<Employee> showEmployeeByEventId(String eventId) {
+        return registerEventFacade.findEmployeeByEventId(eventId);
+    }
+
+    public void onDialogReturn(SelectEvent event) {
+        Employee emp = (Employee) event.getObject(); 
+        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Car Selected", "Model:" + emp.toString());
+        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
+    }
+    
+    public void selectCarFromDialog(Employee employee) {  
+         
+    }
+    
+    private String selectedEvent;
+
+    public String getSelectedEvent() {
+        return selectedEvent;
+    }
+
+    public void setSelectedEvent(String selectedEvent) {
+        this.selectedEvent = selectedEvent;
+    }
+
+    public void reviewEvent(String eventId) {
+        selectedEvent = eventId;
     }
 }

@@ -6,6 +6,7 @@ package bean;
 
 import entities.Event;
 import entities.Prizes;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,4 +43,11 @@ public class PrizesFacade extends AbstractFacade<Prizes> {
         }
         return flag;
     }
+
+    public List<Prizes> getPrize(String eventID) {
+        return em.createQuery("select p from Prizes p where p.eventID.eventID = :eventID")
+                .setParameter("eventID", eventID).getResultList();
+    }
+    
+    
 }

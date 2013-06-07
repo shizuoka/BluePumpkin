@@ -4,8 +4,10 @@
  */
 package bean;
 
+import entities.Employee;
 import entities.Prizes;
 import entities.Winners;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -59,4 +61,5 @@ public class WinnersFacade extends AbstractFacade<Winners> {
         }
         return flag;
     }
+    
 }

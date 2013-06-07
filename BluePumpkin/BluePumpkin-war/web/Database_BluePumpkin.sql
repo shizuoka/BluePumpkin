@@ -168,6 +168,7 @@ insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('
 insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'2500$',2,'EV05')
 insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'1250$',3,'EV05')
 insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'350$',4,'EV05')
+
 insert into Winners values ('Trung Thanh','E01',1,5)
 insert into Winners values ('Quang Phat','E02',0,6)
 insert into Winners values ('Van Son','E03',0,7)
@@ -175,12 +176,10 @@ insert into Winners values ('Van Son','E03',0,7)
 insert into Winners values ('Trung Thanh','E01',1,9)
 insert into Winners values ('Quang Phat','E02',0,10)
 insert into Winners values ('Van Son','E03',0,11)
-
+GO
 update Event set Status = 'Oncoming' where EventID = 'EV09'
 update Event set Status = 'Oncoming' where EventID = 'EV08'
-
-select * from Event
-
+Go
 create trigger AddAccountTrigger on Account
 for insert
 as
@@ -189,7 +188,7 @@ begin
 	set numberEmployee = numberEmployee + 1
 	where Status in ('Oncoming', 'Incoming')
 end
-
+go
 update Event
 set Status = 'Oncoming'
 where StartDate <= GETDATE() and EndDate > GETDATE()
@@ -197,3 +196,9 @@ where StartDate <= GETDATE() and EndDate > GETDATE()
 update Event
 set Status = 'Ended'
 where EndDate < GETDATE() and Status = 'Ended'
+
+select * from Event
+
+update Event
+set EndDate = '2013-06-08'
+where EventID = 'EV07'

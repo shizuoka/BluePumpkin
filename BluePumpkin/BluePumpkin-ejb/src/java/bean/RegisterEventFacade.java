@@ -69,4 +69,12 @@ public class RegisterEventFacade extends AbstractFacade<RegisterEvent> {
         int result = x.getResultList().size();
         return result;
     }
+    
+    public List<Employee> findEmployeeByEventId(String eventId) {
+        return em.createQuery("SELECT r.employeeID FROM RegisterEvent r WHERE r.eventID.eventID = :eventId AND r.isAccept = :isAccept")
+                .setParameter("eventId", eventId)
+                .setParameter("isAccept", true)
+                .getResultList();
+    }
+    
 }

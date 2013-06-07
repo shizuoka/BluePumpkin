@@ -127,8 +127,8 @@ public class EventFacade extends AbstractFacade<Event> {
     }
     
     public void changeStatus() {
-        em.createQuery("UPDATE Event s SET s.status = 'Oncoming' WHERE s.startDate <= "+new Date()+" AND s.endDate > "+new Date()).executeUpdate();
-        em.createQuery("UPDATE Event s SET s.status = 'Ended' WHERE s.endDate < GETDATE() AND s.status is not 'Ended'").executeUpdate();
+        em.createNativeQuery("update Event set Status = 'Oncoming' where StartDate <= GETDATE() and EndDate > GETDATE() and Status != 'Oncoming'").executeUpdate();
+        em.createNativeQuery("update Event set Status = 'Ended' where EndDate < GETDATE() and Status != 'Ended'").executeUpdate();
     }
     
 }

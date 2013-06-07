@@ -62,42 +62,30 @@ and open the template in the editor.
                             <div class="form">
                                 <h2>View List Prize</h2> 
                                 <h:form>                            
-                                    <h:dataTable value="#{prizeBean.showAllPrize()}" var="item">
+                                    <h:dataTable value="#{eventBean.findEventEnded()}" var="item">
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputText value="EventID"/>
                                             </f:facet>
-                                            <h:outputText value="#{item.eventID.eventID}"/>
+                                            <h:outputText value="#{item.eventID}"/>
                                         </h:column>                                        
                                         <h:column>
                                             <f:facet name="header">
-                                                <h:outputText value="PrizeName"/>
+                                                <h:outputText value="Title"/>
                                             </f:facet>
-                                            <h:outputText value="#{item.prizeName}"/>
+                                            <h:outputText value="#{item.eventTitle}"/>
                                         </h:column>  
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputText value="Description"/>
                                             </f:facet>
                                             <h:outputText value="#{item.description}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="NumberOfPrize"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.numberOfPrize}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Weight"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.weight}"/>
-                                        </h:column>
+                                        </h:column>                                        
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputText value="Action"/>
                                             </f:facet>
-                                            <h:commandButton value="Select" action="#{prizeBean.pickWinner(item)}"/>
+                                            <h:commandButton value="Select" action="#{prizeBean.redirectWinner(item.eventID)}"/>
                                         </h:column>
                                     </h:dataTable>
                                     <br/>
@@ -192,7 +180,7 @@ and open the template in the editor.
                             <div class="form">
                                 <h2>View List Register Event</h2>
                                 <h:form>                                
-                                    <h:dataTable value="#{registerBean.showAllRegister()}" var="regist">
+                                    <h:dataTable value="#{registerBean.showAllRegister()}" var="regist" >
                                         <h:column>
                                             <f:facet name="header">
                                                 <h:outputText value="RegisterID"/>

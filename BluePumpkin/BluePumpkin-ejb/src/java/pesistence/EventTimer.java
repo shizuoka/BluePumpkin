@@ -21,7 +21,7 @@ public class EventTimer {
     @EJB
     private EventFacade eventFacade;
 
-    @Schedule(minute = "*", second = "0", dayOfMonth = "*", month = "*", year = "*", hour = "19")
+    @Schedule(minute = "0", second = "0", dayOfMonth = "*", month = "*", year = "*", hour = "0")
     public void myTimer() {
         eventFacade.changeStatus();
     }

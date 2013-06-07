@@ -4,6 +4,7 @@
  */
 package bean;
 
+import entities.Employee;
 import entities.Prizes;
 import entities.PrizesDetail;
 import entities.RegisterEvent;
@@ -64,9 +65,20 @@ public class PrizeBean implements Serializable {
     public void setPrize_id(int prize_id) {
         this.prize_id = prize_id;
     }
+    
+   private List<Prizes> listPrizes;
 
-    public List<Prizes> showAllPrize() {
-        return prizesFacade.findAll();
+    public List<Prizes> getListPrizes() {
+        return listPrizes;
+    }
+
+    public void setListPrizes(List<Prizes> listPrizes) {
+        this.listPrizes = listPrizes;
+    }   
+
+    public String redirectWinner(String eventID) {
+        setListPrizes(prizesFacade.getPrize(eventID));
+        return "winner.xhtml?faces-redirect=true";
     }
 
     public List<RegisterEvent> showAllRegister() {
@@ -172,4 +184,7 @@ public class PrizeBean implements Serializable {
             rq.setAttribute("del", "Delete detail UnSuccessful");
         }
     }
+    
+    
+    
 }

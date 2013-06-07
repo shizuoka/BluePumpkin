@@ -311,6 +311,10 @@ public class EventBean implements Serializable {
         setEvID(eventID);
         return "addPrize.xhtml?eventID=" + eventID + "&faces-redirect=true";
     }
+    
+    public List<Event> findEventEnded(){
+        return eventFacade.findByStatus("Ended");
+    }
 //    
 //    public int totalEventByStatus(String status){
 //        return eventFacade.findByStatus(status).size();
