@@ -10,78 +10,108 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Add FAQ Page</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="../css/styleTable.css" />
-        <link rel="stylesheet" type="text/css" href="../css/css.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>             
     </h:head>
     <h:body>
+        <div id="panelwrap">
 
-        <div id="main">
-            <div id="headerAdmin">
-                <a id="indexLink" href="index.htm"></a>
-                <div id="banner"></div>
-                <div style="height: 15px;background-color: white"></div>
-                <div id="colorBar"></div>
-                <div style="height: 15px;background-color: white"></div>
-            </div>
-            <div id="content">
-                <table id="bodytable" cellpadding="0px" cellspacing="0px">
-                    <tr>
-                        <td valign="top">
-                            <div id="indexLeftColumn">
-                                <div class="menu" id="menuDiv">
-                                    <div id="menu">
-                                        <div class="label firstLabel">
-                                            <a class="rubric_link" href="event.xhtml">Manager Event</a>
-                                        </div>
-                                        <div class="label firstLabel">
-                                            <a class="rubric_link" href="#">Manager Suggest</a>
-                                        </div>
-                                        <div class="label firstLabel">
-                                            <a class="rubric_link" href="#" >Manger Employee</a>
-                                        </div>
-                                        <div class="label firstLabel" >
-                                            <a class="rubric_link" href="#">Manager Request</a>
-                                        </div>
-                                        <div class="label firstLabel">
-                                            <a class="rubric_link" href="viewFAQ.xhtml" >Manager FAQs</a>
-                                        </div>
-                                        <div class="label firstLabel" >
-                                            <a class="rubric_link" href="#">Reports</a>
-                                        </div>                                        
-                                        <div class="label firstLabel" >
-                                            <a class="rubric_link" href="#">Logout</a>
-                                        </div>
+            <div class="header">
+                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                                        <div class="Bitrhdaybox"></div>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a> 
+                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+
+                <div class="menu">
+                    <ul>
+                        <li><a href="index.xhtml" class="selected">Main page</a></li>
+                        <li><a href="addEventType.xhtml">Manager Event</a></li>
+                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
+                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
+                        <li><a href="#">Manager Request</a></li>
+                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
+                        <li><a href="statistic.xhtml">Reports</a></li>                        
+                    </ul>
+                </div>
+
+            </div>       
+
+            <div class="center_content">  
+
+                <div id="right_wrap">
+                    <div id="right_content">
+                        <div id="tab2" class="tabcontent">                              
+                            <h3>Create New FAQ</h3>
+                            <h:form>
+                                <div class="form">
+
+                                    <div class="form_row">
+                                        <h:outputLabel value="Question:" for="question" />
+                                        <h:inputText id="question" value="#{faqBean.question}" title="Question" required="true"/>
                                     </div>
+
+                                    <div class="form_row">
+                                        <h:outputLabel value="Answer:" for="answer" />
+                                        <h:inputText id="answer" value="#{faqBean.answer}" title="Answer" required="true"/>
+                                    </div>
+
+                                    <div class="form_row">
+                                        <h:commandButton value="Add" action="#{faqBean.addFaq()}" />                                        
+                                    </div>                                                                
+
+                                    <div class="clear"></div>                                
                                 </div>
-                            </div>
-                        </td>
-                        <td align="left" valign="top">
-                            <div id="indexRightColumn">
-                                <f:view>
-                                    <h:form>
-                                        <h1><h:outputText value="Create"/></h1>
-                                        <h:panelGrid columns="2">
-                                            <h:outputLabel value="Question:" for="question" />
-                                            <h:inputText id="question" value="#{faqBean.question}" title="Question" required="true"/>
-                                            <h:outputLabel value="Answer:" for="answer" />
-                                            <h:inputText id="answer" value="#{faqBean.answer}" title="Answer" required="true"/>
-                                        </h:panelGrid>
-                                        <h:commandButton value="Add" action="#{faqBean.addFaq()}" />
-                                    </h:form>
-                                </f:view>
+                            </h:form>
+                        </div>
+                    </div>
+                </div><!-- end of right content-->
 
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+
+                <div class="sidebar" id="sidebar">
+                    <h2>Browse categories</h2>
+
+                    <ul>
+                        <li><a href="#" class="selected">Main page</a></li>
+                        <li><a href="#">Template settings</a></li>
+                        <li><a href="#">Add page</a></li>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                    </ul>
+
+                    <h2>Page Section</h2>
+
+                    <ul>
+                        <li><a href="#">Edit section</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Clients</a></li>
+                        <li><a href="#">Docs and info</a></li>
+                    </ul> 
+
+                    <h2>User Settings</h2>
+
+                    <ul>
+                        <li><a href="#">Edit user</a></li>
+                        <li><a href="#">Add users</a></li>
+                        <li><a href="#">Manage users</a></li>
+                        <li><a href="#">Help</a></li>
+                    </ul>   
+
+                    <h2>Text Section</h2> 
+                    <div class="sidebar_section_text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </div>         
+
+                </div>             
+
+
+                <div class="clear"></div>
+            </div> <!--end of center_content-->
+
+            <div class="footer">
+                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
             </div>
-            <div id="footerAdmin">
-                C1007L-Group1-FPT Aptech Computer Education
-            </div>
 
-        </div>                
-
+        </div>        
     </h:body>
 </html>
