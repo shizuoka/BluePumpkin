@@ -73,21 +73,36 @@ public class RegisterBean implements Serializable {
         Account account = (Account) sessionTool.getDownSession("employee");
         return registerEventFacade.getRegisterEventByEmployee(account.getUserName().getEmployeeID());
     }
+    private int check;
+
+    public int getCheck() {
+        return check;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
+    }
+
+    public void cancelRegister(RegisterEvent r) {
+        if (registerEventFacade.cancelRegister(r)) {
+            check = 1;
+        } else {
+            check = 2;
+        }
+    }
 
     public List<Employee> showEmployeeByEventId(String eventId) {
         return registerEventFacade.findEmployeeByEventId(eventId);
     }
 
     public void onDialogReturn(SelectEvent event) {
-        Employee emp = (Employee) event.getObject(); 
+        Employee emp = (Employee) event.getObject();
         FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Car Selected", "Model:" + emp.toString());
         FacesContext.getCurrentInstance().addMessage(null, facesMessage);
     }
-    
-    public void selectCarFromDialog(Employee employee) {  
-         
+
+    public void selectCarFromDialog(Employee employee) {
     }
-    
     private String selectedEvent;
 
     public String getSelectedEvent() {

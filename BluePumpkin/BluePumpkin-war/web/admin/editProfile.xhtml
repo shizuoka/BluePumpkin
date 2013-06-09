@@ -21,7 +21,7 @@ and open the template in the editor.
             <div class="header">
                 <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                <div class="header_right">Welcome #{sessionScope.admin}, <a href="#" class="settings">Settings</a> 
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
                     <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
 
                 <div class="menu">
@@ -29,10 +29,10 @@ and open the template in the editor.
                         <li><a href="index.xhtml" class="selected">Main page</a></li>
                         <li><a href="addEventType.xhtml">Manager Event</a></li>
                         <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="#">Manger Employee</a></li>
+                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
                         <li><a href="#">Manager Request</a></li>
-                        <li><a href="#">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                        
+                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
+                        <li><a href="statistic.xhtml">Reports</a></li>                         
                     </ul>
                 </div>
 

@@ -149,7 +149,7 @@ and open the template in the editor.
                                                         <td align="center" height="15px"><h:outputText value="Not Yet Accept" style="color: red;"/></td>
                                                     </c:if>
                                                     <td align="center">
-                                                        <h:commandButton value="Cancel" action="#"/>
+                                                        <h:commandButton value="Cancel" action="#{registerBean.cancelRegister(reg)}" rendered="#{reg.isAccept==false}"/>
                                                         <h:inputHidden value="#{reg.registerID}"/>
                                                     </td>                                
                                                 </tr>           
@@ -161,6 +161,16 @@ and open the template in the editor.
                                             </td>
                                         </tr>
                                     </table>
+                                    <h:panelGrid rendered="#{registerBean.check==1}">
+                                        <script>
+                                            alert("You canceled register successful!");
+                                        </script>
+                                    </h:panelGrid>
+                                    <h:panelGrid rendered="#{register.check == 2}">
+                                        <script>
+                                            alert("Cancel Unsuccessful! Please try again.");
+                                        </script>
+                                    </h:panelGrid>
                                 </div>
                             </fieldset>  
                         </c:if>

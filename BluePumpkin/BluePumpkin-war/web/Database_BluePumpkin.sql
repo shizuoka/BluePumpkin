@@ -21,7 +21,7 @@ go
 insert into Employee values('E01','Trung Thanh',1,'Ha Noi','thanhbt_C00411@fpt.aptech.ac.vn','0915382186','10/22/1986', GETDATE())
 insert into Employee values('E02','Quang Phat',1,'Nam Dinh','phatvq_C00491@fpt.aptech.ac.vn','0987654321','05/23/1988', GETDATE())
 insert into Employee values('E03','Van Son',1,'Hai Phong','sonpv_C00388@fpt.aptech.ac.vn','0908070605','06/06/1990', GETDATE())
-insert into Employee values('E04','Thu',1,'Hai Phong','sonpv_C00388@fpt.aptech.ac.vn','0908070605','06/04/1990', GETDATE())
+insert into Employee values('E04','Hoang Viet',1,'Ha Noi','vietvh_C00347@fpt.aptech.ac.vn','1234567890','06/10/1991', GETDATE())
 go
 create table Roles(
 	RoleID int primary key identity(1,1),
@@ -42,9 +42,10 @@ create table Account(
 go
 select * from Account
 go
-insert into Account values('E01','e10adc3949ba59abbe56e057f20f883e',1)
+insert into Account values('E01','e10adc3949ba59abbe56e057f20f883e',2)
 insert into Account values('E02','e10adc3949ba59abbe56e057f20f883e',2)
 insert into Account values('E03','e10adc3949ba59abbe56e057f20f883e',2)
+insert into Account values('E04','e10adc3949ba59abbe56e057f20f883e',1)
 go
 select e.FullName from Employee e inner join Account a on e.EmployeeID=a.UserName 
 go
@@ -111,8 +112,7 @@ go
 --Bảng thông tin về giải thưởng của các sự kiện diễn ra 
 create table Prizes(
 	PrizeID int primary key identity(1,1),
-	PrizeName varchar(30),
-	Weight int,
+	PrizeName varchar(30),	
 	Description ntext,
 	numberOfPrize int,
 	EventID varchar(30) foreign key references Event(EventID) ON DELETE CASCADE ON Update CASCADE

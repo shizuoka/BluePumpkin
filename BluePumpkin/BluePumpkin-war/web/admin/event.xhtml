@@ -21,8 +21,8 @@ and open the template in the editor.
             <div class="header">
                 <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a>
-                <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
+                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
 
                 <div class="menu">
                     <ul>
@@ -163,7 +163,7 @@ and open the template in the editor.
 
                                     <div class="clear"></div>
                                     <c:if test="#{not empty requestScope.add}">
-                                        <h:outputText value="#{requestScope.add}" style="color: red"/>
+                                        <h:outputText value="#{requestScope.add}" style="color: blue"/>
                                     </c:if>
                                 </div>
                             </h:form>

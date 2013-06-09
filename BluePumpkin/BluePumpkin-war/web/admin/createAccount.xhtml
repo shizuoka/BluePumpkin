@@ -19,7 +19,7 @@ and open the template in the editor.
             <div class="header">
                 <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="#" class="settings">Settings</a> 
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
                     <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
 
                 <div class="menu">
@@ -93,8 +93,8 @@ and open the template in the editor.
                                 <tr>
                                     <td>Gender:</td>
                                     <td><h:selectOneRadio value="#{employeeBean.gender}">
-                                            <f:selectItem itemLabel="Male" itemValue="1"></f:selectItem>
-                                            <f:selectItem itemLabel="Female" itemValue="0"></f:selectItem>
+                                            <f:selectItem itemLabel="Male" itemValue="#{true}"></f:selectItem>
+                                            <f:selectItem itemLabel="Female" itemValue="#{false}"></f:selectItem>
                                         </h:selectOneRadio> </td>
                                 </tr>
                                 <tr>

@@ -5,6 +5,7 @@
 package bean;
 
 import entities.Faq;
+import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -16,7 +17,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class FaqBean {
+public class FaqBean implements Serializable{
 
     @EJB
     private FaqFacade faqFacade;
