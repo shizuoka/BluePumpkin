@@ -120,10 +120,10 @@ create table Prizes(
 go
 select * from Prizes
 go
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'Laptop VaiO',1,'EV09')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'Dell',2,'EV09')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'Iphone 5',3,'EV09')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'Galaxy S4',4,'EV09')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('first prize','Laptop VaiO',1,'EV09')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('second prize','Dell',2,'EV09')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('third prize','Iphone 5',3,'EV09')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('consolation prize','Galaxy S4',4,'EV09')
 go
 create table Winners
 (
@@ -134,6 +134,7 @@ create table Winners
 	PrizeID int foreign key references Prizes(PrizeID) ON DELETE CASCADE ON Update CASCADE
 )
 go
+
 create table Comments
 (
 	CommentId int identity primary key,
@@ -160,14 +161,14 @@ insert into RegisterEvent values(GETDATE(),1,'E02','EV09')
 select * from Winners
 select * from Prizes
 go
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'5000$',1,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'3000$',2,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'1000$',3,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'500$',4,'EV03')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('first prize',1,'4000$',1,'EV05')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('second prize',2,'2500$',2,'EV05')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('third prize',3,'1250$',3,'EV05')
-insert into Prizes (PrizeName,Weight,Description,numberOfPrize,EventID) values('consolation prize',4,'350$',4,'EV05')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('first prize','5000$',1,'EV03')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('second prize','3000$',2,'EV03')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('third prize','1000$',3,'EV03')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('consolation prize','500$',4,'EV03')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('first prize','4000$',1,'EV05')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('second prize','2500$',2,'EV05')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('third prize','1250$',3,'EV05')
+insert into Prizes (PrizeName,Description,numberOfPrize,EventID) values('consolation prize','350$',4,'EV05')
 
 insert into Winners values ('Trung Thanh','E01',1,5)
 insert into Winners values ('Quang Phat','E02',0,6)

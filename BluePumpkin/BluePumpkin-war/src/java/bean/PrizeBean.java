@@ -6,7 +6,6 @@ package bean;
 
 import entities.Employee;
 import entities.Prizes;
-import entities.PrizesDetail;
 import entities.RegisterEvent;
 import entities.Winners;
 import java.io.Serializable;
@@ -65,8 +64,7 @@ public class PrizeBean implements Serializable {
     public void setPrize_id(int prize_id) {
         this.prize_id = prize_id;
     }
-    
-   private List<Prizes> listPrizes;
+    private List<Prizes> listPrizes;
 
     public List<Prizes> getListPrizes() {
         return listPrizes;
@@ -74,9 +72,21 @@ public class PrizeBean implements Serializable {
 
     public void setListPrizes(List<Prizes> listPrizes) {
         this.listPrizes = listPrizes;
-    }   
+    }
 
+    private List<Employee> listEmp;
+
+    public List<Employee> getListEmp() {
+        return listEmp;
+    }
+
+    public void setListEmp(List<Employee> listEmp) {
+        this.listEmp = listEmp;
+    }
+    
+        
     public String redirectWinner(String eventID) {
+        setListEmp(registerEventFacade.findEmployeeByEventId(eventID));
         setListPrizes(prizesFacade.getPrize(eventID));
         return "winner.xhtml?faces-redirect=true";
     }
@@ -98,7 +108,6 @@ public class PrizeBean implements Serializable {
         this.pz = pz;
     }
     private String prizeName;
-    private int weight;
     private String description;
     private String numberOfPrize;
 
@@ -108,14 +117,6 @@ public class PrizeBean implements Serializable {
 
     public void setPrizeName(String prizeName) {
         this.prizeName = prizeName;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
     }
 
     public String getDescription() {
@@ -134,8 +135,12 @@ public class PrizeBean implements Serializable {
         this.numberOfPrize = numberOfPrize;
     }
 
+    public List<Prizes> showAllPrize() {
+        return prizesFacade.findAll();
+    }
+
     public void insertPrize(String eventID) {
-        boolean result = prizesFacade.addPrize(prizeName, weight, description, Integer.parseInt(numberOfPrize), eventID);
+        boolean result = prizesFacade.addPrize(prizeName, description, Integer.parseInt(numberOfPrize), eventID);
         if (result) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("msg", "Add New Successfull");
@@ -184,7 +189,4 @@ public class PrizeBean implements Serializable {
             rq.setAttribute("del", "Delete detail UnSuccessful");
         }
     }
-    
-    
-    
 }

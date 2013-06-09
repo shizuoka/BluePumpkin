@@ -3,73 +3,71 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
         <f:view>
-            <h:form>
-                <h1><h:outputText value="List"/></h1>
-                <h:dataTable value="#{prizeBean.listPrizes}" var="item">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="PrizeID"/>
-                        </f:facet>
-                        <h:outputText value="#{item.prizeID}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="PrizeName"/>
-                        </f:facet>
-                        <h:outputText value="#{item.prizeName}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="EventID"/>
-                        </f:facet>
-                        <h:outputText value="#{item.eventID.eventID}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Weight"/>
-                        </f:facet>
-                        <h:outputText value="#{item.weight}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Description"/>
-                        </f:facet>
-                        <h:outputText value="#{item.description}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="NumberOfPrize"/>
-                        </f:facet>
-                        <h:outputText value="#{item.numberOfPrize}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <h:commandButton value="Review" action="#{registerBean.reviewEvent(item.eventID.eventID)}" />
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value=""/>
-                        </f:facet>
-                        <div id="emps_#{item.prizeID}}">
-                            <p:growl id="growl" showDetail="true" />  
+            <h1><h:outputText value="List"/></h1>
+            <table id="rounded-corner">
+                <thead>
+                    <tr>
+                        <th>PrizeID</th>
+                        <th>PrizeName</th>
+                        <th>Number Of Prize</th>
+                        <th>Description</th>
+                        <th>Laureates</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="#{prizeBean.listPrizes}" var="item">
+                        <tr class="odd">
+                            <td>#{item.prizeID}</td>
+                            <td>#{item.prizeName}</td>
+                            <td>#{item.numberOfPrize}</td>
+                            <td>#{item.description}</td>
+                            <td>
+                                <c:forEach items="#{winnerBean.showWinnersByPrize(item.prizeID)}" var="winner">
+                                    #{winner.employeesName}, 
+                                </c:forEach>
+                            </td>
+                            <td><p:commandButton id="modalDialogButton" value="Set Winner" onclick="list_register.show()" type="button"/>
+                                <p:dialog id="modalDialog_#{item.prizeID}" header="Add employee winner" widgetVar="list_register" modal="true" height="auto" width="900">  
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>EmployeeID</th>
+                                                <th>Full Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="#{prizeBean.listEmp}" var="emp">
+                                                <tr class="odd">
+                                                    <td><input type="checkbox" name="emId" value="#{emp.employeeID}" /></td>
+                                                    <td>#{emp.employeeID}</td>
+                                                    <td>#{emp.fullName}</td>
+                                                    <td>#{emp.email}</td>
+                                                    <td>#{emp.phone}</td>
+                                                </tr>  
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                    <h:form>
+                                        <p:commandButton id="submit" value="Submit" onclick="list_register.hide()" type="button"/>
+                                    </h:form>
+                                </p:dialog>
+                            </td>
+                        </tr>  
+                    </c:forEach>
+                </tbody>
+            </table>
 
-                            <p:commandButton value="Select Car" icon="ui-icon-extlink" action="dialog:selectCar">  
-                                <p:ajax event="dialogReturn" listener="#{registerBean.onDialogReturn(event)}" update="growl" />  
-                            </p:commandButton>  
-
-                        </div>
-                    </h:column>
-                </h:dataTable>
-            </h:form>
         </f:view>
 
     </h:body>

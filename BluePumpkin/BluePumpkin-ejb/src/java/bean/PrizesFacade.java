@@ -30,11 +30,11 @@ public class PrizesFacade extends AbstractFacade<Prizes> {
         super(Prizes.class);
     }
 
-    public boolean addPrize(String prizeName, int weight, String description, int numberOfPrize, String eventID) {
+    public boolean addPrize(String prizeName, String description, int numberOfPrize, String eventID) {
         boolean flag = false;
         try {
             Event ev = em.find(Event.class, eventID);
-            Prizes p = new Prizes(weight, description, numberOfPrize, prizeName, ev);
+            Prizes p = new Prizes(description, numberOfPrize, prizeName, ev);
             em.persist(p);
             flag = true;
         } catch (Exception e) {

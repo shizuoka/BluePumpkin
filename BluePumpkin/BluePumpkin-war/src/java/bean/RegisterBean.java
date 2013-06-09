@@ -95,14 +95,6 @@ public class RegisterBean implements Serializable {
         return registerEventFacade.findEmployeeByEventId(eventId);
     }
 
-    public void onDialogReturn(SelectEvent event) {
-        Employee emp = (Employee) event.getObject();
-        FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO, "Car Selected", "Model:" + emp.toString());
-        FacesContext.getCurrentInstance().addMessage(null, facesMessage);
-    }
-
-    public void selectCarFromDialog(Employee employee) {
-    }
     private String selectedEvent;
 
     public String getSelectedEvent() {

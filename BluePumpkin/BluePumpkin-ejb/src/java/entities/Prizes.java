@@ -35,9 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Prizes.findByPrizeID", query = "SELECT p FROM Prizes p WHERE p.prizeID = :prizeID"),
     @NamedQuery(name = "Prizes.findByPrizeName", query = "SELECT p FROM Prizes p WHERE p.prizeName = :prizeName")})
 public class Prizes implements Serializable {
-    @Column(name = "Weight")
-    private Integer weight;
-    @Size(max = 1073741823)
     @Column(name = "Description")
     private String description;
     @Column(name = "numberOfPrize")
@@ -66,8 +63,7 @@ public class Prizes implements Serializable {
         this.prizeID = prizeID;
     }
 
-    public Prizes(Integer weight, String description, Integer numberOfPrize, String prizeName, Event eventID) {
-        this.weight = weight;
+    public Prizes(String description, Integer numberOfPrize, String prizeName, Event eventID) {
         this.description = description;
         this.numberOfPrize = numberOfPrize;
         this.prizeName = prizeName;
@@ -130,14 +126,6 @@ public class Prizes implements Serializable {
     @Override
     public String toString() {
         return "entities.Prizes[ prizeID=" + prizeID + " ]";
-    }
-
-    public Integer getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Integer weight) {
-        this.weight = weight;
     }
 
     public String getDescription() {

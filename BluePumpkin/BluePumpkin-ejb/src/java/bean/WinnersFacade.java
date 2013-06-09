@@ -62,4 +62,9 @@ public class WinnersFacade extends AbstractFacade<Winners> {
         return flag;
     }
     
+    public List<Winners> showWinnersByPrize(String prizeID) {
+        return em.createQuery("select w from Winners w where w.prizeID.prizeID = :prizeID")
+                .setParameter("prizeID", prizeID).getResultList();
+    }
+    
 }
