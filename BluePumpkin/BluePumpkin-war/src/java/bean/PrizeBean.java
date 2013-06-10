@@ -37,6 +37,17 @@ public class PrizeBean implements Serializable {
      */
     public PrizeBean() {
     }
+    
+    private List<Prizes> filteredPrizes;
+
+    public List<Prizes> getFilteredPrizes() {
+        return filteredPrizes;
+    }
+
+    public void setFilteredPrizes(List<Prizes> filteredPrizes) {
+        this.filteredPrizes = filteredPrizes;
+    }
+    
     private String employeeName;
 
     public String getEmployeeName() {

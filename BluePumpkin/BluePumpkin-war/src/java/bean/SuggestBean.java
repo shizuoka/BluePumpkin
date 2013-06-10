@@ -30,6 +30,16 @@ public class SuggestBean implements Serializable {
      */
     public SuggestBean() {
     }
+    private List<RegisterEvent> filteredRegister;
+
+    public List<RegisterEvent> getFilteredRegister() {
+        return filteredRegister;
+    }
+
+    public void setFilteredRegister(List<RegisterEvent> filteredRegister) {
+        this.filteredRegister = filteredRegister;
+    }
+    
     private String state;
 
     public String getState() {

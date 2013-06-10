@@ -35,6 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Prizes.findByPrizeID", query = "SELECT p FROM Prizes p WHERE p.prizeID = :prizeID"),
     @NamedQuery(name = "Prizes.findByPrizeName", query = "SELECT p FROM Prizes p WHERE p.prizeName = :prizeName")})
 public class Prizes implements Serializable {
+    @Column(name = "IsWin")
+    private Boolean isWin;
     @Column(name = "Description")
     private String description;
     @Column(name = "numberOfPrize")
@@ -151,6 +153,14 @@ public class Prizes implements Serializable {
 
     public void setWinnersList(List<Winners> winnersList) {
         this.winnersList = winnersList;
+    }
+
+    public Boolean getIsWin() {
+        return isWin;
+    }
+
+    public void setIsWin(Boolean isWin) {
+        this.isWin = isWin;
     }
     
 }

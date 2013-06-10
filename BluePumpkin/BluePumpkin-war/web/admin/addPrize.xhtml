@@ -41,38 +41,52 @@ and open the template in the editor.
 
                 <div id="right_wrap">
                     <div id="right_content">             
-                        <h2>Tables Prizes Event</h2> 
-                        <table id="rounded-corner">
-                            <thead>
-                                <tr>                                    
-                                    <th>Event</th>
-                                    <th>PrizeName</th>                                    
-                                    <th>Description</th>                                    
-                                    <th>Number</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <c:forEach items="#{prizeBean.showAllPrize()}" var="prize">
-                                    <tr class="odd">                                        
-                                        <td>#{prize.eventID.eventID}</td>
-                                        <td>#{prize.prizeName}</td>                                        
-                                        <td>#{prize.description}</td> 
-                                        <td>#{prize.numberOfPrize}</td>                                          
-                                        <h:form>
-                                            <td><h:commandButton action="#" image="../images/icon/edit.png" title=""/></td>
-                                            <td><h:commandButton action="#" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/></td>                                        
-                                        </h:form>
-                                    </tr>  
-                                </c:forEach>
-                            </tbody>
-                        </table>                        
+                        <h:form>  
+
+                            <p:dataTable id="prizeTable" var="prize" value="#{prizeBean.showAllPrize()}" widgetVar="prizesTable"   
+                                         emptyMessage="No prize found with given criteria" filteredValue="#{prizeBean.filteredPrizes}"
+                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
+                                <f:facet name="header">  
+                                    Tables Prizes Event
+                                </f:facet>
+
+                                <f:facet name="header">  
+                                    <p:outputPanel>  
+                                        <h:outputText value="Search all fields:" />  
+                                        <p:inputText id="globalFilter" onkeyup="prizesTable.filter()" style="width:150px" />  
+                                    </p:outputPanel>  
+                                </f:facet>  
+
+                                <p:column id="eventColumn" filterBy="#{prize.eventID.eventID}"   
+                                          headerText="Event" filterMatchMode="contains" sortBy="#{prize.eventID.eventID}">  
+                                    <h:outputText value="#{prize.eventID.eventID}" />  
+                                </p:column>  
+
+                                <p:column id="prizeNameColumn" filterBy="#{prize.prizeName}"  
+                                          headerText="PrizeName" sortBy="#{prize.prizeName}">  
+                                    <h:outputText value="#{prize.prizeName}" />  
+                                </p:column>  
+
+                                <p:column id="descriptionColumn" headerText="Description" filterBy="#{prize.description}"
+                                          sortBy="#{prize.description}">  
+                                    <h:outputText value="#{prize.description}" /> 
+                                </p:column>  
+
+                                <p:column id="numberColumn" headerText="Number" sortBy="#{prize.numberOfPrize}">  
+                                    <h:outputText value="#{prize.numberOfPrize}"/>  
+                                </p:column>  
+
+                                <p:column id="editColumn" headerText="Edit">  
+                                    <h:commandButton action="#" image="../images/icon/edit.png" title=""/>
+                                </p:column>
+
+                                <p:column id="delColumn" headerText="Delete">  
+                                    <h:commandButton action="#" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
+                                </p:column>
+                            </p:dataTable>  
+
+                        </h:form>                       
 
                         <ul id="tabsmenu" class="tabsmenu">
                             <li class="active"><a href="#tab1">Form Edit</a></li>

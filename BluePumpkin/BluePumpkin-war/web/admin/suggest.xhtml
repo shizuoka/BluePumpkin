@@ -7,7 +7,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Management Suggest Page</title>
         <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
@@ -41,36 +42,44 @@ and open the template in the editor.
                 <div id="right_wrap">
                     <div id="right_content"> 
                         <h:form>
-                            <h2>Tables Event Type</h2> 
-                            <table id="rounded-corner">
-                                <thead>
-                                    <tr>                                    
-                                        <th>Event</th>
-                                        <th>Employee</th>                                    
-                                        <th>RegisterDate</th>                                    
-                                        <th>State</th>
-                                        <th>Accept</th>
-                                    </tr>
-                                </thead>
+                            <p:dataTable id="suggestTable" var="suggest" value="#{suggestBean.showNotAcceptRegister()}" widgetVar="suggestsTable"   
+                                         emptyMessage="No register found with given criteria" filteredValue="#{suggestBean.filteredRegister}"
+                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
+                                <f:facet name="header">  
+                                    Suggest Register Event
+                                </f:facet>
 
-                                <tbody>
-                                    <c:forEach items="#{suggestBean.showNotAcceptRegister()}" var="suggest">
-                                        <tr class="odd">                                        
-                                            <td>#{suggest.eventID.eventTitle}</td>
-                                            <td>#{suggest.employeeID.fullName}</td>                                        
-                                            <td><h:outputText value="#{suggest.registerDate}">
-                                                    <f:convertDateTime pattern="MM/dd/yyyy"/>
-                                                </h:outputText></td> 
-                                            <td><c:if test="#{suggest.isAccept==false}">
-                                                    <h:outputText value="Not Yet Accept" style="color: red"/>  
-                                                </c:if></td> 
-                                            <td><h:commandButton value="Accept" action="#{suggestBean.acceptRegist(suggest.registerID)}"/></td>                                        
-                                        </tr>  
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                                <f:facet name="header">  
+                                    <p:outputPanel>  
+                                        <h:outputText value="Search all fields:" />  
+                                        <p:inputText id="globalFilter" onkeyup="prizesTable.filter()" style="width:150px" />  
+                                    </p:outputPanel>  
+                                </f:facet>  
+
+                                <p:column id="eventColumn" filterBy="#{suggest.eventID.eventTitle}"   
+                                          headerText="Event" filterMatchMode="contains" sortBy="#{suggest.eventID.eventTitle}">  
+                                    <h:outputText value="#{suggest.eventID.eventTitle}" />  
+                                </p:column>  
+
+                                <p:column id="employeeColumn" filterBy="#{suggest.employeeID.fullName}"  
+                                          headerText="Employee" filterMatchMode="startsWith" sortBy="#{suggest.employeeID.fullName}">  
+                                    <h:outputText value="#{suggest.employeeID.fullName}" />  
+                                </p:column>  
+
+                                <p:column id="registerDateColumn" headerText="RegisterDate" sortBy="#{suggest.registerDate}">  
+                                    <h:outputText value="#{suggest.registerDate}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                    </h:outputText>
+                                </p:column>  
+
+                                <p:column id="actionColumn" headerText="Action">  
+                                    <h:commandButton value="Accept" action="#{suggestBean.acceptRegist(suggest.registerID)}"/>
+                                </p:column>
+
+                            </p:dataTable>  
                             <c:if test="#{not empty requestScope.msg}">                                
-                                    <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>                                
+                                <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>                                
                             </c:if>
                         </h:form>             
 

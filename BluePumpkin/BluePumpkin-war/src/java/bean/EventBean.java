@@ -54,6 +54,16 @@ public class EventBean implements Serializable {
      */
     public EventBean() {
     }
+    private List<Event> filteredEvents;
+
+    public List<Event> getFilteredEvents() {
+        return filteredEvents;
+    }
+
+    public void setFilteredEvents(List<Event> filteredEvents) {
+        this.filteredEvents = filteredEvents;
+    }    
+    
     private String eventID;
 
     public String getEventID() {

@@ -42,55 +42,78 @@ and open the template in the editor.
 
                 <div id="right_wrap">
                     <div id="right_content">             
-                        <h2>Tables Event</h2> 
+                        <h:form>  
 
-                        <table id="rounded-corner">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>EventID</th>
-                                    <th>Title</th>
-                                    <th>Image</th>
-                                    <th>Description</th>
-                                    <th>StartDate</th>
-                                    <th>EndDate</th>
-                                    <th>Status</th>
-                                    <th>Type</th>
-                                    <th>Add Prize</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <c:forEach items="#{eventBean.showAll()}" var="event">
-                                    <tr class="odd">
-                                        <td><input type="checkbox" name="" /></td>
-                                        <td>#{event.eventID}</td>
-                                        <td>#{event.eventTitle}</td>
-                                        <td><h:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>  </td>
-                                        <td>#{event.description}</td>
-                                        <td><h:outputText value="#{event.startDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td><h:outputText value="#{event.endDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td>#{event.status}</td>
-                                        <td>#{event.eventTypeID.eventTypeName}</td>
-                                        <h:form>
-                                            <td><h:commandButton action="#{eventBean.redirectInsertPrize(event.eventID)}" image="../images/icon/prize.jpg" style="width: 16px;height: 16px"/></td>
-                                            <td><h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/></td>
-                                            <td><h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/></td>                                        
-                                        </h:form>
-                                    </tr>  
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                            <p:dataTable id="dataTable" var="event" value="#{eventBean.showAll()}" widgetVar="eventsTable"   
+                                         emptyMessage="No event found with given criteria" filteredValue="#{eventBean.filteredEvents}"
+                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" >  
+                                <f:facet name="header">  
+                                    Tables Event 
+                                </f:facet>  
+
+                                <f:facet name="header">  
+                                    <p:outputPanel>  
+                                        <h:outputText value="Search all fields:" />  
+                                        <p:inputText id="globalFilter" onkeyup="eventsTable.filter()" style="width:150px" />  
+                                    </p:outputPanel>  
+                                </f:facet>  
+
+                                <p:column id="eventIDColumn" filterBy="#{event.eventID}"   
+                                          headerText="EventID" filterMatchMode="contains" sortBy="#{event.eventID}">  
+                                    <h:outputText value="#{event.eventID}" />  
+                                </p:column>  
+
+                                <p:column id="titleColumn" filterBy="#{event.eventTitle}"  
+                                          headerText="Title" filterMatchMode="startsWith" sortBy="#{event.eventTitle}">  
+                                    <h:outputText value="#{event.eventTitle}" />  
+                                </p:column>  
+
+                                <p:column id="imageColumn" headerText="Image">  
+                                    <p:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>
+                                </p:column>  
+
+                                <p:column id="descriptionColumn" headerText="Description">  
+                                    <h:outputText value="#{event.description}" />  
+                                </p:column>  
+
+                                <p:column id="startDateColumn" headerText="StartDate" sortBy="#{event.startDate}">  
+                                    <h:outputText value="#{event.startDate}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column id="endDateColumn" headerText="EndDate" sortBy="#{event.endDate}">  
+                                    <h:outputText value="#{event.endDate}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column id="statusColumn" headerText="Status" filterBy="#{event.status}"
+                                          filterMatchMode="startsWith" sortBy="#{event.status}">  
+                                    <h:outputText value="#{event.status}"/>                                    
+                                </p:column>
+
+                                <p:column id="typeColumn" headerText="Type" filterBy="#{event.eventTypeID.eventTypeName}"
+                                          filterMatchMode="contains" sortBy="#{event.eventTypeID.eventTypeName}">  
+                                    <h:outputText value="#{event.eventTypeID.eventTypeName}" />  
+                                </p:column>
+
+                                <p:column id="addPrizeColumn" headerText="AddPrize">  
+                                    <h:commandButton action="#{eventBean.redirectInsertPrize(event.eventID)}" image="../images/icon/prize.jpg" style="width: 16px;height: 16px"/> 
+                                </p:column>
+
+                                <p:column id="editColumn" headerText="Edit">  
+                                    <h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/>  
+                                </p:column>
+
+                                <p:column id="delColumn" headerText="Delete">  
+                                    <h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/> 
+                                </p:column>
+                            </p:dataTable>  
+
+                        </h:form> 
+
                         <c:if test="#{not empty requestScope.del}">
                             <h:outputText value="#{requestScope.del}" style="color: red"/>
                         </c:if>
