@@ -4,6 +4,7 @@
  */
 package bean;
 
+import entities.Employee;
 import entities.Winners;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -28,7 +30,7 @@ public class WinnerBean implements Serializable{
     public WinnerBean() {
     }
     
-    private List<Winners> listWinner;
+    private List<Winners> listWinner = new ArrayList<Winners>();
 
     public List<Winners> getListWinner() {
         return listWinner;
@@ -38,9 +40,19 @@ public class WinnerBean implements Serializable{
         this.listWinner = listWinner;
     }
     
-    public List<Winners> showWinnersByPrize(String prize){
-            listWinner = new ArrayList<Winners>();
+    public List<Winners> showWinnersByPrize(int prize){
             listWinner = winnersFacade.showWinnersByPrize(prize);
             return listWinner;
     }
+    
+    private List<String> seletedEmID;
+
+    public List<String> getSeletedEmID() {
+        return seletedEmID;
+    }
+
+    public void setSeletedEmID(List<String> seletedEmID) {
+        this.seletedEmID = seletedEmID;
+    }
+    
 }

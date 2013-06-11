@@ -14,6 +14,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -101,6 +102,20 @@ public class PrizeBean implements Serializable {
         setListPrizes(prizesFacade.getPrize(eventID));
         return "winner.xhtml?faces-redirect=true";
     }
+    
+    private Employee[] selectedEmployees;
+
+    public Employee[] getSelectedEmployees() {
+        return selectedEmployees;
+    }
+
+    public void setSelectedEmployees(Employee[] selectedEmployees) {
+        this.selectedEmployees = selectedEmployees;
+    }
+    
+    public void saveWin(ActionEvent actionEvent) {  
+        
+    }  
 
     public List<RegisterEvent> showAllRegister() {
         return registerEventFacade.findAll();
