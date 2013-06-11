@@ -30,6 +30,17 @@ public class EventTypeBean implements Serializable {
      */
     public EventTypeBean() {
     }
+    
+    private List<EventType> filteredType;
+
+    public List<EventType> getFilteredType() {
+        return filteredType;
+    }
+
+    public void setFilteredType(List<EventType> filteredType) {
+        this.filteredType = filteredType;
+    }
+    
     private String eventTypeID;
 
     public String getEventTypeID() {

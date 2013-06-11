@@ -27,6 +27,16 @@ public class FaqBean implements Serializable{
     private int faqId;
     private Faq faq;
 
+    private List<Faq> filteredFAQ;
+
+    public List<Faq> getFilteredFAQ() {
+        return filteredFAQ;
+    }
+
+    public void setFilteredFAQ(List<Faq> filteredFAQ) {
+        this.filteredFAQ = filteredFAQ;
+    }    
+    
     public Faq getFaq() {
         return faq;
     }

@@ -7,7 +7,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>View FAQ Page</title>
         <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
@@ -42,28 +43,37 @@ and open the template in the editor.
                     <div id="right_content"> 
                         <h2>Tables FAQ</h2> 
                         <h:form>
-                            <table id="rounded-corner">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Faqid</th>
-                                        <th>Question</th>
-                                        <th>Answer</th>                                    
-                                        <th>Edit</th>                                    
-                                    </tr>
-                                </thead>                            
-                                <tbody>
-                                    <c:forEach items="#{faqBean.showAllFaqs()}" var="faq">
-                                        <tr class="odd">
-                                            <td><input type="checkbox" name="" /></td>
-                                            <td>#{faq.faqid}</td>
-                                            <td>#{faq.question}</td>                                        
-                                            <td>#{faq.answer}</td>                                                                                
-                                            <td><h:commandButton action="#{faqBean.editFaq(faq)}" image="../images/icon/edit.png" title=""/></td>                                                                                                                              
-                                        </tr>  
-                                    </c:forEach>
-                                </tbody>
-                            </table>
+                            <p:dataTable id="faqTable" var="faq" value="#{faqBean.showAllFaqs()}" widgetVar="faqsTable"   
+                                         emptyMessage="No FAQs found with given criteria" filteredValue="#{faqBean.filteredFAQ}"
+                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" >
+                                <f:facet name="header">  
+                                    <p:outputPanel>  
+                                        <h:outputText value="Search all fields:" />  
+                                        <p:inputText id="globalFilter" onkeyup="faqsTable.filter()" style="width:150px" />  
+                                    </p:outputPanel>  
+                                </f:facet>
+
+                                <p:column id="faqidColumn" filterBy="#{faq.faqid}"   
+                                          headerText="Faqid" filterMatchMode="contains" sortBy="#{faq.faqid}">  
+                                    <h:outputText value="#{faq.faqid}" />  
+                                </p:column>  
+
+                                <p:column id="questionColumn" filterBy="#{faq.question}"  
+                                          headerText="Question" filterMatchMode="contains" sortBy="#{faq.question}">  
+                                    <h:outputText value="#{faq.question}" />  
+                                </p:column>
+
+                                <p:column id="answerColumn" filterBy="#{faq.answer}"  
+                                          headerText="Answer" filterMatchMode="contains" sortBy="#{faq.answer}">  
+                                    <h:outputText value="#{faq.answer}" />  
+                                </p:column>
+
+                                <p:column id="editFaqColumn" headerText="Edit">  
+                                    <h:commandButton action="#{faqBean.editFaq(faq)}" image="../images/icon/edit.png" title=""/>
+                                </p:column>                                
+
+                            </p:dataTable>
                             <h1><h:commandLink value="Add new faq" action="addFAQ.xhtml"/></h1> 
                         </h:form>
                     </div>

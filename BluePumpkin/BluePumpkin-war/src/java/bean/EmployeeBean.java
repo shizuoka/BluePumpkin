@@ -48,6 +48,17 @@ public class EmployeeBean implements Serializable {
     public EmployeeBean() {
         comment = new Comments();
     }
+    
+    private List<Account> filteredAccounts;
+
+    public List<Account> getFilteredAccounts() {
+        return filteredAccounts;
+    }
+
+    public void setFilteredAccounts(List<Account> filteredAccounts) {
+        this.filteredAccounts = filteredAccounts;
+    }
+    
     private String notification;
 
     public String getNotification() {
@@ -265,5 +276,14 @@ public class EmployeeBean implements Serializable {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("msg", "Delete EmpID " + emp.getEmployeeID() + " UnSuccessful !!!");
         }
+    }
+    
+    public void reset(){
+        employeeID="";
+        fullName="";
+        address="";
+        email="";
+        dateOfBirth=null;
+        phone="";        
     }
 }

@@ -7,7 +7,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Add New Event Type</title>
         <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
@@ -41,36 +42,43 @@ and open the template in the editor.
                 <div id="right_wrap">
                     <div id="right_content">             
                         <h2>Tables Event Type</h2> 
-                        <table id="rounded-corner">
-                            <thead>
-                                <tr>                                    
-                                    <th>EventType ID</th>
-                                    <th>EventType Name</th>                                    
-                                    <th>Description</th>                                    
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <c:forEach items="#{eventTypeBean.showAllEventType()}" var="eventType">
-                                    <tr class="odd">                                        
-                                        <td>#{eventType.eventTypeID}</td>
-                                        <td>#{eventType.eventTypeName}</td>                                        
-                                        <td>#{eventType.descriptionType}</td>                                        
-                                        <h:form>
-                                            <td><h:commandButton action="#" image="../images/icon/edit.png" title=""/></td>
-                                            <td><h:commandButton action="#" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/></td>                                        
-                                        </h:form>
-                                    </tr>  
-                                </c:forEach>
-                            </tbody>
-                        </table>                        
+                        <h:form>
+                            <p:dataTable id="eventTypeTable" var="eventType" value="#{eventTypeBean.showAllEventType()}" widgetVar="eventTypeTable"   
+                                         emptyMessage="No event type found with given criteria" filteredValue="#{eventTypeBean.filteredType}"
+                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" >
+                                <f:facet name="header">  
+                                    <p:outputPanel>  
+                                        <h:outputText value="Search all fields:" />  
+                                        <p:inputText id="globalFilter" onkeyup="eventTypeTable.filter()" style="width:150px" />  
+                                    </p:outputPanel>  
+                                </f:facet>
 
+                                <p:column id="eventTypeIDColumn" filterBy="#{eventType.eventTypeID}"   
+                                          headerText="EventType ID" filterMatchMode="contains" sortBy="#{eventType.eventTypeID}">  
+                                    <h:outputText value="#{eventType.eventTypeID}" />  
+                                </p:column>  
+
+                                <p:column id="eventTypeNameColumn" filterBy="#{eventType.eventTypeName}"  
+                                          headerText="EventType Name" filterMatchMode="startsWith" sortBy="#{eventType.eventTypeName}">  
+                                    <h:outputText value="#{eventType.eventTypeName}" />  
+                                </p:column>
+
+                                <p:column id="descriptionTypeColumn" filterBy="#{eventType.descriptionType}"  
+                                          headerText="Description" filterMatchMode="contains" sortBy="#{eventType.descriptionType}">  
+                                    <h:outputText value="#{eventType.descriptionType}" />  
+                                </p:column>
+
+                                <p:column id="editTypeColumn" headerText="Edit">  
+                                    <h:commandButton action="#" image="../images/icon/edit.png" title=""/>
+                                </p:column>
+                                
+                                <p:column id="delTypeColumn" headerText="Delete">  
+                                    <h:commandButton action="#" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </h:form>
                         <ul id="tabsmenu" class="tabsmenu">
                             <li class="active"><a href="#tab1">Form Edit Type</a></li>
                             <li><a href="#tab2">Tab Add Type</a></li>                            

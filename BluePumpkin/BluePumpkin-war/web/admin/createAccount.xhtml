@@ -7,7 +7,8 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Create Account Page</title>
         <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
@@ -42,89 +43,110 @@ and open the template in the editor.
                     <div id="right_content">             
                         <h2>View All Account</h2> 
                         <h:form>
-                            <h1><h:outputText value="List"/></h1>
-                            <h:dataTable value="#{employeeBean.showAllAccount()}" var="item">
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="AccountID"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.accountID}"/>
-                                </h:column>                    
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Role"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.roleID.roleName}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="EmployeeID"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.userName.employeeID}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Name"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.userName.fullName}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Action"/>
-                                    </f:facet>
-                                    <h:commandButton value="Delete" action="#{accountBean.deleteAccountEmp(item)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
-                                </h:column>
-                            </h:dataTable>
+                            <p:dataTable id="accountTable" var="account" value="#{employeeBean.showAllAccount()}" widgetVar="accountsTable"   
+                                         emptyMessage="No account found with given criteria" filteredValue="#{employeeBean.filteredAccounts}"
+                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" >
+                                <f:facet name="header">  
+                                    <p:outputPanel>  
+                                        <h:outputText value="Search all fields:" />  
+                                        <p:inputText id="globalFilter" onkeyup="accountsTable.filter()" style="width:150px" />  
+                                    </p:outputPanel>  
+                                </f:facet>  
+
+                                <p:column id="accountIDColumn" filterBy="#{account.accountID}"   
+                                          headerText="AccountID" filterMatchMode="contains" sortBy="#{account.accountID}">  
+                                    <h:outputText value="#{account.accountID}" />  
+                                </p:column>  
+
+                                <p:column id="roleColumn" filterBy="#{account.roleID.roleName}"  
+                                          headerText="Role" filterMatchMode="startsWith" sortBy="#{account.roleID.roleName}">  
+                                    <h:outputText value="#{account.roleID.roleName}" />  
+                                </p:column>
+
+                                <p:column id="employeeIDColumn" filterBy="#{account.userName.employeeID}"  
+                                          headerText="EmployeeID" filterMatchMode="contains" sortBy="#{account.userName.employeeID}">  
+                                    <h:outputText value="#{account.userName.employeeID}" />  
+                                </p:column>
+
+                                <p:column id="fullNameColumn" filterBy="#{account.userName.fullName}"  
+                                          headerText="Name" filterMatchMode="contains" sortBy="#{account.userName.fullName}">  
+                                    <h:outputText value="#{account.userName.fullName}" />  
+                                </p:column>
+
+                                <p:column id="delColumn" headerText="Delete">  
+                                    <h:commandButton action="#{accountBean.deleteAccountEmp(account)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/> 
+                                </p:column>
+
+                            </p:dataTable>
                         </h:form>
                         <c:if test="#{not empty requestScope.msg}">
                             <h:outputText value="#{requestScope.msg}" style="color: blue"/>
                         </c:if>
 
                         <h:form>
-                            <table>
+                            <table style="margin: 0 auto;">
                                 <tr>
-                                    <td>EmployeeID:</td>
-                                    <td><h:inputText value="#{employeeBean.employeeID}"/></td>
+                                    <td colspan="3" style="text-align: center;"><h2>Create New Account</h2></td>
+                                </tr>
+                                <tr>
+                                    <td>EmployeeID: </td>
+                                    <td><p:inputText size="30" value="#{employeeBean.employeeID}"/></td>                                    
                                 </tr>
                                 <tr>
                                     <td>FullName:</td>
-                                    <td><h:inputText value="#{employeeBean.fullName}"/></td>
+                                    <td><p:inputText size="30" value="#{employeeBean.fullName}"/></td>                                    
                                 </tr>
                                 <tr>
                                     <td>Gender:</td>
-                                    <td><h:selectOneRadio value="#{employeeBean.gender}">
+                                    <td>
+                                        <h:selectOneRadio value="#{employeeBean.gender}">
                                             <f:selectItem itemLabel="Male" itemValue="#{true}"></f:selectItem>
                                             <f:selectItem itemLabel="Female" itemValue="#{false}"></f:selectItem>
-                                        </h:selectOneRadio> </td>
+                                        </h:selectOneRadio> 
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Address</td>
-                                    <td><h:inputText value="#{employeeBean.address}"/></td>
+                                    <td>Address: </td>
+                                    <td><p:inputText size="30" value="#{employeeBean.address}"/></td>                                    
                                 </tr>
                                 <tr>
-                                    <td>Email</td>
-                                    <td><h:inputText value="#{employeeBean.email}"/></td>
+                                    <td>Email: </td>
+                                    <td><p:inputText size="30" value="#{employeeBean.email}" id="txtEmail" validatorMessage="Email not valid!" >
+                                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                        </p:inputText>
+                                    </td>
+                                    <td>
+                                        <p:message for="txtEmail" display="text"/>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Phone</td>
-                                    <td><h:inputText value="#{employeeBean.phone}"/></td>
+                                    <td>Date Of Birth: </td>
+                                    <td>
+                                        <p:calendar value="#{employeeBean.dateOfBirth}" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                                    </td>                                    
                                 </tr>
+
                                 <tr>
-                                    <td>Date Of Birth</td>
-                                    <td><h:inputText value="#{employeeBean.dateOfBirth}">
-                                            <f:convertDateTime pattern="MM/dd/yyyy"/>
-                                        </h:inputText></td>
+                                    <td>Phone number: </td>
+                                    <td><p:inputText size="30" value="#{employeeBean.phone}" /></td>
                                 </tr>
+                                
                                 <tr>
                                     <td>Role</td>
                                     <td><h:selectOneMenu value="#{employeeBean.chooseRole}">
                                             <f:selectItems value="#{employeeBean.showAllRole()}" var="role" itemLabel="#{role.roleName}" itemValue="#{role.roleID}"/>
                                         </h:selectOneMenu></td>
                                 </tr>
+                                
                                 <tr>
-                                    <td colspan="2"><h:commandButton value="Create" action="#{employeeBean.createEmpAccount()}"/></td>
+                                    <td></td>
+                                    <td>
+                                        <h:commandButton value="Create" action="#{employeeBean.createEmpAccount()}"/>
+                                        <h:commandButton value="Reset" action="#{employeeBean.reset()}"/>
+                                    </td>
                                 </tr>
-                            </table>               
+                            </table>            
                             <c:if test="#{not empty requestScope.add}">                                
                                 <h:outputText value="#{requestScope.add}" style="color: blue;text-align: center"/>                                
                             </c:if>

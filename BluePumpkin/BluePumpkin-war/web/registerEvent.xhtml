@@ -6,16 +6,18 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
         <title>Regiter Event Page</title>
         <script type="text/javascript" src="LightboxJS/prototype.js"></script>
         <script type="text/javascript" src="LightboxJS/scriptaculous.js?load=effects,builder"></script>
         <script type="text/javascript" src="LightboxJS/lightbox.js"></script>
-        
+
         <link rel="stylesheet" href="css/styleTable.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="css/lightbox.css" type="text/css" media="screen" />
-        
+
         <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
         <link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -129,51 +131,21 @@ and open the template in the editor.
                             <fieldset style="text-align: left" >
                                 <legend><h3>Register Event</h3></legend>
                                 <div align="center">
-                                    <c:forEach items="#{eventBean.showAll()}" var="event">
-                                        <table width="650" id="rounded-corner">
-                                            <tr>
-                                                <th colspan="2" align="center"><h4><h:outputLabel value="#{event.eventTitle}"/></h4></th>
-                                            </tr>
-                                            <tr>
+                                    <p:dataGrid var="event" value="#{eventBean.showAll()}" columns="2"  
+                                                rows="10" paginator="true"  
+                                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                                rowsPerPageTemplate="5,10,15">  
+                                        <p:panel header="#{event.eventTitle}" style="text-align:center">  
+                                            <h:panelGrid columns="1" style="width:100%">  
+                                                <p:graphicImage value="images/event/#{event.image}" style="width: 140px;height: 140px"/>   
 
-                                                <td>
-                                                    <table>
-                                                        <tbody>
+                                                <h:outputText value="#{event.description}" />  
 
-                                                            <tr>
-                                                                <td>
-                                                                    <a href="#{event.image}" rel="lightbox">
-                                                                        <img title="Click to zoom" src="images/event/#{event.image}" width="140" height="140"/>
-                                                                    </a>
-                                                                </td>
-                                                                <td>
-                                                                    <table>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td width="450" align="left">#{event.description}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td align="right">
-                                                                                    <h:commandLink value="Detail" action="#{eventBean.detailEvent(event.eventID)}" onclick="new Effect.Highlight(this.parentNode, { startcolor: '#dddddd',
-                                                                                        endcolor: '#ffffff' })"/>                                                                                                                             
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>                            
-                                            </tr>
-
-                                            <tr>
-                                                <td colspan="6">                                
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <br/>
-                                    </c:forEach>
+                                                <p:commandLink value="Detail" action="#{eventBean.detailEvent(event.eventID)}" onclick="new Effect.Highlight(this.parentNode, { startcolor: '#dddddd',
+                                                    endcolor: '#ffffff' })"/>  
+                                            </h:panelGrid>  
+                                        </p:panel>  
+                                    </p:dataGrid>
                                 </div>
 
                             </fieldset>
