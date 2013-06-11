@@ -30,7 +30,6 @@ public class EventTypeBean implements Serializable {
      */
     public EventTypeBean() {
     }
-    
     private List<EventType> filteredType;
 
     public List<EventType> getFilteredType() {
@@ -40,7 +39,6 @@ public class EventTypeBean implements Serializable {
     public void setFilteredType(List<EventType> filteredType) {
         this.filteredType = filteredType;
     }
-    
     private String eventTypeID;
 
     public String getEventTypeID() {
@@ -83,30 +81,33 @@ public class EventTypeBean implements Serializable {
         boolean result = eventTypeFacade.addEventType(et);
         if (result) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Add EventType Successfull !!!");
-//            message = "Add EventType Successfull !!!";
-//            return "addEventType.xhtml?result=" + message + "&faces-redirect=true";
+            rq.setAttribute("add", "Add EventType Successfull !!!");
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Add EventType Unsuccessfull !!!");
-//            message = "Unsuccessfull !!!";
-//            return "addEventType.xhtml?result=" + message + "&faces-redirect=true";
+            rq.setAttribute("add", "Add EventType Unsuccessfull !!!");
         }
         return "addEventType.xhtml";
     }
 
     public String deleteEventType(EventType et) {
-        boolean delete = eventTypeFacade.deleteEventType(et);
-        if (delete) {
+        try {
+            long countEvent = eventTypeFacade.countEventOfType(et.getEventTypeID());
+            if (countEvent < 1) {
+                boolean delete = eventTypeFacade.deleteEventType(et);
+                if (delete) {
+                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                    rq.setAttribute("del", "Delete EventType Successfull !!!");
+                } else {
+                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                    rq.setAttribute("del", "Delete EventType UnSuccessfull !!!");
+                }
+            } else {
+                rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                rq.setAttribute("error", "Can't delete event type!!!");
+            }
+        } catch (Exception e) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete EventType Successfull !!!");
-//            message = "Delete EventType Successfull";
-//            return "addEventType.xhtml?result=" + message + "&faces-redirect=true";
-        } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete EventType UnSuccessfull !!!");
-//            message = "Delete UnSuccessfull";
-//            return "addEventType.xhtml?result=" + message + "&faces-redirect=true";
+            rq.setAttribute("error", "Delete Fail!!!");
         }
         return "addEventType.xhtml";
     }

@@ -73,9 +73,13 @@ and open the template in the editor.
                                     <h:commandButton action="#{faqBean.editFaq(faq)}" image="../images/icon/edit.png" title=""/>
                                 </p:column>                                
 
-                            </p:dataTable>
-                            <h1><h:commandLink value="Add new faq" action="addFAQ.xhtml"/></h1> 
+                            </p:dataTable>                            
                         </h:form>
+                        <c:if test="#{not empty requestScope.del}">
+                            <h:outputText value="#{requestScope.del}" style="color: red"/>
+                        </c:if>
+                        <br/>
+                        <h1><h:commandLink value="Add new faq" action="addFAQ.xhtml"/></h1> 
                     </div>
                 </div><!-- end of right content-->
 

@@ -28,11 +28,11 @@ import util.sessionTool;
 @ManagedBean
 @SessionScoped
 public class EmployeeBean implements Serializable {
+
     @EJB
     private EventFacade eventFacade;
     @EJB
     private CommentsFacade commentsFacade;
-
     @EJB
     private RolesFacade rolesFacade;
     @EJB
@@ -40,7 +40,6 @@ public class EmployeeBean implements Serializable {
     @EJB
     private EmployeeFacade employeeFacade;
     private HttpServletRequest rq;
-    
 
     /**
      * Creates a new instance of EmployeeBean
@@ -48,7 +47,6 @@ public class EmployeeBean implements Serializable {
     public EmployeeBean() {
         comment = new Comments();
     }
-    
     private List<Account> filteredAccounts;
 
     public List<Account> getFilteredAccounts() {
@@ -58,7 +56,6 @@ public class EmployeeBean implements Serializable {
     public void setFilteredAccounts(List<Account> filteredAccounts) {
         this.filteredAccounts = filteredAccounts;
     }
-    
     private String notification;
 
     public String getNotification() {
@@ -69,39 +66,6 @@ public class EmployeeBean implements Serializable {
         this.notification = notification;
     }
 
-    public String notificationDOB() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-        Date today = new Date();
-        int date = today.getDate();
-        int month = (today.getMonth()) + 1;
-        List<Employee> lstEmployee = employeeFacade.findAll();
-        for (Employee employee : lstEmployee) {
-            String empDOB = dateFormat.format(employee.getDateOfBirth());
-            String[] detailDate = empDOB.split("/");
-            if (Integer.parseInt(detailDate[0]) == month && Integer.parseInt(detailDate[1]) == date) {
-                notification = "Happy Birthday To:" + employee.getFullName();
-                return "index.xhtml";
-            }
-        }
-        return "index.xhtml";
-    }
-
-    public void showDOB() {
-        Date current = new Date();
-        int date = current.getDate();
-        int month = (current.getMonth()) + 1;
-        DateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
-        List<Employee> lstEmployee = employeeFacade.findAll();
-        for (Employee employee : lstEmployee) {
-            int dt = (employee.getDateOfBirth().getDate()) + 2;
-            int mt = ((employee.getDateOfBirth()).getMonth()) + 1;
-            if (dt == date && mt == month) {
-                System.out.println("Happy Birthday To:" + employee.getFullName());
-            }
-            System.out.println(dt + "/" + mt);
-        }
-    }
-    
     public void createComment(String eventId) {
         Employee employeeId = ((Account) sessionTool.getDownSession("employee")).getUserName();
         comment.setCreateDate(new Date());
@@ -109,11 +73,10 @@ public class EmployeeBean implements Serializable {
         comment.setEventID(eventFacade.findByEventID(eventId));
         commentsFacade.create(comment);
     }
-    
+
     public List<Employee> findEmployeeByBirthDate() {
         return employeeFacade.findEmployeeByBirthDate();
     }
-    
     private String employeeID;
     private String fullName;
     private Boolean gender;
@@ -121,7 +84,6 @@ public class EmployeeBean implements Serializable {
     private String email;
     private String phone;
     private Date dateOfBirth;
-    
     private Comments comment;
 
     public Comments getComment() {
@@ -231,25 +193,28 @@ public class EmployeeBean implements Serializable {
         this.msg = msg;
     }
 
-    public String createEmpAccount() {        
+    public String createEmpAccount() {
         Employee e = new Employee(new Date(), employeeID, fullName, gender, address, email, phone, dateOfBirth);
         boolean result_1 = employeeFacade.createEmployee(e);
         if (result_1) {
             String password = "123456";
-            boolean result_2 = accountFacade.createAccount(control.generateMD5(password), chooseRole, e.getEmployeeID());
-            if (result_2) {
-                rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                rq.setAttribute("add", "Create New Employee Successfull !!!");
-                return "createAccount.xhtml";
-//                msg = "Create New Employee Successfull";
-//                return "createAccount.xhtml?result=" + msg + "&faces-redirect=true";
-            } else {
+            try {
+                boolean result_2 = accountFacade.createAccount(control.generateMD5(password), chooseRole, e.getEmployeeID());
+                if (result_2) {
+                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                    rq.setAttribute("add", "Create New Employee Successfull !!!");
+                    return "createAccount.xhtml";
+                } else {
+                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                    rq.setAttribute("add", "Create Fail !!!");
+                    return "createAccount.xhtml";
+                }
+            } catch (Exception ex) {
                 rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
                 rq.setAttribute("add", "Create Fail !!!");
                 return "createAccount.xhtml";
-//                msg = "Create Fail";
-//                return "createAccount.xhtml?result=" + msg + "&faces-redirect=true";
             }
+
         }
         msg = "Error";
         return "createAccount.xhtml?result=" + msg + "&faces-redirect=true";
@@ -271,19 +236,19 @@ public class EmployeeBean implements Serializable {
         boolean del = employeeFacade.deleteEmployee(emp);
         if (del) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete EmpID " + emp.getEmployeeID() + " Successful !!!");
+            rq.setAttribute("del", "Delete EmpID " + emp.getEmployeeID() + " Successful !!!");
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete EmpID " + emp.getEmployeeID() + " UnSuccessful !!!");
+            rq.setAttribute("del", "Delete EmpID " + emp.getEmployeeID() + " UnSuccessful !!!");
         }
     }
-    
-    public void reset(){
-        employeeID="";
-        fullName="";
-        address="";
-        email="";
-        dateOfBirth=null;
-        phone="";        
+
+    public void reset() {
+        employeeID = "";
+        fullName = "";
+        address = "";
+        email = "";
+        dateOfBirth = null;
+        phone = "";
     }
 }

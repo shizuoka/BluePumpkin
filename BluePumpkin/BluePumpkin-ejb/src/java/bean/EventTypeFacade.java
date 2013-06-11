@@ -44,4 +44,9 @@ public class EventTypeFacade extends AbstractFacade<EventType> {
             return false;
         }
     }
+    
+    public long countEventOfType(String eventTypeID) {
+        return (Long) em.createQuery("SELECT COUNT(e.eventID) FROM Event e where e.eventTypeID.eventTypeID = :eventTypeID")
+                .setParameter("eventTypeID", eventTypeID).getSingleResult();
+    }
 }

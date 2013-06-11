@@ -72,12 +72,23 @@ and open the template in the editor.
                                 <p:column id="editTypeColumn" headerText="Edit">  
                                     <h:commandButton action="#" image="../images/icon/edit.png" title=""/>
                                 </p:column>
-                                
+
                                 <p:column id="delTypeColumn" headerText="Delete">  
-                                    <h:commandButton action="#" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
+                                    <h:commandButton action="#{eventTypeBean.deleteEventType(eventType)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
                                 </p:column>
 
                             </p:dataTable>
+                            <br/>
+                            <c:if test="#{not empty requestScope.del}">
+                                <div class="form_row">
+                                    <h:outputText value="#{requestScope.del}" style="color: green;text-align: center"/>
+                                </div>
+                            </c:if>
+                            <c:if test="#{not empty requestScope.error}">
+                                <div class="form_row">
+                                    <h:outputText value="#{requestScope.error}" style="color: red;text-align: center"/>
+                                </div>
+                            </c:if>
                         </h:form>
                         <ul id="tabsmenu" class="tabsmenu">
                             <li class="active"><a href="#tab1">Form Edit Type</a></li>
@@ -108,9 +119,9 @@ and open the template in the editor.
                                         <h:commandButton value="Reset" action="#{eventTypeBean.reset()}"/>                                        
                                     </div> 
 
-                                    <c:if test="#{not empty requestScope.msg}">
+                                    <c:if test="#{not empty requestScope.add}">
                                         <div class="form_row">
-                                            <h:outputText value="#{requestScope.msg}" style="color: red;text-align: center"/>
+                                            <h:outputText value="#{requestScope.add}" style="color: green;text-align: center"/>
                                         </div>
                                     </c:if>                                    
 

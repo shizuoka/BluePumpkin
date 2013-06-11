@@ -218,14 +218,9 @@ public class EventBean implements Serializable {
             String eID = eventFacade.getMaxEventID().getEventID();
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("add", "Add New Event Successfull !!!");
-//                message = "Add New Event Successfull";
-//                return "event.xhtml?result=" + message + "&faces-redirect=true";     
-
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("add", "Add New Event Unsuccessfull !!!");
-//            message = "Unsuccessfull !!!";
-//            return "event.xhtml?result=" + message + "&faces-redirect=true";
         }
     }
 
@@ -247,9 +242,6 @@ public class EventBean implements Serializable {
     }
 
     public String editEvent(Event e) {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-//        session.setAttribute("editEvent", e);
         event = e;
         return "editEvent.xhtml?eventID=" + e.getEventID() + "&faces-redirect=true";
     }
@@ -260,14 +252,10 @@ public class EventBean implements Serializable {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("update", "Update " + event.getEventID() + " Successfull");
             return "editEvent.xhtml";
-//            message = "Update " + event.getEventID() + " Successfull";
-//            return "editEvent.xhtml?result=" + message + "&faces-redirect=true";
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("update", "Update " + event.getEventID() + " Fail !!!");
             return "editEvent.xhtml";
-//            message = "Update " + event.getEventID() + " Fail";
-//            return "editEvent.xhtml?result=" + message + "&faces-redirect=true";
         }
     }
 
@@ -277,14 +265,10 @@ public class EventBean implements Serializable {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("del", "Delete Event Successfull !!!");
             return "event.xhtml";
-//            message = "Delete Event Successfull";
-//            return "event.xhtml?result=" + message + "&faces-redirect=true";
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("del", "Delete Event Unsuccessful !!!");
             return "event.xhtml";
-//            message = "Delete Event Unsuccessful";
-//            return "event.xhtml?result=" + message + "&faces-redirect=true";
         }
     }
 

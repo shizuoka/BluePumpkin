@@ -10,6 +10,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -17,7 +19,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class FaqBean implements Serializable{
+public class FaqBean implements Serializable {
 
     @EJB
     private FaqFacade faqFacade;
@@ -26,7 +28,7 @@ public class FaqBean implements Serializable{
     private String message;
     private int faqId;
     private Faq faq;
-
+    private HttpServletRequest rq;
     private List<Faq> filteredFAQ;
 
     public List<Faq> getFilteredFAQ() {
@@ -35,8 +37,8 @@ public class FaqBean implements Serializable{
 
     public void setFilteredFAQ(List<Faq> filteredFAQ) {
         this.filteredFAQ = filteredFAQ;
-    }    
-    
+    }
+
     public Faq getFaq() {
         return faq;
     }
@@ -44,7 +46,7 @@ public class FaqBean implements Serializable{
     public void setFaq(Faq faq) {
         this.faq = faq;
     }
-    
+
     public int getFaqId() {
         return faqId;
     }
@@ -52,7 +54,7 @@ public class FaqBean implements Serializable{
     public void setFaqId(int fid) {
         this.faqId = fid;
     }
-    
+
     public String getMessage() {
         return message;
     }
@@ -83,27 +85,34 @@ public class FaqBean implements Serializable{
     public String addFaq() {
         Faq f = new Faq(question, answer);
         if (faqFacade.addFaq(f)) {
-            message = "Added Faq successfully!";
-            return "viewFAQ.xhtml?result=" + message + "&faces-redirect=true";
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("add", "Added Faq successfully!");
+            return "viewFAQ.xhtml";
         } else {
-            message = "Failed!";
-            return "viewFAQ.xhtml?result=" + message + "&faces-redirect=true";
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("add", "Failed!");
+            return "viewFAQ.xhtml";
         }
     }
-    public String editFaq(Faq f){
+
+    public String editFaq(Faq f) {
         faq = f;
-        return "editFAQ.xhtml?faqId="+f.getFaqid()+"?faces-redirect=true";
+        return "editFAQ.xhtml?faqId=" + f.getFaqid() + "?faces-redirect=true";
     }
-    public String updateFaq(){
-        if(faqFacade.editFaq(faq.getFaqid(), faq.getQuestion(), faq.getAnswer())){
-            message = "Updated Faq "+faq.getFaqid()+" successfully!";
-            return "editFAQ.xhtml?result=" + message + "&faces-redirect=true";
+
+    public String updateFaq() {
+        if (faqFacade.editFaq(faq.getFaqid(), faq.getQuestion(), faq.getAnswer())) {
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("update", "Update Faq " + faq.getFaqid() + " successfully");
+            return "editFAQ.xhtml";
         } else {
-            message = "Updated Faq "+faq.getFaqid()+" failed!";
-            return "editFAQ.xhtml?result=" + message + "&faces-redirect=true";
+            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            rq.setAttribute("update", "Update Faq " + faq.getFaqid() + " failed!");
+            return "editFAQ.xhtml";
         }
     }
-    public List<Faq> showAllFaqs(){
+
+    public List<Faq> showAllFaqs() {
         return faqFacade.findAll();
     }
 }

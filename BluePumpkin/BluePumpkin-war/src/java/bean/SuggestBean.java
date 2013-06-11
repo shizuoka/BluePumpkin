@@ -39,7 +39,6 @@ public class SuggestBean implements Serializable {
     public void setFilteredRegister(List<RegisterEvent> filteredRegister) {
         this.filteredRegister = filteredRegister;
     }
-    
     private String state;
 
     public String getState() {
@@ -61,13 +60,6 @@ public class SuggestBean implements Serializable {
 
     public List<RegisterEvent> showNotAcceptRegister() {
         List<RegisterEvent> regist = registerEventFacade.findByIsAccept();
-//        for (RegisterEvent registerEvent : regist) {
-//            if (registerEvent.getIsAccept() == false) {
-//                state = "Not Yet Accept";
-//            } else {
-//                state = "Accepted";
-//            }
-//        }
         return regist;
     }
 
@@ -75,14 +67,10 @@ public class SuggestBean implements Serializable {
         boolean accept = registerEventFacade.acceptRegist(registID);
         if (accept) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Register ID " + registID + " accepted");            
-//            msg = "Register ID " + registID + " accepted";
-//            return "suggest.xhtml?result=" + msg + "&faces-redirect=true";
+            rq.setAttribute("msg", "Register ID " + registID + " accepted");
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("msg", "Register ID " + registID + " not accepted");
-//            msg = "Register ID " + registID + " not yet accepted";
-//            return "suggest.xhtml?result=" + msg + "&faces-redirect=true";
         }
         return "suggest.xhtml";
     }

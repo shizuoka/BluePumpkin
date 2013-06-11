@@ -15,6 +15,9 @@ and open the template in the editor.
         <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>            
     </h:head>
     <h:body>
+        <c:if test="#{sessionScope.admin==null}">
+            #{facesContext.externalContext.redirect("login.xhtml")}
+        </c:if>
         <div id="panelwrap">
 
             <div class="header">
@@ -97,7 +100,7 @@ and open the template in the editor.
                         <ul id="tabsmenu" class="tabsmenu">
                             <li class="active"><a href="#tab1">Form Edit Structure</a></li>                                                     
                         </ul>
-                        
+
                         <div id="tab2" class="tabcontent">                              
                             <h3>Tab Add New Event</h3>
                             <h:form>

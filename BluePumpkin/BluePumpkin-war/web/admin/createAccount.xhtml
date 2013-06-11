@@ -80,8 +80,8 @@ and open the template in the editor.
 
                             </p:dataTable>
                         </h:form>
-                        <c:if test="#{not empty requestScope.msg}">
-                            <h:outputText value="#{requestScope.msg}" style="color: blue"/>
+                        <c:if test="#{not empty requestScope.del}">
+                            <h:outputText value="#{requestScope.del}" style="color: blue"/>
                         </c:if>
 
                         <h:form>
@@ -91,11 +91,15 @@ and open the template in the editor.
                                 </tr>
                                 <tr>
                                     <td>EmployeeID: </td>
-                                    <td><p:inputText size="30" value="#{employeeBean.employeeID}"/></td>                                    
+                                    <td><p:inputText id="employeeID" size="30" value="#{employeeBean.employeeID}" required="true" 
+                                                     requiredMessage="* EmployeeID required"/></td>                                    
+                                    <td><p:message for="employeeID" display="text"/></td>
                                 </tr>
                                 <tr>
                                     <td>FullName:</td>
-                                    <td><p:inputText size="30" value="#{employeeBean.fullName}"/></td>                                    
+                                    <td><p:inputText id="fullname" size="30" value="#{employeeBean.fullName}" required="true"
+                                                     requiredMessage="* FullName required"/></td>
+                                    <td><p:message for="fullname" display="text"/> </td>
                                 </tr>
                                 <tr>
                                     <td>Gender:</td>
@@ -108,7 +112,9 @@ and open the template in the editor.
                                 </tr>
                                 <tr>
                                     <td>Address: </td>
-                                    <td><p:inputText size="30" value="#{employeeBean.address}"/></td>                                    
+                                    <td><p:inputText id="address" size="30" value="#{employeeBean.address}" required="true"
+                                                     requiredMessage="* Address required"/></td>
+                                    <td><p:message for="address" display="text"/> </td>
                                 </tr>
                                 <tr>
                                     <td>Email: </td>
@@ -123,13 +129,13 @@ and open the template in the editor.
                                 <tr>
                                     <td>Date Of Birth: </td>
                                     <td>
-                                        <p:calendar value="#{employeeBean.dateOfBirth}" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                                        <p:calendar value="#{employeeBean.dateOfBirth}" showOn="button" pattern="MM/dd/yyyy" mode="popup" />
                                     </td>                                    
                                 </tr>
 
                                 <tr>
                                     <td>Phone number: </td>
-                                    <td><p:inputText size="30" value="#{employeeBean.phone}" /></td>
+                                    <td><p:inputMask mask="(999) 999-9999" size="30" value="#{employeeBean.phone}" /></td>
                                 </tr>
                                 
                                 <tr>

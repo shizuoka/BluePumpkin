@@ -58,7 +58,9 @@ and open the template in the editor.
                                     <div class="form_row">
                                         <h:commandButton value="Add" action="#{faqBean.addFaq()}" />                                        
                                     </div>                                                                
-
+                                    <c:if test="#{not empty requestScope.add}">
+                                        <h:outputText value="#{requestScope.add}" style="color: blue"/>
+                                    </c:if>
                                     <div class="clear"></div>                                
                                 </div>
                             </h:form>

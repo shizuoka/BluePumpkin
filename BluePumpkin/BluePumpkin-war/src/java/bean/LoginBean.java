@@ -66,11 +66,10 @@ public class LoginBean implements Serializable {
     public void setIsLogged(boolean isLogged) {
         this.isLogged = isLogged;
     }
-    
     private Account acc;
 
     public Account getAcc() {
-         if(acc == null){
+        if (acc == null) {
             acc = new Account();
         }
         return acc;
@@ -78,44 +77,45 @@ public class LoginBean implements Serializable {
 
     public void setAcc(Account acc) {
         this.acc = acc;
-    }    
+    }
 
     public String loginEmployee() {
-        acc = accountFacade.login(username, control.generateMD5(password));
-        if (acc != null) {
-            if (acc.getRoleID().getRoleName().equalsIgnoreCase("employee")) {
-                sessionTool.setUpSession("employee", acc);
-                isLogged = true;
-            } else {
-                HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                rq.setAttribute("error", "Access denied !!! You don't have permission");
+        try {
+            acc = accountFacade.login(username, control.generateMD5(password));
+            if (acc != null) {
+                if (acc.getRoleID().getRoleName().equalsIgnoreCase("employee")) {
+                    sessionTool.setUpSession("employee", acc);
+                    isLogged = true;
+                } else {
+                    HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                    rq.setAttribute("error", "Access denied !!! You don't have permission");
+                }
             }
-        } else {
+        } catch (Exception e) {
             HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("error", "Username or Password isn't correct....");
         }
         return "index.xhtml";
     }
-    
-    
 
     public String loginAdmin() {
-        Account acc = accountFacade.login(username, control.generateMD5(password));
-        if (acc == null) {
+        try {
+            Account acc = accountFacade.login(username, control.generateMD5(password));
+            if (acc != null) {
+                if (acc.getRoleID().getRoleName().equalsIgnoreCase("admin")) {
+                    sessionTool.setUpSession("admin", acc);
+                    isLogged = true;
+                    return "index.xhtml?faces-redirect=true";
+                } else {
+                    HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                    rq.setAttribute("error", "Access denied !!! You don't have permission");
+                }
+            }
+        } catch (Exception e) {
             HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("error", "Username or Password isn't correct....");
-            return "login.xhtml";
-        } else {
-            if (acc.getRoleID().getRoleName().equalsIgnoreCase("admin")) {
-                sessionTool.setUpSession("admin", acc);
-                isLogged = true;
-                return "index.xhtml?faces-redirect=true";
-            } else {
-                HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                rq.setAttribute("error", "Access denied !!! You don't have permission");
-                return "login.xhtml";
-            }
         }
+        return "login.xhtml";
     }
 
     public String logOutEmployee() {
