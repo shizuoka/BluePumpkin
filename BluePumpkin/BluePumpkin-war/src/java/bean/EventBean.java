@@ -62,8 +62,7 @@ public class EventBean implements Serializable {
 
     public void setFilteredEvents(List<Event> filteredEvents) {
         this.filteredEvents = filteredEvents;
-    }    
-    
+    }
     private String eventID;
 
     public String getEventID() {
@@ -202,7 +201,6 @@ public class EventBean implements Serializable {
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-    
     private String imageName;
 
     public String getImageName() {
@@ -211,21 +209,21 @@ public class EventBean implements Serializable {
 
     public void setImageName(String imageName) {
         this.imageName = imageName;
-    }    
+    }
 
     public void addNewEvent() {
         int noAccount = numberAccount();
-        boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount, new Date(),imageName);
+        boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount, new Date(), imageName);
         if (add) {
             String eID = eventFacade.getMaxEventID().getEventID();
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Add New Event Successfull !!!");            
+            rq.setAttribute("add", "Add New Event Successfull !!!");
 //                message = "Add New Event Successfull";
 //                return "event.xhtml?result=" + message + "&faces-redirect=true";     
 
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Add New Event Unsuccessfull !!!");            
+            rq.setAttribute("add", "Add New Event Unsuccessfull !!!");
 //            message = "Unsuccessfull !!!";
 //            return "event.xhtml?result=" + message + "&faces-redirect=true";
         }
@@ -237,6 +235,10 @@ public class EventBean implements Serializable {
     private Event event;
 
     public Event getEvent() {
+        String eventID = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("eventID");
+        if (event == null || (event != null && !event.getEventID().equals(eventID))) {
+            event = eventFacade.findByEventID(eventID);
+        }
         return event;
     }
 
@@ -299,14 +301,6 @@ public class EventBean implements Serializable {
     public String cancel() {
         return "event.xhtml?faces-redirect=true";
     }
-
-    public String detailEvent(String eventID) {
-//        FacesContext context = FacesContext.getCurrentInstance();
-//        HttpSession session = (HttpSession) context.getExternalContext().getSession(false);
-//        session.setAttribute("detailEvent", e);        
-        event = eventFacade.findByEventID(eventID);
-        return "detailEvent.xhtml?EventID=" + eventID + "&faces-redirect=true";
-    }
     private String evID;
 
     public String getEvID() {
@@ -321,8 +315,8 @@ public class EventBean implements Serializable {
         setEvID(eventID);
         return "addPrize.xhtml?eventID=" + eventID + "&faces-redirect=true";
     }
-    
-    public List<Event> findEventEnded(){
+
+    public List<Event> findEventEnded() {
         return eventFacade.findByStatus("Ended");
     }
 //    

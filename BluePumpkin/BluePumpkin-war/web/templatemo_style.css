@@ -254,3 +254,6 @@ h2.new_services { background: url(images/icon_02.png) center left no-repeat }
 }
 
 /* end of footer */
+.ui-paginator.ui-paginator-top.ui-widget-header.ui-corner-top{
+    border-color: #777700;
+}

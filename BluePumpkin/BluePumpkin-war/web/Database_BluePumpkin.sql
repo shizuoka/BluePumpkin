@@ -76,6 +76,13 @@ create table Event(
 	CreateDate date
 )
 go
+-- dml
+-- constraints
+-- indexies
+-- sp, trigger
+alter table RegisterEvent
+	add constraint UQ_EmployeeID_EventID unique(EmployeeID, EventID)
+go
 insert into Event values('EV01','Event No1','event1.jpg','Meeting of delegates or representatives.','01/01/2013','01/05/2013','Incoming','ET01',3, GETDATE())
 insert into Event values('EV02','Event No2','event2.jpg','The industry is generally regulated under the tourism sector.','02/06/2013','02/09/2013','Incoming','ET01',3, GETDATE())
 insert into Event values('EV03','Event No3','event3.jpg','A ceremony may only be performed by a person with certain authority. ','03/12/2012','03/20/2012','Ended','ET02',3, GETDATE())
@@ -193,11 +200,11 @@ end
 go
 update Event
 set Status = 'Oncoming'
-where StartDate <= GETDATE() and EndDate > GETDATE()
+where StartDate <= GETDATE() and EndDate > GETDATE() and Status != 'Oncoming'
 
 update Event
 set Status = 'Ended'
-where EndDate < GETDATE() and Status = 'Ended'
+where EndDate < GETDATE() and Status != 'Ended'
 
 select * from Event
 

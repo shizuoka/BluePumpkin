@@ -53,16 +53,21 @@ public class RegisterBean implements Serializable {
             rq.setAttribute("msg", "Please to login for Register Event !!!");
             return "detailEvent.xhtml";
         }
-        boolean register = registerEventFacade.registerEvent(eventID, account.getUserName().getEmployeeID());
-        if (register) {
-            return "viewRegisterEvent.xhtml?faces-redirect=true";
-        } else {
+        try {
+            boolean register = registerEventFacade.registerEvent(eventID, account.getUserName().getEmployeeID());
+            if (register) {
+                return "viewRegisterEvent.xhtml?faces-redirect=true";
+            } else {
+                rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                rq.setAttribute("msg", "Register Fail !!!");
+                return "detailEvent.xhtml";
+            }
+        } catch (Exception e) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("msg", "Register Fail !!!");
             return "detailEvent.xhtml";
-//            message = "Register Fail";
-//            return "detailEvent.xhtml?result=" + message + "&faces-redirect=true";
         }
+
     }
 
     public List<RegisterEvent> showAllRegister() {
@@ -94,7 +99,6 @@ public class RegisterBean implements Serializable {
     public List<Employee> showEmployeeByEventId(String eventId) {
         return registerEventFacade.findEmployeeByEventId(eventId);
     }
-
     private String selectedEvent;
 
     public String getSelectedEvent() {

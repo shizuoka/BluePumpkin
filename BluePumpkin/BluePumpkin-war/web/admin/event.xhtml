@@ -47,7 +47,8 @@ and open the template in the editor.
                             <p:dataTable id="dataTable" var="event" value="#{eventBean.showAll()}" widgetVar="eventsTable"   
                                          emptyMessage="No event found with given criteria" filteredValue="#{eventBean.filteredEvents}"
                                          paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" >  
+                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" scrollable="true" scrollWidth="758" scrollHeight="500">  
+                                
                                 <f:facet name="header">  
                                     Tables Event 
                                 </f:facet>  

@@ -141,8 +141,7 @@ and open the template in the editor.
 
                                                 <h:outputText value="#{event.description}" />  
 
-                                                <p:commandLink value="Detail" action="#{eventBean.detailEvent(event.eventID)}" onclick="new Effect.Highlight(this.parentNode, { startcolor: '#dddddd',
-                                                    endcolor: '#ffffff' })"/>  
+                                                <a href="detailEvent.xhtml?eventID=#{event.eventID}">Detail</a>
                                             </h:panelGrid>  
                                         </p:panel>  
                                     </p:dataGrid>
