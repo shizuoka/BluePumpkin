@@ -91,7 +91,7 @@ and open the template in the editor.
 
                                 <div class="form_row">
                                     <label>NumberOfPrize:</label>                                        
-                                    <h:inputText class="form_input" id="numberOfPrize" value="#{prizeBean.numberOfPrize}"/>
+                                    <h:inputText class="form_input" id="numberOfPrize" value="#{prizeBean.numberOfPrize}" style="width: 200px"/>
                                 </div>
 
                                 <div class="form_row">
@@ -99,7 +99,7 @@ and open the template in the editor.
                                     <h:inputTextarea class="form_textarea" id="txtDescription"  rows="4" cols="20" value="#{prizeBean.description}"/>
                                 </div>
                                 <div class="form_row">
-                                    <h:commandButton class="form_submit" value="Add" action="#{prizeBean.insertPrize(eventBean.evID)}"/>
+                                    <h:commandButton class="form_submit" value="Add" action="#{prizeBean.insertPrize(eventBean.event.eventID)}"/>
                                     <h:commandButton value="Reset" action="#{prizeBean.reset()}"/>                                        
                                 </div> 
 

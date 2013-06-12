@@ -10,10 +10,11 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Index Page</title>
-        <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
-        <link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/piroBox.1_2.js"></script>
+        <link href="/BluePumpkin-war/templatemo_style.css" rel="stylesheet" type="text/css" />
+        <link href="/BluePumpkin-war/css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/BluePumpkin-war/js/jquery.min.js"></script>
+        <script type="text/javascript" src="/BluePumpkin-war/js/piroBox.1_2.js"></script>
+        <script type="text/javascript" src="/BluePumpkin-war/js/jsapi.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 $().piroBox({
@@ -54,11 +55,12 @@ and open the template in the editor.
                             <ul>
                                 <li><a href="index.xhtml" target="_parent" class="current">Home</a></li>
                                 <li><a href="registerEvent.xhtml" target="_parent">Event</a></li>
-                                <c:if test="#{loginBean.isLogged==true}">  
+                                <c:if test="#{loginBean.isLoggedEmployee==true}">  
                                     <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
                                     <li><a href="changeInfo.xhtml" target="_parent">Profile Setting</a></li>
                                 </c:if>
                                 <li><a href="viewStatistic.xhtml" target="_parent">View Statistic</a></li>
+                                <li><a href="faq.xhtml" target="_parent">View FAQs</a></li>
                                 <li><a href="#" target="_parent">Our Company</a></li>
                                 <li><a href="#" target="_parent">Contact Information</a></li>
                             </ul>    	
@@ -67,7 +69,7 @@ and open the template in the editor.
                         <div class="sidebar_box">
                             <div class="sb_title">Client Login</div>
                             <div class="sb_content">
-                                <c:if test="#{loginBean.isLogged==false}">                                                                    
+                                <c:if test="#{loginBean.isLoggedEmployee==false}">                                                                    
                                     <div id="login_form">
                                         <h:form id="frmLogin">
                                             <p><span>User Name:</span>
@@ -83,7 +85,7 @@ and open the template in the editor.
                                         </c:if>
                                     </div>     
                                 </c:if>
-                                <c:if test="#{loginBean.isLogged==true}">
+                                <c:if test="#{loginBean.isLoggedEmployee==true}">
                                     <h:form id="frmLogout">
                                         <div id="login_form">
                                             Hi,#{sessionScope.employee.userName.fullName}.

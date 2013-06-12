@@ -10,85 +10,66 @@ and open the template in the editor.
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>View Statistics Page</title>
-        <link href="templatemo_style.css" rel="stylesheet" type="text/css" />
-        <link href="css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" />
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/piroBox.1_2.js"></script>
-        <script type="text/javascript" src="js/jsapi.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/styleAdmin.css" />
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $().piroBox({
-                    my_speed: 600, //animation speed
-                    bg_alpha: 0.5, //background opacity
-                    radius: 4, //caption rounded corner
-                    scrollImage : false, // true == image follows the page, false == image remains in the same open position
-                    pirobox_next : 'piro_next', // Nav buttons -> piro_next == inside piroBox , piro_next_out == outside piroBox
-                    pirobox_prev : 'piro_prev',// Nav buttons -> piro_prev == inside piroBox , piro_prev_out == outside piroBox
-                    close_all : '.piro_close',// add class .piro_overlay(with comma)if you want overlay click close piroBox
-                    slideShow : 'slideshow', // just delete slideshow between '' if you don't want it.
-                    slideSpeed : 4 //slideshow duration in seconds(3 to 6 Recommended)
-                });
-            });
-        </script>
+        <title>View Statistics Page</title>       
     </h:head>
     <h:body>
         <ui:composition template="shared/layout.xhtml">
             <ui:define name="content">
-                <div id="form_statistic">
-                    <h:form>
-                        <div class="form_statistic_row">
-                            <label>From date:</label>
-                            <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
-                        </div>
+                <div id="faq_content">
+                    <div id="form_statistic">
+                        <h:form>
+                            <div class="form_statistic_row">
+                                <label>From date:</label>
+                                <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                            </div>
 
-                        <div class="form_statistic_row">
-                            <label>To date:</label>
-                            <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
-                        </div>
-                        <div id="button_search">
-                            <h:commandButton action="#" image="images/icon/search.gif" title=""/>
-                        </div>
+                            <div class="form_statistic_row">
+                                <label>To date:</label>
+                                <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
+                            </div>
+                            <div id="button_search">
+                                <h:commandButton action="#{eventBean.customerStatistic()}" image="images/icon/search.gif" title=""/>
+                            </div>
 
-                    </h:form>
-                </div>
-                <div class="resuilt">
-                    #{eventBean.statistic()}
-                    <ul>
-                        <li><span>Number of events</span><strong>: #{eventBean.total}</strong></li>
-                        <li><span>Number of events incoming</span><strong>: #{eventBean.incoming}</strong></li>
-                        <li><span>Number of events oncoming</span><strong>: #{eventBean.oncoming}</strong></li>
-                        <li><span>Number of events ended</span><strong>: #{eventBean.ended}</strong></li>
-                    </ul>
-                </div>
-                <div id="chart">
-                    <c:forEach items="#{eventBean.showEventsTop()}" var="statistic">                            
-                        <script type="text/javascript">
-                            google.load("visualization", "1", {packages:["corechart"]});
-                            google.setOnLoadCallback(drawChart);
-                            function drawChart() {
-                                var eventId = '#{statistic.eventId}';
-                                var event = '#{statistic.event}';
-                                var total = #{statistic.totalEmp};
-                                var empRe = #{statistic.empRe};
-                                var empNotRe = #{statistic.empNotRe};
-                                var data = google.visualization.arrayToDataTable([
-                                    ['Tong so nhan vien', total],
-                                    ['So nhan vien dang ky', empRe],
-                                    ['So nhan vien khong dang ky',  empNotRe],
-                                ]);
+                        </h:form>
+                    </div>
+                    <div class="resuilt">
+                        #{eventBean.statistic()}
+                        <ul>
+                            <li><span>Number of events</span><strong>: #{eventBean.total}</strong></li>
+                            <li><span>Number of events incoming</span><strong>: #{eventBean.incoming}</strong></li>
+                            <li><span>Number of events oncoming</span><strong>: #{eventBean.oncoming}</strong></li>
+                            <li><span>Number of events ended</span><strong>: #{eventBean.ended}</strong></li>
+                        </ul>
+                    </div>
+                    <div id="chart_statistic">
+                        <c:forEach items="#{eventBean.showEventsTop()}" var="statistic">                            
+                            <script type="text/javascript">
+                                google.load("visualization", "1", {packages:["corechart"]});
+                                google.setOnLoadCallback(drawChart);
+                                function drawChart() {
+                                    var eventId = '#{statistic.eventId}';
+                                    var event = '#{statistic.event}';
+                                    var total = #{statistic.totalEmp};
+                                    var empRe = #{statistic.empRe};
+                                    var empNotRe = #{statistic.empNotRe};
+                                    var data = google.visualization.arrayToDataTable([
+                                        ['Tong so nhan vien', total],
+                                        ['So nhan vien dang ky', empRe],
+                                        ['So nhan vien khong dang ky',  empNotRe],
+                                    ]);
 
-                                var options = {
-                                    title: event
-                                };
+                                    var options = {
+                                        title: event
+                                    };
 
-                                var chart = new google.visualization.PieChart(document.getElementById('#{statistic.eventId}'));
-                                chart.draw(data, options);
-                            }
-                        </script>
-                        <div id="#{statistic.eventId}" class="chart" style="width: 370px; height: 200px;"></div>   
-                    </c:forEach>
+                                    var chart = new google.visualization.PieChart(document.getElementById('#{statistic.eventId}'));
+                                    chart.draw(data, options);
+                                }
+                            </script>
+                            <div id="#{statistic.eventId}" class="chart" style="width: 370px; height: 200px;"></div>   
+                        </c:forEach>
+                    </div>
                 </div>
             </ui:define>
         </ui:composition>        

@@ -59,6 +59,13 @@ em { color: #000; }
 .tmo_list li a { color: #666 }
 .tmo_list li a:hover { color: #666 }
 
+#faq_content{
+    margin:10px 10px 10px 10px;    
+}
+#chart_statistic {
+    float: left;
+    width: 100%;
+}
 #templatemo_body_wrapper {
 	width: 100%;
 	background: url(images/templatemo_header.jpg) center top no-repeat;
