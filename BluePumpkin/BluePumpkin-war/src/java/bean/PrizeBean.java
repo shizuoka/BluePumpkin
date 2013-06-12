@@ -39,6 +39,26 @@ public class PrizeBean implements Serializable {
     public PrizeBean() {
     }
     
+    private Boolean winPrize;
+
+    public Boolean getWinPrize() {
+        return winPrize;
+    }
+
+    public void setWinPrize(Boolean winPrize) {
+        this.winPrize = winPrize;
+    }
+    
+    private Boolean selectTypeWin;
+
+    public Boolean getSelectTypeWin() {
+        return selectTypeWin;
+    }
+
+    public void setSelectTypeWin(Boolean selectTypeWin) {
+        this.selectTypeWin = selectTypeWin;
+    }    
+    
     private List<Prizes> filteredPrizes;
 
     public List<Prizes> getFilteredPrizes() {
@@ -166,7 +186,7 @@ public class PrizeBean implements Serializable {
     }
 
     public void insertPrize(String eventID) {
-        boolean result = prizesFacade.addPrize(prizeName, description, Integer.parseInt(numberOfPrize), eventID);
+        boolean result = prizesFacade.addPrize(prizeName, description, Integer.parseInt(numberOfPrize), eventID, win);
         if (result) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("msg", "Add New Successfull");
@@ -215,4 +235,16 @@ public class PrizeBean implements Serializable {
             rq.setAttribute("del", "Delete detail UnSuccessful");
         }
     }
+    
+    private boolean win;
+
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+    
+    public boolean showWin(String eventId) {
+        win = prizesFacade.isFirstPrizeExisted(eventId);
+        return win;
+    }
+    
 }

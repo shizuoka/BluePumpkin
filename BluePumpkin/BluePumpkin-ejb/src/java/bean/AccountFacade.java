@@ -31,8 +31,8 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public Account login(String username, String password) {
-        return (Account) ((em.createQuery("SELECT a FROM Account a WHERE a.userName.employeeID = :username and a.passWord = :password")
-                .setParameter("username", username).setParameter("password", password)).getSingleResult());
+        return (Account) em.createQuery("SELECT a FROM Account a WHERE a.userName.employeeID = :username and a.passWord = :password")
+                .setParameter("username", username).setParameter("password", password).getSingleResult();
     }
 
     public boolean createAccount(String password, int roleID, String customerID) {

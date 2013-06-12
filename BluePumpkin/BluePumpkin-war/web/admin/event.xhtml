@@ -76,11 +76,14 @@ and open the template in the editor.
                             </p:column>
 
                             <p:column id="addPrizeColumn" headerText="AddPrize">  
-                                <h:commandButton action="#{eventBean.redirectInsertPrize(event.eventID)}" image="../images/icon/prize.jpg" style="width: 16px;height: 16px"/> 
+                                <a href="/BluePumpkin-war/admin/addPrize.xhtml?eventID=#{event.eventID}">
+                                    <img src="../images/icon/prize.jpg" alt="" />
+                                </a>
                             </p:column>
 
+
                             <p:column id="editColumn" headerText="Edit">  
-                                <h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/>  
+                                <h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/>                                  
                             </p:column>
 
                             <p:column id="delColumn" headerText="Delete">  

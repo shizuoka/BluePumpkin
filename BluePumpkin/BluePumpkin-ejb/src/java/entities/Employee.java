@@ -46,7 +46,7 @@ public class Employee implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createDate;
     @OneToMany(mappedBy = "employeeID")
-    private List<Request> requestList;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -210,14 +210,7 @@ public class Employee implements Serializable {
         return fullName + "(" + employeeID + ")";
     }
 
-    @XmlTransient
-    public List<Request> getRequestList() {
-        return requestList;
-    }
-
-    public void setRequestList(List<Request> requestList) {
-        this.requestList = requestList;
-    }
+    
 
     public Date getCreateDate() {
         return createDate;

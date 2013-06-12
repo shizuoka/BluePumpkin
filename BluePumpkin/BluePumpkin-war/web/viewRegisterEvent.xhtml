@@ -160,9 +160,12 @@ and open the template in the editor.
                                         <p:column id="statusNotAcceptColumn" headerText="Status" sortBy="#{reg.isAccept}" rendered="#{reg.isAccept==false}">  
                                             <h:outputText value="Not Yet Accept" style="color: red"/>  
                                         </p:column>
+                                        <p:column id="fdf" headerText="Status" sortBy="#{reg.isAccept}" rendered="#{reg.isAccept==false}">  
+                                            <h:outputText value="#{reg.eventID.endDate}" style="color: red"/>  
+                                        </p:column>
 
                                         <p:column id="actionColumn" headerText="Action">  
-                                            <h:commandButton value="Cancel" action="#{registerBean.cancelRegister(reg)}" rendered="#{reg.isAccept==false}"/>
+                                            <h:commandButton value="Cancel" action="#{registerBean.cancelRegister(reg)}" rendered="#{reg.cancelable}"/>
                                         </p:column>
                                         <h:inputHidden value="#{reg.registerID}"/>
                                     </p:dataTable> 

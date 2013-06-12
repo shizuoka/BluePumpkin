@@ -198,16 +198,3 @@ begin
 	where Status in ('Oncoming', 'Incoming')
 end
 go
-update Event
-set Status = 'Oncoming'
-where StartDate <= GETDATE() and EndDate > GETDATE() and Status != 'Oncoming'
-
-update Event
-set Status = 'Ended'
-where EndDate < GETDATE() and Status != 'Ended'
-
-select * from Event
-
-update Event
-set EndDate = '2013-06-08'
-where EventID = 'EV07'

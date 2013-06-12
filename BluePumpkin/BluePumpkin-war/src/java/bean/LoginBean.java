@@ -7,6 +7,7 @@ package bean;
 import entities.Account;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -91,7 +92,7 @@ public class LoginBean implements Serializable {
                     rq.setAttribute("error", "Access denied !!! You don't have permission");
                 }
             }
-        } catch (Exception e) {
+        } catch (EJBException e) {
             HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             rq.setAttribute("error", "Username or Password isn't correct....");
         }

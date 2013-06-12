@@ -126,6 +126,10 @@ public class RegisterEvent implements Serializable {
         }
         return true;
     }
+    
+    public boolean isCancelable() {
+        return !isAccept && eventID.getEndDate().before(new Date());
+    }
 
     @Override
     public String toString() {

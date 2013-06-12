@@ -76,12 +76,17 @@ and open the template in the editor.
 
                                 <div class="form_row">
                                     <label>Event ID:</label>
-                                    <h:outputText value="#{eventBean.evID}" id="evID"/>                                    
+                                    <h:outputText value="#{eventBean.event.eventID}" id="evID"/>                                    
                                 </div>
 
                                 <div class="form_row">
                                     <label>Prize Name:</label>
                                     <h:inputText value="#{prizeBean.prizeName}" class="form_input" id="prizeName"/>                                    
+                                </div>
+
+                                <div class="form_row">
+                                    <h:selectBooleanCheckbox disabled="#{prizeBean.showWin(eventBean.event.eventID)}" value="#{prizeBean.showWin(eventBean.event.eventID)}"/>     
+                                    1st
                                 </div>
 
                                 <div class="form_row">
