@@ -47,16 +47,23 @@ and open the template in the editor.
 
                             <p:column id="editFaqColumn" headerText="Edit">  
                                 <h:commandButton action="#{faqBean.editFaq(faq)}" image="../images/icon/edit.png" title=""/>
-                            </p:column>                                
+                            </p:column>  
+
+                            <p:column id="delFaqColumn" headerText="Delete">  
+                                <h:commandButton action="#{faqBean.deleteFaq(faq)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
+                            </p:column>
 
                         </p:dataTable>   
                         <h1><h:commandLink value="Add new faq" action="addFAQ.xhtml"/></h1> 
                     </h:form>
-                    <c:if test="#{not empty requestScope.del}">
-                        <h:outputText value="#{requestScope.del}" style="color: red"/>
+                    <c:if test="#{not empty requestScope.delSuccess}">
+                        <h:outputText value="#{requestScope.delSuccess}" style="color: green"/>
+                    </c:if>
+                    <c:if test="#{not empty requestScope.delFail}">
+                        <h:outputText value="#{requestScope.delFail}" style="color: red"/>
                     </c:if>
                     <br/>
-                    
+
                 </div>
             </ui:define>
         </ui:composition>            

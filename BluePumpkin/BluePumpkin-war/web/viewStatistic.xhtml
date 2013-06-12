@@ -20,12 +20,12 @@ and open the template in the editor.
                         <h:form>
                             <div class="form_statistic_row">
                                 <label>From date:</label>
-                                <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                                <p:calendar value="#{eventBean.fromDate}" id="popup_Startdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
                             </div>
 
                             <div class="form_statistic_row">
                                 <label>To date:</label>
-                                <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
+                                <p:calendar value="#{eventBean.todate}" id="popup_Enddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
                             </div>
                             <div id="button_search">
                                 <h:commandButton action="#{eventBean.customerStatistic()}" image="images/icon/search.gif" title=""/>

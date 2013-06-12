@@ -36,53 +36,62 @@ and open the template in the editor.
     <h:body>   
         <ui:composition template="shared/layout.xhtml">
             <ui:define name="content">
-                <table width="650" border="1" id="rounded-corner">
+                <table width="650" border="1" id="detail_table">
                     <tr>
                         <td colspan="2"><div align="center">
-                                <h2 class="style1">Event Detail </h2>
+                                <h2 class="style1" style="color: cornflowerblue">Event Detail </h2>
                             </div></td>
                     </tr>
                     <tr>
-                        <td> <div align="right">Event ID </div></td>
+                        <td> <div align="center">Event ID </div></td>
                         <td>#{eventBean.event.eventID}</td>
                     </tr>
                     <tr>
-                        <td><div align="right">Event Name </div></td>
+                        <td><div align="center">Event Name </div></td>
                         <td>#{eventBean.event.eventTitle}</td>
                     </tr>
                     <tr>
-                        <td><div align="right">Description</div></td>
-                        <td><textarea name="" rows="4" cols="20" disabled="true">
+                        <td><div align="center">Description</div></td>
+                        <td><textarea name="" rows="6" cols="35" disabled="true">
                                 #{eventBean.event.description}
                             </textarea></td>
                     </tr>              
                     <tr>
-                        <td><div align="right">Start Event Date</div></td>
+                        <td><div align="center">Start Event Date</div></td>
                         <td>
                             <h:outputText value="#{eventBean.event.startDate}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText></td>
                     </tr>
                     <tr>
-                        <td><div align="right">End Event Date</div></td>
+                        <td><div align="center">End Event Date</div></td>
                         <td><h:outputText value="#{eventBean.event.endDate}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText></td>
                     </tr>
                     <tr>
-                        <td><div align="right">Event Type</div></td>
+                        <td><div align="center">Event Type</div></td>
                         <td>#{eventBean.event.eventTypeID.eventTypeName}</td>
                     </tr> 
                     <tr>
+                        <td><div align="center">Status</div></td>
+                        <td>#{eventBean.event.status}</td>
+                    </tr>
+                    <tr>
                         <td colspan="2">
-                            <h:form><h:commandButton value="Register" action="#{registerBean.registerEvent(eventBean.event.eventID)}"/>
+                            <h:form><h:commandButton value="Register" action="#{registerBean.registerEvent(eventBean.event.eventID)}"
+                                                     rendered="#{eventBean.event.status!='Ended'}"/>
                             </h:form>
                         </td>
                     </tr>
                 </table>
-
+                <c:if test="#{not empty requestScope.msg}">
+                    <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>
+                </c:if>
+                <br/>
+                <h3>Comments</h3>
                 <h:form>
-                    <table>
+                    <table id="table_comment">
                         <tr>
                             <td>Title</td>
                             <td>
@@ -103,7 +112,7 @@ and open the template in the editor.
                         </tr>
                     </table>
                 </h:form>
-                <h3>Comments</h3>
+
                 <ul>
                     <c:forEach var="item" items="#{eventBean.getComments(eventBean.event.eventID)}">
                         <li>
@@ -112,9 +121,7 @@ and open the template in the editor.
                         </li>
                     </c:forEach>
                 </ul>
-                <c:if test="#{not empty requestScope.msg}">
-                    <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>
-                </c:if>
+
                 <br/>
                 <a href="registerEvent.xhtml">Back to View All Event</a>
                 <tt></tt>

@@ -45,7 +45,6 @@ public class RegisterBean implements Serializable {
     public void setFilteredRegister(List<RegisterEvent> filteredRegister) {
         this.filteredRegister = filteredRegister;
     }
-    
     private String message;
 
     public String getMessage() {
@@ -74,7 +73,7 @@ public class RegisterBean implements Serializable {
             }
         } catch (Exception e) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Register Fail !!!");
+            rq.setAttribute("msg", "You registed this event!Please choose another event");
             return "detailEvent.xhtml";
         }
 

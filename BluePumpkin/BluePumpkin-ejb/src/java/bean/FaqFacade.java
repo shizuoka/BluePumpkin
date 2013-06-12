@@ -55,7 +55,20 @@ public class FaqFacade extends AbstractFacade<Faq> {
         }
         return flag;
     }
-    public List<Faq> getListFaqs(){
+
+    public boolean delete(Faq faq) {
+        boolean flag = false;
+        try {
+            em.remove(em.merge(faq));
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
+
+    public List<Faq> getListFaqs() {
         return em.createNamedQuery("Faq.findAll").getResultList();
     }
 }
