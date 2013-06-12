@@ -10,28 +10,79 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    <head>
-        <title>Template Admin Page</title>
-        <link rel="stylesheet" type="text/css" href="/BluePumpkin-war/css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/> 
-    </head>
-    <body>
+    <h:head>
+        <title>Administrator Index Page</title>
+        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>            
+    </h:head>
+    <h:body>
+        <c:if test="#{sessionScope.admin==null}">
+            #{facesContext.externalContext.redirect("login.xhtml")}
+        </c:if>
         <div id="panelwrap">
-            <ui:insert name="header">
-                <ui:include src="header.xhtml"/>
-            </ui:insert>
 
-            <ui:insert name="content">
-                <ui:include src="content.xhtml"/>
-            </ui:insert>
+            <div class="header">
+                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
 
-            <ui:insert name="leftMenu">
-                <ui:include src="leftMenu.xhtml"/>
-            </ui:insert>
+                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
+                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
 
-            <ui:insert name="footer">
-                <ui:include src="footer.xhtml"/>
-            </ui:insert>
-        </div>        
-    </body>
+                <div class="menu">
+                    <ul>
+                        <li><a href="index.xhtml" class="selected">Main page</a></li>
+                        <li><a href="addEventType.xhtml">Manager Event</a></li>
+                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
+                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
+                        <li><a href="#">Manager Request</a></li>
+                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
+                        <li><a href="statistic.xhtml">Reports</a></li>                        
+                    </ul>
+                </div>
+
+            </div>       
+
+            <div class="center_content">  
+
+                <div id="right_wrap">
+                    <ui:insert name="content"/>
+                </div><!-- end of right content-->
+
+
+                <div class="sidebar" id="sidebar">                    
+
+                    <h2>Page Section</h2>
+
+                    <ul>
+                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
+                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
+                        <li><a href="event.xhtml">Add New Event</a></li>
+                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
+                        <li><a href="statistic.xhtml">View Statistics</a></li>
+                    </ul> 
+
+                    <h2>User Settings</h2>
+
+                    <ul>
+                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
+                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
+                        <li><a href="#">Help</a></li>
+                    </ul>   
+
+                    <h2>Text Section</h2> 
+                    <div class="sidebar_section_text">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </div>         
+
+                </div>             
+
+
+                <div class="clear"></div>
+            </div> <!--end of center_content-->
+
+            <div class="footer">
+                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
+            </div>
+
+        </div>
+    </h:body>
 </html>

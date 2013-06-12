@@ -8,228 +8,167 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>Manage Event Page</title>
-        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
-        <!-- jQuery file -->        
+        <title>Manage Event Page</title>                
     </h:head>
     <h:body>
-        <div id="panelwrap">
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content">             
+                    <h:form>  
 
-            <div class="header">
-                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
+                        <p:dataTable id="dataTable" var="event" value="#{eventBean.showAll()}" widgetVar="eventsTable"   
+                                     emptyMessage="No event found with given criteria" filteredValue="#{eventBean.filteredEvents}"
+                                     paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15" sortMode="multiple" scrollable="true" scrollWidth="758" scrollHeight="500">  
 
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
-                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+                            <f:facet name="header">  
+                                Tables Event 
+                            </f:facet>  
 
-                <div class="menu">
-                    <ul>
-                        <li><a href="index.xhtml" class="selected">Main page</a></li>
-                        <li><a href="addEventType.xhtml">Manager Event</a></li>
-                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
-                        <li><a href="#">Manager Request</a></li>
-                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                        
+                            <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Search all fields:" />  
+                                    <p:inputText id="globalFilter" onkeyup="eventsTable.filter()" style="width:150px" />  
+                                </p:outputPanel>  
+                            </f:facet>  
+
+                            <p:column id="eventIDColumn" filterBy="#{event.eventID}"   
+                                      headerText="EventID" filterMatchMode="contains" sortBy="#{event.eventID}">  
+                                <h:outputText value="#{event.eventID}" />  
+                            </p:column>  
+
+                            <p:column id="titleColumn" filterBy="#{event.eventTitle}"  
+                                      headerText="Title" filterMatchMode="startsWith" sortBy="#{event.eventTitle}">  
+                                <h:outputText value="#{event.eventTitle}" />  
+                            </p:column>  
+
+                            <p:column id="imageColumn" headerText="Image">  
+                                <p:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>
+                            </p:column>  
+
+                            <p:column id="descriptionColumn" headerText="Description">  
+                                <h:outputText value="#{event.description}" />  
+                            </p:column>  
+
+                            <p:column id="startDateColumn" headerText="StartDate" sortBy="#{event.startDate}">  
+                                <h:outputText value="#{event.startDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column id="endDateColumn" headerText="EndDate" sortBy="#{event.endDate}">  
+                                <h:outputText value="#{event.endDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column id="statusColumn" headerText="Status" filterBy="#{event.status}"
+                                      filterMatchMode="startsWith" sortBy="#{event.status}">  
+                                <h:outputText value="#{event.status}"/>                                    
+                            </p:column>
+
+                            <p:column id="typeColumn" headerText="Type" filterBy="#{event.eventTypeID.eventTypeName}"
+                                      filterMatchMode="contains" sortBy="#{event.eventTypeID.eventTypeName}">  
+                                <h:outputText value="#{event.eventTypeID.eventTypeName}" />  
+                            </p:column>
+
+                            <p:column id="addPrizeColumn" headerText="AddPrize">  
+                                <h:commandButton action="#{eventBean.redirectInsertPrize(event.eventID)}" image="../images/icon/prize.jpg" style="width: 16px;height: 16px"/> 
+                            </p:column>
+
+                            <p:column id="editColumn" headerText="Edit">  
+                                <h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/>  
+                            </p:column>
+
+                            <p:column id="delColumn" headerText="Delete">  
+                                <h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/> 
+                            </p:column>
+                        </p:dataTable>  
+
+                    </h:form> 
+
+                    <c:if test="#{not empty requestScope.del}">
+                        <h:outputText value="#{requestScope.del}" style="color: red"/>
+                    </c:if>
+
+                    <div class="form_sub_buttons">
+                        <a href="#" class="button green">Edit selected</a>
+                        <a href="#" class="button red">Delete selected</a>
+                    </div>
+
+                    <ul id="tabsmenu" class="tabsmenu">
+                        <li class="active"><a href="#tab1">Form Add Structure</a></li>                                                      
                     </ul>
-                </div>
 
-            </div>       
+                    <div id="tab2" class="tabcontent">                              
+                        <h3>Add New Event</h3>
+                        <h:form>
+                            <div class="form">
 
-            <div class="center_content">  
-
-                <div id="right_wrap">
-                    <div id="right_content">             
-                        <h:form>  
-
-                            <p:dataTable id="dataTable" var="event" value="#{eventBean.showAll()}" widgetVar="eventsTable"   
-                                         emptyMessage="No event found with given criteria" filteredValue="#{eventBean.filteredEvents}"
-                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" scrollable="true" scrollWidth="758" scrollHeight="500">  
-                                
-                                <f:facet name="header">  
-                                    Tables Event 
-                                </f:facet>  
-
-                                <f:facet name="header">  
-                                    <p:outputPanel>  
-                                        <h:outputText value="Search all fields:" />  
-                                        <p:inputText id="globalFilter" onkeyup="eventsTable.filter()" style="width:150px" />  
-                                    </p:outputPanel>  
-                                </f:facet>  
-
-                                <p:column id="eventIDColumn" filterBy="#{event.eventID}"   
-                                          headerText="EventID" filterMatchMode="contains" sortBy="#{event.eventID}">  
-                                    <h:outputText value="#{event.eventID}" />  
-                                </p:column>  
-
-                                <p:column id="titleColumn" filterBy="#{event.eventTitle}"  
-                                          headerText="Title" filterMatchMode="startsWith" sortBy="#{event.eventTitle}">  
-                                    <h:outputText value="#{event.eventTitle}" />  
-                                </p:column>  
-
-                                <p:column id="imageColumn" headerText="Image">  
-                                    <p:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>
-                                </p:column>  
-
-                                <p:column id="descriptionColumn" headerText="Description">  
-                                    <h:outputText value="#{event.description}" />  
-                                </p:column>  
-
-                                <p:column id="startDateColumn" headerText="StartDate" sortBy="#{event.startDate}">  
-                                    <h:outputText value="#{event.startDate}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                                    </h:outputText>
-                                </p:column>
-
-                                <p:column id="endDateColumn" headerText="EndDate" sortBy="#{event.endDate}">  
-                                    <h:outputText value="#{event.endDate}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy" />
-                                    </h:outputText>
-                                </p:column>
-
-                                <p:column id="statusColumn" headerText="Status" filterBy="#{event.status}"
-                                          filterMatchMode="startsWith" sortBy="#{event.status}">  
-                                    <h:outputText value="#{event.status}"/>                                    
-                                </p:column>
-
-                                <p:column id="typeColumn" headerText="Type" filterBy="#{event.eventTypeID.eventTypeName}"
-                                          filterMatchMode="contains" sortBy="#{event.eventTypeID.eventTypeName}">  
-                                    <h:outputText value="#{event.eventTypeID.eventTypeName}" />  
-                                </p:column>
-
-                                <p:column id="addPrizeColumn" headerText="AddPrize">  
-                                    <h:commandButton action="#{eventBean.redirectInsertPrize(event.eventID)}" image="../images/icon/prize.jpg" style="width: 16px;height: 16px"/> 
-                                </p:column>
-
-                                <p:column id="editColumn" headerText="Edit">  
-                                    <h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/>  
-                                </p:column>
-
-                                <p:column id="delColumn" headerText="Delete">  
-                                    <h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/> 
-                                </p:column>
-                            </p:dataTable>  
-
-                        </h:form> 
-
-                        <c:if test="#{not empty requestScope.del}">
-                            <h:outputText value="#{requestScope.del}" style="color: red"/>
-                        </c:if>
-
-                        <div class="form_sub_buttons">
-                            <a href="#" class="button green">Edit selected</a>
-                            <a href="#" class="button red">Delete selected</a>
-                        </div>
-
-                        <ul id="tabsmenu" class="tabsmenu">
-                            <li class="active"><a href="#tab1">Form Add Structure</a></li>                                                      
-                        </ul>
-
-                        <div id="tab2" class="tabcontent">                              
-                            <h3>Add New Event</h3>
-                            <h:form>
-                                <div class="form">
-
-                                    <div class="form_row">
-                                        <label>Event ID:</label>
-                                        <h:inputText value="#{eventBean.eventID}" class="form_input" maxlength="10" id="txtID"/>                                    
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Event Title:</label>
-                                        <h:inputText class="form_input" id="txtName" maxlength="30" value="#{eventBean.eventTitle}" />                                    
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Description:</label>
-                                        <h:inputTextarea class="form_textarea" id="txtDescription"  rows="4" cols="20" value="#{eventBean.description}"/>
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Image:</label>
-                                        <h:form enctype="multipart/form-data">
-                                            <p:fileUpload
-                                                fileUploadListener="#{eventBean.handleFileUpload}"
-                                                mode="advanced" update="messages" label="Choose a file"
-                                                auto="true" sizeLimit="10485760"
-                                                allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                                invalidSizeMessage="The maximum file size allowed is 10 Megabytes !"
-                                                invalidFileMessage="You are allowed to upload only images !"/>
-                                            <p:growl id="messages" showDetail="true" life="5000" />
-                                        </h:form>
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Start Date:</label>
-                                        <p:calendar value="#{eventBean.startDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>End Date:</label>
-                                        <p:calendar value="#{eventBean.endDate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Event Type:</label>
-                                        <h:selectOneMenu id="selectType" value="#{eventBean.choiceEventType}">
-                                            <f:selectItems value="#{eventTypeBean.showAllEventType()}" var="eType"
-                                                           itemLabel="#{eType.eventTypeName}" itemValue="#{eType.eventTypeID}"/>
-                                        </h:selectOneMenu>
-                                    </div>
-
-                                    <div class="form_row">
-                                        <h:commandButton class="form_submit" value="Create" action="#{eventBean.addNewEvent()}"/> 
-                                        <h:commandButton value="Reset" action="#{eventBean.reset()}"/>
-                                    </div>                                                                
-
-                                    <div class="clear"></div>
-                                    <c:if test="#{not empty requestScope.add}">
-                                        <h:outputText value="#{requestScope.add}" style="color: blue"/>
-                                    </c:if>
+                                <div class="form_row">
+                                    <label>Event ID:</label>
+                                    <h:inputText value="#{eventBean.eventID}" class="form_input" maxlength="10" id="txtID"/>                                    
                                 </div>
-                            </h:form>
-                        </div>
-                    </div><!-- end of right content-->
-                </div>
 
-                <div class="sidebar" id="sidebar">                    
+                                <div class="form_row">
+                                    <label>Event Title:</label>
+                                    <h:inputText class="form_input" id="txtName" maxlength="30" value="#{eventBean.eventTitle}" />                                    
+                                </div>
 
-                    <h2>Page Section</h2>
+                                <div class="form_row">
+                                    <label>Description:</label>
+                                    <h:inputTextarea class="form_textarea" id="txtDescription"  rows="4" cols="20" value="#{eventBean.description}"/>
+                                </div>
 
-                    <ul>
-                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
-                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
-                        <li><a href="event.xhtml">Add New Event</a></li>
-                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
-                        <li><a href="statistic.xhtml">View Statistics</a></li>
-                    </ul> 
+                                <div class="form_row">
+                                    <label>Image:</label>
+                                    <h:form enctype="multipart/form-data">
+                                        <p:fileUpload
+                                            fileUploadListener="#{eventBean.handleFileUpload}"
+                                            mode="advanced" update="messages" label="Choose a file"
+                                            auto="true" sizeLimit="10485760"
+                                            allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                            invalidSizeMessage="The maximum file size allowed is 10 Megabytes !"
+                                            invalidFileMessage="You are allowed to upload only images !"/>
+                                        <p:growl id="messages" showDetail="true" life="5000" />
+                                    </h:form>
+                                </div>
 
-                    <h2>User Settings</h2>
+                                <div class="form_row">
+                                    <label>Start Date:</label>
+                                    <p:calendar value="#{eventBean.startDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                                </div>
 
-                    <ul>
-                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
-                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
-                        <li><a href="#">Help</a></li>
-                    </ul>   
+                                <div class="form_row">
+                                    <label>End Date:</label>
+                                    <p:calendar value="#{eventBean.endDate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
+                                </div>
 
-                    <h2>Text Section</h2> 
-                    <div class="sidebar_section_text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </div>         
+                                <div class="form_row">
+                                    <label>Event Type:</label>
+                                    <h:selectOneMenu id="selectType" value="#{eventBean.choiceEventType}">
+                                        <f:selectItems value="#{eventTypeBean.showAllEventType()}" var="eType"
+                                                       itemLabel="#{eType.eventTypeName}" itemValue="#{eType.eventTypeID}"/>
+                                    </h:selectOneMenu>
+                                </div>
 
-                </div>        
+                                <div class="form_row">
+                                    <h:commandButton class="form_submit" value="Create" action="#{eventBean.addNewEvent()}"/> 
+                                    <h:commandButton value="Reset" action="#{eventBean.reset()}"/>
+                                </div>                                                                
 
-
-                <div class="clear"></div>
-            </div> <!--end of center_content-->
-
-            <div class="footer">
-                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
-            </div>
-
-        </div>
+                                <div class="clear"></div>
+                                <c:if test="#{not empty requestScope.add}">
+                                    <h:outputText value="#{requestScope.add}" style="color: blue"/>
+                                </c:if>
+                            </div>
+                        </h:form>
+                    </div>
+                </div><!-- end of right content-->
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>

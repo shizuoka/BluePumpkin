@@ -36,6 +36,16 @@ public class RegisterBean implements Serializable {
      */
     public RegisterBean() {
     }
+    private List<RegisterEvent> filteredRegister;
+
+    public List<RegisterEvent> getFilteredRegister() {
+        return filteredRegister;
+    }
+
+    public void setFilteredRegister(List<RegisterEvent> filteredRegister) {
+        this.filteredRegister = filteredRegister;
+    }
+    
     private String message;
 
     public String getMessage() {

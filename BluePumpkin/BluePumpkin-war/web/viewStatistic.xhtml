@@ -34,181 +34,63 @@ and open the template in the editor.
         </script>
     </h:head>
     <h:body>
-        <div id="templatemo_body_wrapper">
-            <div id="templatemo_wrapper">
-
-                <div id="tempaltemo_header">
-                    <span id="header_icon"></span>
-                    <div id="header_content">
-                        <div id="site_title">
-                            <a href="#" target="_parent"><img src="images/templatemo_logo.png" alt="LOGO" /></a>            </div>
-                        <p>This is a free CSS website layout from templatemo.com website.  Feel free to edit and apply for your websites. Duis vitae velit sed dui malesuad mollis aliquet ligula.</p>
-                        <a href="#" class="detail float_r">Detail</a>
-                    </div>
-                </div> <!-- end of header -->
-
-                <div id="templatemo_main_top"></div>
-                <div id="templatemo_main"><span id="main_top"></span><span id="main_bottom"></span>
-
-                    <div id="templatemo_sidebar">
-
-                        <div id="templatemo_menu">
-                            <ul>
-                                <li><a href="index.xhtml" target="_parent" class="current">Home</a></li>
-                                <li><a href="registerEvent.xhtml" target="_parent">Event</a></li>
-                                <c:if test="#{loginBean.isLogged==true}">  
-                                    <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
-                                    <li><a href="changeInfo.xhtml" target="_parent">Profile Setting</a></li>
-                                </c:if>
-                                <li><a href="viewStatistic.xhtml" target="_parent">View Statistic</a></li>
-                                <li><a href="#" target="_parent">Our Company</a></li>
-                                <li><a href="#" target="_parent">Contact Information</a></li>
-                            </ul>    	
-                        </div> <!-- end of templatemo_menu -->
-
-                        <div class="sidebar_box">
-                            <div class="sb_title">Client Login</div>
-                            <div class="sb_content">
-                                <c:if test="#{loginBean.isLogged==false}">                                                                    
-                                    <div id="login_form">
-                                        <h:form id="frmLogin">
-                                            <p><span>User Name:</span>
-                                                <h:inputText id="username" value="#{loginBean.username}" class="login_input"/>                                                     
-                                            </p>
-                                            <p><span>Password:</span>
-                                                <h:inputSecret id="password" value="#{loginBean.password}" class="login_input"/>                                                 
-                                            </p>
-                                            <h:commandButton id="login_submit" action="#{loginBean.loginEmployee()}" image="images/templatemo_login.jpg"/>                                        
-                                        </h:form>
-                                        <c:if test="#{not empty requestScope.error}">
-                                            <h:outputText value="#{requestScope.error}" style="color: red"/>
-                                        </c:if>
-                                    </div>     
-                                </c:if>
-                                <c:if test="#{loginBean.isLogged==true}">
-                                    <h:form id="frmLogout">
-                                        <div id="login_form">
-                                            Hi,#{sessionScope.employee.userName.fullName}.
-                                            <h:commandLink value="Logout" action="#{loginBean.logOutEmployee()}"/>
-                                        </div>
-                                    </h:form>
-                                </c:if>
-                            </div>
-                            <div class="sb_bottom"></div>            
+        <ui:composition template="shared/layout.xhtml">
+            <ui:define name="content">
+                <div id="form_statistic">
+                    <h:form>
+                        <div class="form_statistic_row">
+                            <label>From date:</label>
+                            <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
                         </div>
 
-                        <div class="sidebar_box">
-                            <div class="sb_title">Latest Updates</div>
-                            <div>
-                                <h3>BirthDate</h3>
-                                <ui:repeat value="#{employeeBean.findEmployeeByBirthDate()}" var="e">
-                                    <ul>
-                                        <li>
-                                            <span>
-                                                <h:outputText value="#{e[1]}" />
-                                            </span>
-                                        </li>
-                                    </ul>
-                                </ui:repeat>
+                        <div class="form_statistic_row">
+                            <label>To date:</label>
+                            <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
+                        </div>
+                        <div id="button_search">
+                            <h:commandButton action="#" image="images/icon/search.gif" title=""/>
+                        </div>
 
-                            </div>
-                            <div class="sb_content">
-
-                                <div class="sb_news_box">
-                                    <a href="#">Maecenas adipiscing elem sum ipsum.</a>
-                                    <span>25 September 2048</span>					
-                                </div>
-
-                                <div class="sb_news_box">
-                                    <a href="#">Aser ecenas adipiscing de lorem ipsum.</a>
-                                    <span>18 September 2048</span>					
-                                </div>
-
-                                <a href="#"><strong>View All</strong></a>
-                            </div>
-
-                            <div class="sb_bottom"></div>  
-
-                        </div>                        
-
-                        <div class="cleaner"></div>
-                    </div> <!-- end of sidebar -->
-
-                    <div id="templatemo_content">
-                        <div id="right_wrap">
-                            <div id="right_content">
-                                <div id="form_statistic">
-                                    <h:form>
-                                        <div class="form_statistic_row">
-                                            <label>From date:</label>
-                                            <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
-                                        </div>
-
-                                        <div class="form_statistic_row">
-                                            <label>To date:</label>
-                                            <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
-                                        </div>
-                                        <div id="button_search">
-                                            <h:commandButton action="#" image="images/icon/search.gif" title=""/>
-                                        </div>
-
-                                    </h:form>
-                                </div>
-                                <div class="resuilt">
-                                    #{eventBean.statistic()}
-                                    <ul>
-                                        <li><span>Number of events</span><strong>: #{eventBean.total}</strong></li>
-                                        <li><span>Number of events incoming</span><strong>: #{eventBean.incoming}</strong></li>
-                                        <li><span>Number of events oncoming</span><strong>: #{eventBean.oncoming}</strong></li>
-                                        <li><span>Number of events ended</span><strong>: #{eventBean.ended}</strong></li>
-                                    </ul>
-                                </div>
-                                <div id="chart">
-                                    <c:forEach items="#{eventBean.showEventsTop()}" var="statistic">                            
-                                        <script type="text/javascript">
-                                            google.load("visualization", "1", {packages:["corechart"]});
-                                            google.setOnLoadCallback(drawChart);
-                                            function drawChart() {
-                                                var eventId = '#{statistic.eventId}';
-                                                var event = '#{statistic.event}';
-                                                var total = #{statistic.totalEmp};
-                                                var empRe = #{statistic.empRe};
-                                                var empNotRe = #{statistic.empNotRe};
-                                                var data = google.visualization.arrayToDataTable([
-                                                    ['Tong so nhan vien', total],
-                                                    ['So nhan vien dang ky', empRe],
-                                                    ['So nhan vien khong dang ky',  empNotRe],
-                                                ]);
-
-                                                var options = {
-                                                    title: event
-                                                };
-
-                                                var chart = new google.visualization.PieChart(document.getElementById('#{statistic.eventId}'));
-                                                chart.draw(data, options);
-                                            }
-                                        </script>
-                                        <div id="#{statistic.eventId}" class="chart" style="width: 370px; height: 200px;"></div>   
-                                    </c:forEach>
-                                </div>
-                            </div>
-                        </div><!-- end of right content-->
-                    </div>
-
-                    <div class="cleaner"></div>    
+                    </h:form>
                 </div>
-
-                <div id="templatemo_main_bottom">
+                <div class="resuilt">
+                    #{eventBean.statistic()}
+                    <ul>
+                        <li><span>Number of events</span><strong>: #{eventBean.total}</strong></li>
+                        <li><span>Number of events incoming</span><strong>: #{eventBean.incoming}</strong></li>
+                        <li><span>Number of events oncoming</span><strong>: #{eventBean.oncoming}</strong></li>
+                        <li><span>Number of events ended</span><strong>: #{eventBean.ended}</strong></li>
+                    </ul>
                 </div>
+                <div id="chart">
+                    <c:forEach items="#{eventBean.showEventsTop()}" var="statistic">                            
+                        <script type="text/javascript">
+                            google.load("visualization", "1", {packages:["corechart"]});
+                            google.setOnLoadCallback(drawChart);
+                            function drawChart() {
+                                var eventId = '#{statistic.eventId}';
+                                var event = '#{statistic.event}';
+                                var total = #{statistic.totalEmp};
+                                var empRe = #{statistic.empRe};
+                                var empNotRe = #{statistic.empNotRe};
+                                var data = google.visualization.arrayToDataTable([
+                                    ['Tong so nhan vien', total],
+                                    ['So nhan vien dang ky', empRe],
+                                    ['So nhan vien khong dang ky',  empNotRe],
+                                ]);
 
-            </div> <!-- end of wrapper -->
-        </div>
+                                var options = {
+                                    title: event
+                                };
 
-        <div id="templatemo_footer_wrapper">
-            <div id="templatemo_footer">
-                Copyright © 2013 <a href="http://fpt.aptech.edu.vn/">FPT Aptech</a> | 
-                Designed by <a href="http://aptech.ac.vn:8801/" target="_parent"> Group 1 C1007L</a> |                                  
-            </div>
-        </div>
+                                var chart = new google.visualization.PieChart(document.getElementById('#{statistic.eventId}'));
+                                chart.draw(data, options);
+                            }
+                        </script>
+                        <div id="#{statistic.eventId}" class="chart" style="width: 370px; height: 200px;"></div>   
+                    </c:forEach>
+                </div>
+            </ui:define>
+        </ui:composition>        
     </h:body>
 </html>

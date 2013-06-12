@@ -8,7 +8,8 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Regiter Event Page</title>
         <script type="text/javascript" src="LightboxJS/prototype.js"></script>
@@ -39,194 +40,93 @@ and open the template in the editor.
         </script>
     </h:head>
     <h:body>
-        <div id="templatemo_body_wrapper">
-            <div id="templatemo_wrapper">
-
-                <div id="tempaltemo_header">
-                    <span id="header_icon"></span>
-                    <div id="header_content">
-                        <div id="site_title">
-                            <a href="#" target="_parent"><img src="images/templatemo_logo.png" alt="LOGO" /></a>            </div>
-                        <p>This is a free CSS website layout from templatemo.com website.  Feel free to edit and apply for your websites. Duis vitae velit sed dui malesuad mollis aliquet ligula.</p>
-                        <a href="#" class="detail float_r">Detail</a>
-                    </div>
-                </div> <!-- end of header -->
-
-                <div id="templatemo_main_top"></div>
-                <div id="templatemo_main"><span id="main_top"></span><span id="main_bottom"></span>
-
-                    <div id="templatemo_sidebar">
-
-                        <div id="templatemo_menu">
-                            <ul>
-                                <li><a href="index.xhtml" target="_parent" class="current">Home</a></li>
-                                <li><a href="registerEvent.xhtml" target="_parent">Event</a></li>
-                                <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
-                                <li><a href="viewStatistic.xhtml" target="_parent">View Statistic</a></li>
-                                <c:if test="#{loginBean.isLogged==true}">                                      
-                                    <li><a href="changeInfo.xhtml" target="_parent">Profile Setting</a></li>
-                                </c:if>
-                                <li><a href="#" target="_parent">Our Company</a></li>
-                                <li><a href="#" target="_parent">Contact Information</a></li>
-                            </ul>    	
-                        </div> <!-- end of templatemo_menu -->
-
-                        <div class="sidebar_box">
-                            <div class="sb_title">Client Login</div>
-                            <div class="sb_content">
-                                <c:if test="#{loginBean.isLogged==false}">                                                                    
-                                    <div id="login_form">
-                                        <h:form id="frmLogin">
-                                            <p><span>User Name:</span>
-                                                <h:inputText id="username" value="#{loginBean.username}" class="login_input"/>                                                     
-                                            </p>
-                                            <p><span>Password:</span>
-                                                <h:inputSecret id="password" value="#{loginBean.password}" class="login_input"/>                                                 
-                                            </p>
-                                            <h:commandButton id="login_submit" action="#{loginBean.loginEmployee()}" image="images/templatemo_login.jpg"/>                                        
-                                        </h:form>
-                                        <c:if test="#{not empty loginBean.msg}">
-                                            <h:outputText value="#{loginBean.msg}" style="color: red"/>
-                                        </c:if>
-                                    </div>     
-                                </c:if>
-                                <c:if test="#{loginBean.isLogged==true}">
-                                    <h:form id="frmLogout">
-                                        <div id="login_form">
-                                            Hi,#{sessionScope.employee.userName.fullName}
-                                            <h:commandLink value="Logout" action="#{loginBean.logOutEmployee()}"/>
-                                        </div>
-                                    </h:form>
-                                </c:if>
-                            </div>
-                            <div class="sb_bottom"></div>            
-                        </div>
-
-                        <div class="sidebar_box">
-                            <div class="sb_title">Latest Updates</div>
-                            <div class="sb_content">
-
-                                <div class="sb_news_box">
-                                    <a href="#">Maecenas adipiscing elem sum ipsum.</a>
-                                    <span>25 September 2048</span>					
-                                </div>
-
-                                <div class="sb_news_box">
-                                    <a href="#">Aser ecenas adipiscing de lorem ipsum.</a>
-                                    <span>18 September 2048</span>					
-                                </div>
-
-                                <a href="#"><strong>View All</strong></a>
-                            </div>
-
-                            <div class="sb_bottom"></div>  
-
-                        </div>                        
-
-                        <div class="cleaner"></div>
-                    </div> <!-- end of sidebar -->
-
-                    <div id="templatemo_content">
-                        <br/>
-                        <div>
-                            <h:form>
-                                <table style="margin: 0 auto;">
-                                    <tr>
-                                        <td colspan="3" style="text-align: center;"><h2>Edit Profile</h2></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fullname: </td>
-                                        <td><p:inputText size="30" value="#{editProfileBean.acc.userName.fullName}"/></td>
-                                        <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 1}">Your name can not empty!</h:outputLabel></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Passwords: </td>
-                                        <td><p:password size="30" value="#{editProfileBean.pass}"/></td>
-                                        <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 2}">Passwords not correct!</h:outputLabel></td>
-                                    </tr>
-                                    <tr>
-                                        <td>New passwords: </td>
-                                        <td><p:password size="30" value="#{editProfileBean.newpass1}"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Confirm passwords: </td>
-                                        <td><p:password size="30" value="#{editProfileBean.newpass2}"/></td>
-                                        <td>
-                                            <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 3}">Confirm passwords not match!</h:outputLabel>
-                                            <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 4}">password must be at least 6 characters!</h:outputLabel>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email: </td>
-                                        <td><p:inputText size="30" value="#{editProfileBean.acc.userName.email}" id="txtEmail" validatorMessage="Email not valid!" >
-                                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-                                            </p:inputText>
-                                        </td>
-                                        <td>
-                                            <p:message for="txtEmail" display="text"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Birthday: </td>
-                                        <td>
-                                            <p:calendar value="#{editProfileBean.acc.userName.dateOfBirth}" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
-                                        </td>
-                                        <td><td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 5}">The birthday not valid!</h:outputLabel></td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Gender:</td>
-                                        <td>
-                                            <h:selectOneMenu rendered="#{editProfileBean.acc.userName.gender == false}" value="#{editProfileBean.acc.userName.gender}">
-                                                <f:selectItem itemLabel="Male" itemValue="#{true}"/>
-                                                <f:selectItem itemLabel="Female" itemValue="#{false}"/>
-                                            </h:selectOneMenu>
-                                            <h:selectOneMenu rendered="#{editProfileBean.acc.userName.gender == true}" value="#{editProfileBean.acc.userName.gender}">
-                                                <f:selectItem itemLabel="Female" itemValue="#{false}"/>
-                                                <f:selectItem itemLabel="Male" itemValue="#{true}"/>
-                                            </h:selectOneMenu>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone number: </td>
-                                        <td><p:inputText size="30" value="#{editProfileBean.acc.userName.phone}" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            <h:commandButton value="Edit" action="#{editProfileBean.editInfoEmployee()}"/>
-                                            <input type="button" value="Back" onclick=""/>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <h:panelGrid rendered="#{editProfileBean.check == 1}">
-                                    <script>
-                                        alert("Edit successful!");
-                                    </script>
-                                </h:panelGrid>
-                                <h:panelGrid rendered="#{register.check == 2}">
-                                    <script>
-                                        alert("Can not edit! Please try again.");
-                                    </script>
-                                </h:panelGrid>
-                            </h:form>
-                        </div>
-                    </div>
-
-                    <div class="cleaner"></div>    
+        <ui:composition template="shared/layout.xhtml">
+            <ui:define name="content">
+                <br/>
+                <div>
+                    <h:form>
+                        <table style="margin: 0 auto;">
+                            <tr>
+                                <td colspan="3" style="text-align: center;"><h2>Edit Profile</h2></td>
+                            </tr>
+                            <tr>
+                                <td>Fullname: </td>
+                                <td><p:inputText size="30" value="#{editProfileBean.acc.userName.fullName}"/></td>
+                                <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 1}">Your name can not empty!</h:outputLabel></td>
+                            </tr>
+                            <tr>
+                                <td>Passwords: </td>
+                                <td><p:password size="30" value="#{editProfileBean.pass}"/></td>
+                                <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 2}">Passwords not correct!</h:outputLabel></td>
+                            </tr>
+                            <tr>
+                                <td>New passwords: </td>
+                                <td><p:password size="30" value="#{editProfileBean.newpass1}"/></td>
+                            </tr>
+                            <tr>
+                                <td>Confirm passwords: </td>
+                                <td><p:password size="30" value="#{editProfileBean.newpass2}"/></td>
+                                <td>
+                                    <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 3}">Confirm passwords not match!</h:outputLabel>
+                                    <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 4}">password must be at least 6 characters!</h:outputLabel>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email: </td>
+                                <td><p:inputText size="30" value="#{editProfileBean.acc.userName.email}" id="txtEmail" validatorMessage="Email not valid!" >
+                                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                    </p:inputText>
+                                </td>
+                                <td>
+                                    <p:message for="txtEmail" display="text"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Birthday: </td>
+                                <td>
+                                    <p:calendar value="#{editProfileBean.acc.userName.dateOfBirth}" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                                </td>
+                                <td><td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 5}">The birthday not valid!</h:outputLabel></td></td>
+                            </tr>
+                            <tr>
+                                <td>Gender:</td>
+                                <td>
+                                    <h:selectOneMenu rendered="#{editProfileBean.acc.userName.gender == false}" value="#{editProfileBean.acc.userName.gender}">
+                                        <f:selectItem itemLabel="Male" itemValue="#{true}"/>
+                                        <f:selectItem itemLabel="Female" itemValue="#{false}"/>
+                                    </h:selectOneMenu>
+                                    <h:selectOneMenu rendered="#{editProfileBean.acc.userName.gender == true}" value="#{editProfileBean.acc.userName.gender}">
+                                        <f:selectItem itemLabel="Female" itemValue="#{false}"/>
+                                        <f:selectItem itemLabel="Male" itemValue="#{true}"/>
+                                    </h:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Phone number: </td>
+                                <td><p:inputText size="30" value="#{editProfileBean.acc.userName.phone}" /></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <h:commandButton value="Edit" action="#{editProfileBean.editInfoEmployee()}"/>
+                                    <input type="button" value="Back" onclick=""/>
+                                </td>
+                            </tr>
+                        </table>
+                        <h:panelGrid rendered="#{editProfileBean.check == 1}">
+                            <script>
+                                alert("Edit successful!");
+                            </script>
+                        </h:panelGrid>
+                        <h:panelGrid rendered="#{register.check == 2}">
+                            <script>
+                                alert("Can not edit! Please try again.");
+                            </script>
+                        </h:panelGrid>
+                    </h:form>
                 </div>
-
-                <div id="templatemo_main_bottom">
-                </div>
-
-            </div> <!-- end of wrapper -->
-        </div>
-
-        <div id="templatemo_footer_wrapper">
-            <div id="templatemo_footer">
-                Copyright © 2013 <a href="http://fpt.aptech.edu.vn/">FPT Aptech</a> | 
-                Designed by <a href="http://aptech.ac.vn:8801/" target="_parent"> Group 1 C1007L</a> |                                  
-            </div>
-        </div>                
+            </ui:define>
+        </ui:composition>                   
     </h:body>
 </html>
 

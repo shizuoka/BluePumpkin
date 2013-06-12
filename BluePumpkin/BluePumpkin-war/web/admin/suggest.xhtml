@@ -8,120 +8,59 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Management Suggest Page</title>
-        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
     </h:head>
     <h:body>
-        <div id="panelwrap">
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content"> 
+                    <h:form>
+                        <p:dataTable id="suggestTable" var="suggest" value="#{suggestBean.showNotAcceptRegister()}" widgetVar="suggestsTable"   
+                                     emptyMessage="No register found with given criteria" filteredValue="#{suggestBean.filteredRegister}"
+                                     paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
+                            <f:facet name="header">  
+                                Suggest Register Event
+                            </f:facet>
 
-            <div class="header">
-                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
+                            <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Search all fields:" />  
+                                    <p:inputText id="globalFilter" onkeyup="prizesTable.filter()" style="width:150px" />  
+                                </p:outputPanel>  
+                            </f:facet>  
 
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
-                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+                            <p:column id="eventColumn" filterBy="#{suggest.eventID.eventTitle}"   
+                                      headerText="Event" filterMatchMode="contains" sortBy="#{suggest.eventID.eventTitle}">  
+                                <h:outputText value="#{suggest.eventID.eventTitle}" />  
+                            </p:column>  
 
-                <div class="menu">
-                    <ul>
-                        <li><a href="index.xhtml" class="selected">Main page</a></li>
-                        <li><a href="addEventType.xhtml">Manager Event</a></li>
-                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
-                        <li><a href="#">Manager Request</a></li>
-                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                                          
-                    </ul>
+                            <p:column id="employeeColumn" filterBy="#{suggest.employeeID.fullName}"  
+                                      headerText="Employee" filterMatchMode="startsWith" sortBy="#{suggest.employeeID.fullName}">  
+                                <h:outputText value="#{suggest.employeeID.fullName}" />  
+                            </p:column>  
+
+                            <p:column id="registerDateColumn" headerText="RegisterDate" sortBy="#{suggest.registerDate}">  
+                                <h:outputText value="#{suggest.registerDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                </h:outputText>
+                            </p:column>  
+
+                            <p:column id="actionColumn" headerText="Action">  
+                                <h:commandButton value="Accept" action="#{suggestBean.acceptRegist(suggest.registerID)}"/>
+                            </p:column>
+
+                        </p:dataTable>  
+                        <c:if test="#{not empty requestScope.msg}">                                
+                            <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>                                
+                        </c:if>
+                    </h:form>             
+
                 </div>
-
-            </div>       
-
-            <div class="center_content">  
-
-                <div id="right_wrap">
-                    <div id="right_content"> 
-                        <h:form>
-                            <p:dataTable id="suggestTable" var="suggest" value="#{suggestBean.showNotAcceptRegister()}" widgetVar="suggestsTable"   
-                                         emptyMessage="No register found with given criteria" filteredValue="#{suggestBean.filteredRegister}"
-                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                         rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
-                                <f:facet name="header">  
-                                    Suggest Register Event
-                                </f:facet>
-
-                                <f:facet name="header">  
-                                    <p:outputPanel>  
-                                        <h:outputText value="Search all fields:" />  
-                                        <p:inputText id="globalFilter" onkeyup="prizesTable.filter()" style="width:150px" />  
-                                    </p:outputPanel>  
-                                </f:facet>  
-
-                                <p:column id="eventColumn" filterBy="#{suggest.eventID.eventTitle}"   
-                                          headerText="Event" filterMatchMode="contains" sortBy="#{suggest.eventID.eventTitle}">  
-                                    <h:outputText value="#{suggest.eventID.eventTitle}" />  
-                                </p:column>  
-
-                                <p:column id="employeeColumn" filterBy="#{suggest.employeeID.fullName}"  
-                                          headerText="Employee" filterMatchMode="startsWith" sortBy="#{suggest.employeeID.fullName}">  
-                                    <h:outputText value="#{suggest.employeeID.fullName}" />  
-                                </p:column>  
-
-                                <p:column id="registerDateColumn" headerText="RegisterDate" sortBy="#{suggest.registerDate}">  
-                                    <h:outputText value="#{suggest.registerDate}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy"/>
-                                    </h:outputText>
-                                </p:column>  
-
-                                <p:column id="actionColumn" headerText="Action">  
-                                    <h:commandButton value="Accept" action="#{suggestBean.acceptRegist(suggest.registerID)}"/>
-                                </p:column>
-
-                            </p:dataTable>  
-                            <c:if test="#{not empty requestScope.msg}">                                
-                                <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>                                
-                            </c:if>
-                        </h:form>             
-
-                    </div>
-                </div><!-- end of right content-->
-
-
-                <div class="sidebar" id="sidebar">                    
-
-                    <h2>Page Section</h2>
-
-                    <ul>
-                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
-                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
-                        <li><a href="event.xhtml">Add New Event</a></li>
-                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
-                        <li><a href="statistic.xhtml">View Statistics</a></li>
-                    </ul> 
-
-                    <h2>User Settings</h2>
-
-                    <ul>
-                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
-                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
-                        <li><a href="#">Help</a></li>
-                    </ul>   
-
-                    <h2>Text Section</h2> 
-                    <div class="sidebar_section_text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </div>         
-
-                </div>           
-
-
-                <div class="clear"></div>
-            </div> <!--end of center_content-->
-
-            <div class="footer">
-                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
-            </div>
-
-        </div>     
+            </ui:define>
+        </ui:composition>          
     </h:body>
 </html>

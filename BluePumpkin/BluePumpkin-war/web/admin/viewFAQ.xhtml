@@ -8,117 +8,56 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>View FAQ Page</title>
-        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
     </h:head>
     <h:body>
-        <div id="panelwrap">
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content"> 
+                    <h2>Tables FAQ</h2> 
+                    <h:form>
+                        <p:dataTable id="faqTable" var="faq" value="#{faqBean.showAllFaqs()}" widgetVar="faqsTable"   
+                                     emptyMessage="No FAQs found with given criteria" filteredValue="#{faqBean.filteredFAQ}"
+                                     paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15" sortMode="multiple" >
+                            <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Search all fields:" />  
+                                    <p:inputText id="globalFilter" onkeyup="faqsTable.filter()" style="width:150px" />  
+                                </p:outputPanel>  
+                            </f:facet>
 
-            <div class="header">
-                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
+                            <p:column id="faqidColumn" filterBy="#{faq.faqid}"   
+                                      headerText="Faqid" filterMatchMode="contains" sortBy="#{faq.faqid}">  
+                                <h:outputText value="#{faq.faqid}" />  
+                            </p:column>  
 
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
-                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+                            <p:column id="questionColumn" filterBy="#{faq.question}"  
+                                      headerText="Question" filterMatchMode="contains" sortBy="#{faq.question}">  
+                                <h:outputText value="#{faq.question}" />  
+                            </p:column>
 
-                <div class="menu">
-                    <ul>
-                        <li><a href="index.xhtml" class="selected">Main page</a></li>
-                        <li><a href="addEventType.xhtml">Manager Event</a></li>
-                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
-                        <li><a href="#">Manager Request</a></li>
-                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                        
-                    </ul>
+                            <p:column id="answerColumn" filterBy="#{faq.answer}"  
+                                      headerText="Answer" filterMatchMode="contains" sortBy="#{faq.answer}">  
+                                <h:outputText value="#{faq.answer}" />  
+                            </p:column>
+
+                            <p:column id="editFaqColumn" headerText="Edit">  
+                                <h:commandButton action="#{faqBean.editFaq(faq)}" image="../images/icon/edit.png" title=""/>
+                            </p:column>                                
+
+                        </p:dataTable>                            
+                    </h:form>
+                    <c:if test="#{not empty requestScope.del}">
+                        <h:outputText value="#{requestScope.del}" style="color: red"/>
+                    </c:if>
+                    <br/>
+                    <h1><h:commandLink value="Add new faq" action="addFAQ.xhtml"/></h1> 
                 </div>
-
-            </div>       
-
-            <div class="center_content">  
-
-                <div id="right_wrap">
-                    <div id="right_content"> 
-                        <h2>Tables FAQ</h2> 
-                        <h:form>
-                            <p:dataTable id="faqTable" var="faq" value="#{faqBean.showAllFaqs()}" widgetVar="faqsTable"   
-                                         emptyMessage="No FAQs found with given criteria" filteredValue="#{faqBean.filteredFAQ}"
-                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" >
-                                <f:facet name="header">  
-                                    <p:outputPanel>  
-                                        <h:outputText value="Search all fields:" />  
-                                        <p:inputText id="globalFilter" onkeyup="faqsTable.filter()" style="width:150px" />  
-                                    </p:outputPanel>  
-                                </f:facet>
-
-                                <p:column id="faqidColumn" filterBy="#{faq.faqid}"   
-                                          headerText="Faqid" filterMatchMode="contains" sortBy="#{faq.faqid}">  
-                                    <h:outputText value="#{faq.faqid}" />  
-                                </p:column>  
-
-                                <p:column id="questionColumn" filterBy="#{faq.question}"  
-                                          headerText="Question" filterMatchMode="contains" sortBy="#{faq.question}">  
-                                    <h:outputText value="#{faq.question}" />  
-                                </p:column>
-
-                                <p:column id="answerColumn" filterBy="#{faq.answer}"  
-                                          headerText="Answer" filterMatchMode="contains" sortBy="#{faq.answer}">  
-                                    <h:outputText value="#{faq.answer}" />  
-                                </p:column>
-
-                                <p:column id="editFaqColumn" headerText="Edit">  
-                                    <h:commandButton action="#{faqBean.editFaq(faq)}" image="../images/icon/edit.png" title=""/>
-                                </p:column>                                
-
-                            </p:dataTable>                            
-                        </h:form>
-                        <c:if test="#{not empty requestScope.del}">
-                            <h:outputText value="#{requestScope.del}" style="color: red"/>
-                        </c:if>
-                        <br/>
-                        <h1><h:commandLink value="Add new faq" action="addFAQ.xhtml"/></h1> 
-                    </div>
-                </div><!-- end of right content-->
-
-
-                <div class="sidebar" id="sidebar">                    
-
-                    <h2>Page Section</h2>
-
-                    <ul>
-                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
-                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
-                        <li><a href="event.xhtml">Add New Event</a></li>
-                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
-                        <li><a href="statistic.xhtml">View Statistics</a></li>
-                    </ul> 
-
-                    <h2>User Settings</h2>
-
-                    <ul>
-                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
-                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
-                        <li><a href="#">Help</a></li>
-                    </ul>   
-
-                    <h2>Text Section</h2> 
-                    <div class="sidebar_section_text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </div>         
-
-                </div>           
-
-
-                <div class="clear"></div>
-            </div> <!--end of center_content-->
-
-            <div class="footer">
-                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
-            </div>
-
-        </div>           
+            </ui:define>
+        </ui:composition>            
     </h:body>
 </html>

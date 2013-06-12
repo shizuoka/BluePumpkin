@@ -8,162 +8,100 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>Statistic Page</title>
-        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
-        <script type="text/javascript" src="../js/jsapi.js"></script>    
+        <title>Edit Profile Page</title>
     </h:head>
     <h:body>
-        <div id="panelwrap">
-
-            <div class="header">
-                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
-
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
-                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
-
-                <div class="menu">
-                    <ul>
-                        <li><a href="index.xhtml" class="selected">Main page</a></li>
-                        <li><a href="addEventType.xhtml">Manager Event</a></li>
-                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
-                        <li><a href="#">Manager Request</a></li>
-                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                         
-                    </ul>
-                </div>
-
-            </div>       
-
-            <div class="center_content">  
-
-                <div id="right_wrap">
-                    <div id="right_content">
-                        <div>
-                            <h:form>
-                                <table style="margin: 0 auto;">
-                                    <tr>
-                                        <td colspan="3" style="text-align: center;"><h2>Edit Profile</h2></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Fullname: </td>
-                                        <td><p:inputText size="30" value="#{editProfileBean.accAdmin.userName.fullName}"/></td>
-                                        <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 1}">Your name can not empty!</h:outputLabel></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Passwords: </td>
-                                        <td><p:password size="30" value="#{editProfileBean.pass}"/></td>
-                                        <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 2}">Passwords not correct!</h:outputLabel></td>
-                                    </tr>
-                                    <tr>
-                                        <td>New passwords: </td>
-                                        <td><p:password size="30" value="#{editProfileBean.newpass1}"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Confirm passwords: </td>
-                                        <td><p:password size="30" value="#{editProfileBean.newpass2}"/></td>
-                                        <td>
-                                            <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 3}">Confirm passwords not match!</h:outputLabel>
-                                            <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 4}">password must be at least 6 characters!</h:outputLabel>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email: </td>
-                                        <td><p:inputText size="30" value="#{editProfileBean.accAdmin.userName.email}" id="txtEmail" validatorMessage="Email not valid!" >
-                                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-                                            </p:inputText>
-                                        </td>
-                                        <td>
-                                            <p:message for="txtEmail" display="text"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Birthday: </td>
-                                        <td>
-                                            <p:calendar value="#{editProfileBean.accAdmin.userName.dateOfBirth}" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
-                                        </td>
-                                        <td><td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 5}">The birthday not valid!</h:outputLabel></td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Gender:</td>
-                                        <td>
-                                            <h:selectOneMenu rendered="#{editProfileBean.accAdmin.userName.gender == false}" value="#{editProfileBean.accAdmin.userName.gender}">
-                                                <f:selectItem itemLabel="Male" itemValue="#{true}"/>
-                                                <f:selectItem itemLabel="Female" itemValue="#{false}"/>
-                                            </h:selectOneMenu>
-                                            <h:selectOneMenu rendered="#{editProfileBean.accAdmin.userName.gender == true}" value="#{editProfileBean.accAdmin.userName.gender}">
-                                                <f:selectItem itemLabel="Female" itemValue="#{false}"/>
-                                                <f:selectItem itemLabel="Male" itemValue="#{true}"/>
-                                            </h:selectOneMenu>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone number: </td>
-                                        <td><p:inputText size="30" value="#{editProfileBean.accAdmin.userName.phone}" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            <h:commandButton value="Edit" action="#{editProfileBean.editInfoAdmin()}"/>
-                                            <input type="button" value="Back" onclick=""/>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <h:panelGrid rendered="#{editProfileBean.check == 1}">
-                                    <script>
-                                        alert("Edit successful!");
-                                    </script>
-                                </h:panelGrid>
-                                <h:panelGrid rendered="#{register.check == 2}">
-                                    <script>
-                                        alert("Can not edit! Please try again.");
-                                    </script>
-                                </h:panelGrid>
-                            </h:form>
-                        </div>
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content">
+                    <div>
+                        <h:form>
+                            <table style="margin: 0 auto;">
+                                <tr>
+                                    <td colspan="3" style="text-align: center;"><h2>Edit Profile</h2></td>
+                                </tr>
+                                <tr>
+                                    <td>Fullname: </td>
+                                    <td><p:inputText size="30" value="#{editProfileBean.accAdmin.userName.fullName}"/></td>
+                                    <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 1}">Your name can not empty!</h:outputLabel></td>
+                                </tr>
+                                <tr>
+                                    <td>Passwords: </td>
+                                    <td><p:password size="30" value="#{editProfileBean.pass}"/></td>
+                                    <td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 2}">Passwords not correct!</h:outputLabel></td>
+                                </tr>
+                                <tr>
+                                    <td>New passwords: </td>
+                                    <td><p:password size="30" value="#{editProfileBean.newpass1}"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Confirm passwords: </td>
+                                    <td><p:password size="30" value="#{editProfileBean.newpass2}"/></td>
+                                    <td>
+                                        <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 3}">Confirm passwords not match!</h:outputLabel>
+                                        <h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 4}">password must be at least 6 characters!</h:outputLabel>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Email: </td>
+                                    <td><p:inputText size="30" value="#{editProfileBean.accAdmin.userName.email}" id="txtEmail" validatorMessage="Email not valid!" >
+                                            <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                        </p:inputText>
+                                    </td>
+                                    <td>
+                                        <p:message for="txtEmail" display="text"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Birthday: </td>
+                                    <td>
+                                        <p:calendar value="#{editProfileBean.accAdmin.userName.dateOfBirth}" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                                    </td>
+                                    <td><td><h:outputLabel style="color: red;" rendered="#{editProfileBean.error == 5}">The birthday not valid!</h:outputLabel></td></td>
+                                </tr>
+                                <tr>
+                                    <td>Gender:</td>
+                                    <td>
+                                        <h:selectOneMenu rendered="#{editProfileBean.accAdmin.userName.gender == false}" value="#{editProfileBean.accAdmin.userName.gender}">
+                                            <f:selectItem itemLabel="Male" itemValue="#{true}"/>
+                                            <f:selectItem itemLabel="Female" itemValue="#{false}"/>
+                                        </h:selectOneMenu>
+                                        <h:selectOneMenu rendered="#{editProfileBean.accAdmin.userName.gender == true}" value="#{editProfileBean.accAdmin.userName.gender}">
+                                            <f:selectItem itemLabel="Female" itemValue="#{false}"/>
+                                            <f:selectItem itemLabel="Male" itemValue="#{true}"/>
+                                        </h:selectOneMenu>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Phone number: </td>
+                                    <td><p:inputText size="30" value="#{editProfileBean.accAdmin.userName.phone}" /></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        <h:commandButton value="Edit" action="#{editProfileBean.editInfoAdmin()}"/>
+                                        <input type="button" value="Back" onclick=""/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <h:panelGrid rendered="#{editProfileBean.check == 1}">
+                                <script>
+                                    alert("Edit successful!");
+                                </script>
+                            </h:panelGrid>
+                            <h:panelGrid rendered="#{register.check == 2}">
+                                <script>
+                                    alert("Can not edit! Please try again.");
+                                </script>
+                            </h:panelGrid>
+                        </h:form>
                     </div>
-                </div><!-- end of right content-->
-
-
-                <div class="sidebar" id="sidebar">                    
-
-                    <h2>Page Section</h2>
-
-                    <ul>
-                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
-                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
-                        <li><a href="event.xhtml">Add New Event</a></li>
-                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
-                        <li><a href="statistic.xhtml">View Statistics</a></li>
-                    </ul> 
-
-                    <h2>User Settings</h2>
-
-                    <ul>
-                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
-                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
-                        <li><a href="#">Help</a></li>
-                    </ul>   
-
-                    <h2>Text Section</h2> 
-                    <div class="sidebar_section_text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </div>         
-
-                </div>           
-
-
-                <div class="clear"></div>
-            </div> <!--end of center_content-->
-
-            <div class="footer">
-                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
-            </div>
-
-        </div>
+                </div>
+            </ui:define>
+        </ui:composition>        
     </h:body>
 </html>
 

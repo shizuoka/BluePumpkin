@@ -8,171 +8,110 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>Add New Event Type</title>
-        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
+        <title>Add New Event Type</title>        
     </h:head>
     <h:body>
-        <div id="panelwrap">
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content">             
+                    <h2>Tables Event Type</h2> 
+                    <h:form>
+                        <p:dataTable id="eventTypeTable" var="eventType" value="#{eventTypeBean.showAllEventType()}" widgetVar="eventTypeTable"   
+                                     emptyMessage="No event type found with given criteria" filteredValue="#{eventTypeBean.filteredType}"
+                                     paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15" sortMode="multiple" >
+                            <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Search all fields:" />  
+                                    <p:inputText id="globalFilter" onkeyup="eventTypeTable.filter()" style="width:150px" />  
+                                </p:outputPanel>  
+                            </f:facet>
 
-            <div class="header">
-                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
+                            <p:column id="eventTypeIDColumn" filterBy="#{eventType.eventTypeID}"   
+                                      headerText="EventType ID" filterMatchMode="contains" sortBy="#{eventType.eventTypeID}">  
+                                <h:outputText value="#{eventType.eventTypeID}" />  
+                            </p:column>  
 
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
-                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
+                            <p:column id="eventTypeNameColumn" filterBy="#{eventType.eventTypeName}"  
+                                      headerText="EventType Name" filterMatchMode="startsWith" sortBy="#{eventType.eventTypeName}">  
+                                <h:outputText value="#{eventType.eventTypeName}" />  
+                            </p:column>
 
-                <div class="menu">
-                    <ul>
-                        <li><a href="index.xhtml" class="selected">Main page</a></li>
-                        <li><a href="addEventType.xhtml">Manager Event</a></li>
-                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
-                        <li><a href="#">Manager Request</a></li>
-                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                        
+                            <p:column id="descriptionTypeColumn" filterBy="#{eventType.descriptionType}"  
+                                      headerText="Description" filterMatchMode="contains" sortBy="#{eventType.descriptionType}">  
+                                <h:outputText value="#{eventType.descriptionType}" />  
+                            </p:column>
+
+                            <p:column id="editTypeColumn" headerText="Edit">  
+                                <h:commandButton action="#" image="../images/icon/edit.png" title=""/>
+                            </p:column>
+
+                            <p:column id="delTypeColumn" headerText="Delete">  
+                                <h:commandButton action="#{eventTypeBean.deleteEventType(eventType)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <br/>
+                        <c:if test="#{not empty requestScope.del}">
+                            <div class="form_row">
+                                <h:outputText value="#{requestScope.del}" style="color: green;text-align: center"/>
+                            </div>
+                        </c:if>
+                        <c:if test="#{not empty requestScope.error}">
+                            <div class="form_row">
+                                <h:outputText value="#{requestScope.error}" style="color: red;text-align: center"/>
+                            </div>
+                        </c:if>
+                    </h:form>
+                    <ul id="tabsmenu" class="tabsmenu">
+                        <li class="active"><a href="#tab1">Form Edit Type</a></li>
+                        <li><a href="#tab2">Tab Add Type</a></li>                            
                     </ul>
-                </div>
 
-            </div>       
-
-            <div class="center_content">  
-
-                <div id="right_wrap">
-                    <div id="right_content">             
-                        <h2>Tables Event Type</h2> 
+                    <div id="tab2" class="tabcontent">                              
+                        <h3>Add New Type</h3>
                         <h:form>
-                            <p:dataTable id="eventTypeTable" var="eventType" value="#{eventTypeBean.showAllEventType()}" widgetVar="eventTypeTable"   
-                                         emptyMessage="No event type found with given criteria" filteredValue="#{eventTypeBean.filteredType}"
-                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                         rowsPerPageTemplate="5,10,15" sortMode="multiple" >
-                                <f:facet name="header">  
-                                    <p:outputPanel>  
-                                        <h:outputText value="Search all fields:" />  
-                                        <p:inputText id="globalFilter" onkeyup="eventTypeTable.filter()" style="width:150px" />  
-                                    </p:outputPanel>  
-                                </f:facet>
+                            <div class="form">
 
-                                <p:column id="eventTypeIDColumn" filterBy="#{eventType.eventTypeID}"   
-                                          headerText="EventType ID" filterMatchMode="contains" sortBy="#{eventType.eventTypeID}">  
-                                    <h:outputText value="#{eventType.eventTypeID}" />  
-                                </p:column>  
-
-                                <p:column id="eventTypeNameColumn" filterBy="#{eventType.eventTypeName}"  
-                                          headerText="EventType Name" filterMatchMode="startsWith" sortBy="#{eventType.eventTypeName}">  
-                                    <h:outputText value="#{eventType.eventTypeName}" />  
-                                </p:column>
-
-                                <p:column id="descriptionTypeColumn" filterBy="#{eventType.descriptionType}"  
-                                          headerText="Description" filterMatchMode="contains" sortBy="#{eventType.descriptionType}">  
-                                    <h:outputText value="#{eventType.descriptionType}" />  
-                                </p:column>
-
-                                <p:column id="editTypeColumn" headerText="Edit">  
-                                    <h:commandButton action="#" image="../images/icon/edit.png" title=""/>
-                                </p:column>
-
-                                <p:column id="delTypeColumn" headerText="Delete">  
-                                    <h:commandButton action="#{eventTypeBean.deleteEventType(eventType)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
-                                </p:column>
-
-                            </p:dataTable>
-                            <br/>
-                            <c:if test="#{not empty requestScope.del}">
                                 <div class="form_row">
-                                    <h:outputText value="#{requestScope.del}" style="color: green;text-align: center"/>
+                                    <label>Event Type ID:</label>
+                                    <h:inputText value="#{eventTypeBean.eventTypeID}" class="form_input" maxlength="10" id="txtID"/>                                    
                                 </div>
-                            </c:if>
-                            <c:if test="#{not empty requestScope.error}">
+
                                 <div class="form_row">
-                                    <h:outputText value="#{requestScope.error}" style="color: red;text-align: center"/>
+                                    <label>Type Name:</label>
+                                    <h:inputText class="form_input" id="txtName" maxlength="30" value="#{eventTypeBean.eventTypeName}" />                                    
                                 </div>
-                            </c:if>
+
+                                <div class="form_row">
+                                    <label>Description:</label>
+                                    <h:inputTextarea class="form_textarea" id="txtDescription"  rows="4" cols="20" value="#{eventTypeBean.descriptionType}"/>
+                                </div>
+                                <div class="form_row">
+                                    <h:commandButton class="form_submit" value="Add" action="#{eventTypeBean.addEventType()}"/>
+                                    <h:commandButton value="Reset" action="#{eventTypeBean.reset()}"/>                                        
+                                </div> 
+
+                                <c:if test="#{not empty requestScope.add}">
+                                    <div class="form_row">
+                                        <h:outputText value="#{requestScope.add}" style="color: green;text-align: center"/>
+                                    </div>
+                                </c:if>                                    
+
+                                <div class="form_row">
+                                    <a href="event.xhtml">Create New Event</a>
+                                </div>                                                                        
+
+                                <div class="clear"></div>
+                            </div>
                         </h:form>
-                        <ul id="tabsmenu" class="tabsmenu">
-                            <li class="active"><a href="#tab1">Form Edit Type</a></li>
-                            <li><a href="#tab2">Tab Add Type</a></li>                            
-                        </ul>
+                    </div>                        
 
-                        <div id="tab2" class="tabcontent">                              
-                            <h3>Add New Type</h3>
-                            <h:form>
-                                <div class="form">
-
-                                    <div class="form_row">
-                                        <label>Event Type ID:</label>
-                                        <h:inputText value="#{eventTypeBean.eventTypeID}" class="form_input" maxlength="10" id="txtID"/>                                    
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Type Name:</label>
-                                        <h:inputText class="form_input" id="txtName" maxlength="30" value="#{eventTypeBean.eventTypeName}" />                                    
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Description:</label>
-                                        <h:inputTextarea class="form_textarea" id="txtDescription"  rows="4" cols="20" value="#{eventTypeBean.descriptionType}"/>
-                                    </div>
-                                    <div class="form_row">
-                                        <h:commandButton class="form_submit" value="Add" action="#{eventTypeBean.addEventType()}"/>
-                                        <h:commandButton value="Reset" action="#{eventTypeBean.reset()}"/>                                        
-                                    </div> 
-
-                                    <c:if test="#{not empty requestScope.add}">
-                                        <div class="form_row">
-                                            <h:outputText value="#{requestScope.add}" style="color: green;text-align: center"/>
-                                        </div>
-                                    </c:if>                                    
-
-                                    <div class="form_row">
-                                        <a href="event.xhtml">Create New Event</a>
-                                    </div>                                                                        
-
-                                    <div class="clear"></div>
-                                </div>
-                            </h:form>
-                        </div>                        
-
-                    </div>
-                </div><!-- end of right content-->
-
-
-                <div class="sidebar" id="sidebar">                    
-
-                    <h2>Page Section</h2>
-
-                    <ul>
-                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
-                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
-                        <li><a href="event.xhtml">Add New Event</a></li>
-                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
-                        <li><a href="statistic.xhtml">View Statistics</a></li>
-                    </ul> 
-
-                    <h2>User Settings</h2>
-
-                    <ul>
-                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
-                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
-                        <li><a href="#">Help</a></li>
-                    </ul>   
-
-                    <h2>Text Section</h2> 
-                    <div class="sidebar_section_text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </div>         
-
-                </div>           
-
-
-                <div class="clear"></div>
-            </div> <!--end of center_content-->
-
-            <div class="footer">
-                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
-            </div>
-
-        </div>  
+                </div>
+            </ui:define>
+        </ui:composition>        
     </h:body>
 </html>

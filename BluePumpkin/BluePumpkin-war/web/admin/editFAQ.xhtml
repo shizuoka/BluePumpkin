@@ -7,101 +7,40 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Edit FAQ Page</title>
-        <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>    
     </h:head>
     <h:body>
-        <div id="panelwrap">
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content">
+                    <div id="tab2" class="tabcontent">                              
+                        <h3>Edit FAQ</h3>
+                        <h:form>
+                            <div class="form">
 
-            <div class="header">
-                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
-
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
-                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
-
-                <div class="menu">
-                    <ul>
-                        <li><a href="index.xhtml" class="selected">Main page</a></li>
-                        <li><a href="addEventType.xhtml">Manager Event</a></li>
-                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
-                        <li><a href="#">Manager Request</a></li>
-                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                        
-                    </ul>
-                </div>
-
-            </div>       
-
-            <div class="center_content">  
-
-                <div id="right_wrap">
-                    <div id="right_content">
-                        <div id="tab2" class="tabcontent">                              
-                            <h3>Edit FAQ</h3>
-                            <h:form>
-                                <div class="form">
-
-                                    <div class="form_row">
-                                        <h:outputLabel value="Question:" for="question" />
-                                        <h:inputText id="question" value="#{faqBean.faq.question}" title="Question" required="true"/>
-                                    </div>
-
-                                    <div class="form_row">
-                                        <h:outputLabel value="Answer:" for="answer" />
-                                        <h:inputText id="answer" value="#{faqBean.faq.answer}" title="Answer" required="true"/>
-                                    </div>
-
-                                    <div class="form_row">
-                                        <h:commandButton value="Update" action="#{faqBean.updateFaq()}"/>                                        
-                                    </div>                                                                
-
-                                    <div class="clear"></div>                                
+                                <div class="form_row">
+                                    <h:outputLabel value="Question:" for="question" />
+                                    <h:inputText id="question" value="#{faqBean.faq.question}" title="Question" required="true"/>
                                 </div>
-                            </h:form>
-                        </div>
+
+                                <div class="form_row">
+                                    <h:outputLabel value="Answer:" for="answer" />
+                                    <h:inputText id="answer" value="#{faqBean.faq.answer}" title="Answer" required="true"/>
+                                </div>
+
+                                <div class="form_row">
+                                    <h:commandButton value="Update" action="#{faqBean.updateFaq()}"/>                                        
+                                </div>                                                                
+
+                                <div class="clear"></div>                                
+                            </div>
+                        </h:form>
                     </div>
-                </div><!-- end of right content-->
-
-
-                <div class="sidebar" id="sidebar">                    
-
-                    <h2>Page Section</h2>
-
-                    <ul>
-                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
-                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
-                        <li><a href="event.xhtml">Add New Event</a></li>
-                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
-                        <li><a href="statistic.xhtml">View Statistics</a></li>
-                    </ul> 
-
-                    <h2>User Settings</h2>
-
-                    <ul>
-                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
-                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
-                        <li><a href="#">Help</a></li>
-                    </ul>   
-
-                    <h2>Text Section</h2> 
-                    <div class="sidebar_section_text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </div>         
-
-                </div>            
-
-
-                <div class="clear"></div>
-            </div> <!--end of center_content-->
-
-            <div class="footer">
-                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
-            </div>
-
-        </div>                
+                </div>
+            </ui:define>
+        </ui:composition>                       
     </h:body>
 </html>
