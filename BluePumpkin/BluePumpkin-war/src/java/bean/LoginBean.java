@@ -30,6 +30,8 @@ public class LoginBean implements Serializable {
      * Creates a new instance of LoginBean
      */
     public LoginBean() {
+        admin = new Account();
+        employee = new Account();
     }
     private String username;
 
@@ -76,18 +78,90 @@ public class LoginBean implements Serializable {
     public void setIsLoggedEmployee(boolean isLoggedEmployee) {
         this.isLoggedEmployee = isLoggedEmployee;
     }
+    private Account admin;
+
+    public Account getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Account admin) {
+        this.admin = admin;
+    }
+    private Account employee;
+
+    public Account getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Account employee) {
+        this.employee = employee;
+    }
+    
     private Account acc;
 
     public Account getAcc() {
-        if (acc == null) {
-            acc = new Account();
-        }
         return acc;
     }
 
     public void setAcc(Account acc) {
         this.acc = acc;
     }
+    
+
+//    public String loginEmployee() {
+//        String page = "";
+//        boolean eUsername = control.validEmpty(username);
+//        boolean ePass = control.validEmpty(password);
+//        if (eUsername && ePass) {
+//            employee = accountFacade.login(username, control.generateMD5(password));
+//            if (employee != null) {
+//                if (employee.getRoleID().getRoleName().equalsIgnoreCase("employee")) {
+//                    sessionTool.setUpSession("employee", employee);
+//                    isLoggedEmployee = true;
+//                } else {
+//                    FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Access denied !!! You don't have permission");
+//                }
+//            } else {
+//                FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Username or Password isn't correct");
+//            }
+//        } else {
+//            if (!eUsername) {
+//                FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Username required");
+//            }
+//            if (!ePass) {
+//                FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Password required!");
+//            }
+//        }
+//        return page;
+//    }
+//
+//    public String loginAdmin() {
+//        String page = "";
+//        boolean aUsername = control.validEmpty(username);
+//        boolean aPass = control.validEmpty(password);
+//        if (aUsername && aPass) {
+//            admin = accountFacade.login(username, control.generateMD5(password));
+//            if (admin != null) {
+//                if (admin.getRoleID().getRoleName().equalsIgnoreCase("admin")) {
+//                    sessionTool.setUpSession("admin", admin);
+//                    isLoggedAdmin = true;
+//                    return "index.xhtml?faces-redirect=true";
+//                } else {
+//                    FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Access denied !!! You don't have permission");
+//                }
+//            } else {
+//                FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Username or Password isn't correct");
+//            }
+//        } else {
+//            if (!aUsername) {
+//                FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Username required");
+//            }
+//            if (!aPass) {
+//                FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put("error", "Password required!");
+//            }
+//        }
+//        return page;
+//    }
 
     public String loginEmployee() {
         try {
@@ -107,7 +181,6 @@ public class LoginBean implements Serializable {
         }
         return "index.xhtml";
     }
-
     public String loginAdmin() {
         try {
             Account acc = accountFacade.login(username, control.generateMD5(password));
@@ -127,7 +200,6 @@ public class LoginBean implements Serializable {
         }
         return "login.xhtml";
     }
-
     public String logOutEmployee() {
         sessionTool.removeSession("employee");
         isLoggedEmployee = false;
