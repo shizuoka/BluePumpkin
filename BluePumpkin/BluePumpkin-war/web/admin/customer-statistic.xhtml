@@ -12,7 +12,8 @@ and open the template in the editor.
     <h:head>
         <title>Statistic Page</title>
         <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
-        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>            
+        <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'/>
+
     </h:head>
     <h:body>
         <div id="panelwrap">
@@ -37,12 +38,12 @@ and open the template in the editor.
 
             </div>       
 
-            <div class="center_content">  
-
+            <div class="center_content">
                 <div id="right_wrap">
                     <div id="right_content">
                         <div id="form_statistic">
-                            <h:form>
+                            <h:form id="form-date">
+                                <p:growl id="grow_statistic" showDetail="true"/>
                                 <div class="form_statistic_row">
                                     <label>From date:</label>
                                     <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
@@ -53,133 +54,175 @@ and open the template in the editor.
                                     <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
                                 </div>
                                 <div id="button_search">
-                                    <h:commandButton action="#{eventBean.customerStatistic()}" image="../images/icon/search.gif" title=""/>
+                                    <p:commandLink action="#{eventBean.customerStatistic()}" update=":form-date:grow_statistic" title="Search">
+                                        <img src="../images/icon/search.gif" />
+                                    </p:commandLink>
                                 </div>
 
                             </h:form>
                         </div>
-                        <div class="resuilt">                            
+
+                        <script type="text/javascript">
+                            var $ = jQuery.noConflict();
+                            $(function() {
+                                $('#check-incoming').click(function() {
+                                    if (!$(this).is(':checked')) {
+                                        $('#list-incoming').hide("slow").animate({
+                                            opacity: "hide"
+                                        }, 4000);
+                                    }else
+                                        $('#list-incoming').show("slow").animate({
+                                            opacity: "show"
+                                        }, 4000);
+                                });
+                                $('#check-oncoming').click(function() {
+                                    if (!$(this).is(':checked')) {
+                                        $('#list-oncoming').hide("slow").animate({
+                                            opacity: "hide"
+                                        }, 4000);
+                                    }else
+                                        $('#list-oncoming').show("slow").animate({
+                                            opacity: "show"
+                                        }, 4000);
+                                });
+                                $('#check-ended').click(function() {
+                                    if (!$(this).is(':checked')) {
+                                        $('#list-ended').hide("slow").animate({
+                                            opacity: "hide"
+                                        }, 4000);
+                                    }else
+                                        $('#list-ended').show("slow").animate({
+                                            opacity: "show"
+                                        }, 4000);
+                                });
+                            });
+                        </script>
+                        <div class="customer-resuilt">                            
                             <ul>
                                 <li><span>Number of events</span><strong>: #{eventBean.total}</strong></li>
-                                <li><span>Number of events incoming</span><strong>: #{eventBean.incoming}</strong></li>
-                                <li><span>Number of events oncoming</span><strong>: #{eventBean.oncoming}</strong></li>
-                                <li><span>Number of events ended</span><strong>: #{eventBean.ended}</strong></li>
+                                <li><input type="checkbox" name="check-status" id="check-incoming" checked="true"/><span>Number of events incoming</span><strong>: #{eventBean.incoming}</strong></li>
+                                <li><input type="checkbox" name="check-status" id="check-oncoming" checked="true"/><span>Number of events oncoming</span><strong>: #{eventBean.oncoming}</strong></li>
+                                <li><input type="checkbox" name="check-status" id="check-ended" checked="true"/><span>Number of events ended</span><strong>: #{eventBean.ended}</strong></li>
                             </ul>
                         </div>
-
-                        <h2>List Event Incoming</h2>
-                        <table id="rounded-corner">
-                            <thead>
-                                <tr>
-                                    <th>EventID</th>
-                                    <th>Title</th>
-                                    <th>StartDate</th>
-                                    <th>EndDate</th>
-                                    <th>Type</th>
-                                    <th>Total Employees</th>
-                                    <th>Employees Register</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <c:forEach items="#{eventBean.listEventIncoming}" var="event">
-                                    <tr class="odd">
-                                        <td>#{event.eventId}</td>
-                                        <td>#{event.eventTitle}</td>
-                                        <td><h:outputText value="#{event.startDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td><h:outputText value="#{event.endDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td>#{event.typeEvent}</td>
-                                        <td>#{event.totalEmp}</td>
-                                        <td>#{event.empRe}</td>
-                                    </tr>  
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                        <div id="list-incoming">
+                            <h2>List Event Incoming</h2>
+                            <table id="rounded-corner">
+                                <thead>
+                                    <tr>
+                                        <th>EventID</th>
+                                        <th>Title</th>
+                                        <th>StartDate</th>
+                                        <th>EndDate</th>
+                                        <th>Type</th>
+                                        <th>Total Employees</th>
+                                        <th>Employees Register</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <c:forEach items="#{eventBean.listEventIncoming}" var="event">
+                                        <tr class="odd">
+                                            <td>#{event.eventId}</td>
+                                            <td>#{event.eventTitle}</td>
+                                            <td><h:outputText value="#{event.startDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText></td>
+                                            <td><h:outputText value="#{event.endDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText></td>
+                                            <td>#{event.typeEvent}</td>
+                                            <td>#{event.totalEmp}</td>
+                                            <td>#{event.empRe}</td>
+                                        </tr>  
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                         <br />
-                        <h2>List Event Oncoming</h2>
-                        <table id="rounded-corner">
-                            <thead>
-                                <tr>
-                                    <th>EventID</th>
-                                    <th>Title</th>
-                                    <th>StartDate</th>
-                                    <th>EndDate</th>
-                                    <th>Type</th>
-                                    <th>Total Employees</th>
-                                    <th>Employees Register</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <c:forEach items="#{eventBean.listEventOncoming}" var="event">
-                                    <tr class="odd">
-                                        <td>#{event.eventId}</td>
-                                        <td>#{event.eventTitle}</td>
-                                        <td><h:outputText value="#{event.startDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td><h:outputText value="#{event.endDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td>#{event.typeEvent}</td>
-                                        <td>#{event.totalEmp}</td>
-                                        <td>#{event.empRe}</td>
-                                    </tr>  
-                                </c:forEach>
-                            </tbody>
-                        </table>
-
+                        <div id="list-oncoming">
+                            <h2>List Event Oncoming</h2>
+                            <table id="rounded-corner">
+                                <thead>
+                                    <tr>
+                                        <th>EventID</th>
+                                        <th>Title</th>
+                                        <th>StartDate</th>
+                                        <th>EndDate</th>
+                                        <th>Type</th>
+                                        <th>Total Employees</th>
+                                        <th>Employees Register</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <c:forEach items="#{eventBean.listEventOncoming}" var="event">
+                                        <tr class="odd">
+                                            <td>#{event.eventId}</td>
+                                            <td>#{event.eventTitle}</td>
+                                            <td><h:outputText value="#{event.startDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText></td>
+                                            <td><h:outputText value="#{event.endDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText></td>
+                                            <td>#{event.typeEvent}</td>
+                                            <td>#{event.totalEmp}</td>
+                                            <td>#{event.empRe}</td>
+                                        </tr>  
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                         <br />
-                        <h2>List Event Ended</h2>
-                        <table id="rounded-corner">
-                            <thead>
-                                <tr>
-                                    <th>EventID</th>
-                                    <th>Title</th>
-                                    <th>StartDate</th>
-                                    <th>EndDate</th>
-                                    <th>Type</th>
-                                    <th>Total Employees</th>
-                                    <th>Employees Register</th>
-                                    <th>Winner</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                <c:forEach items="#{eventBean.listEventEnded}" var="event">
-                                    <tr class="odd">
-                                        <td>#{event.eventId}</td>
-                                        <td>#{event.eventTitle}</td>
-                                        <td><h:outputText value="#{event.startDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td><h:outputText value="#{event.endDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText></td>
-                                        <td>#{event.typeEvent}</td>
-                                        <td>#{event.totalEmp}</td>
-                                        <td>#{event.empRe}</td>
-                                        <td>#{event.empWin}</td>
-                                    </tr>  
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                        <div id="list-ended">
+                            <h2>List Event Ended</h2>
+                            <table id="rounded-corner">
+                                <thead>
+                                    <tr>
+                                        <th>EventID</th>
+                                        <th>Title</th>
+                                        <th>StartDate</th>
+                                        <th>EndDate</th>
+                                        <th>Type</th>
+                                        <th>Total Employees</th>
+                                        <th>Employees Register</th>
+                                        <th>Winner</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <c:forEach items="#{eventBean.listEventEnded}" var="event">
+                                        <tr class="odd">
+                                            <td>#{event.eventId}</td>
+                                            <td>#{event.eventTitle}</td>
+                                            <td><h:outputText value="#{event.startDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText></td>
+                                            <td><h:outputText value="#{event.endDate}">
+                                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                                </h:outputText></td>
+                                            <td>#{event.typeEvent}</td>
+                                            <td>#{event.totalEmp}</td>
+                                            <td>#{event.empRe}</td>
+                                            <td>#{event.empWin}</td>
+                                        </tr>  
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div><!-- end of right content-->
@@ -211,7 +254,7 @@ and open the template in the editor.
                     </div>         
 
                 </div>
-                
+
                 <div class="clear"></div>
             </div> <!--end of center_content-->
 

@@ -32,8 +32,14 @@ public class WinnersFacade extends AbstractFacade<Winners> {
     }
 
     public String getWinner(String eventID) {
-        return (String) em.createQuery("select w.employeesName FROM Winners w where w.isWin = 1 and w.prizeID.eventID.eventID = :eventID")
+        String winner = null;
+        try {
+            winner = (String) em.createQuery("select w.employeesName FROM Winners w where w.isWin = 1 and w.prizeID.eventID.eventID = :eventID")
                 .setParameter("eventID", eventID).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Error!");
+        }
+        return winner;
     }
 
     public boolean addWinner(String empName, String empID, Boolean isWin, int prizeID) {

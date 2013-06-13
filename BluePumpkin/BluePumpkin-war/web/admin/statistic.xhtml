@@ -39,7 +39,7 @@ and open the template in the editor.
             </div>       
 
             <div class="center_content">  
-
+                <p:growl id="grow_statistic" showDetail="true"/>
                 <div id="right_wrap">
                     <div id="right_content">
                         <div id="form_statistic">
@@ -54,9 +54,10 @@ and open the template in the editor.
                                     <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
                                 </div>
                                 <div id="button_search">
-                                    <h:commandButton action="#{eventBean.customerStatistic()}" image="../images/icon/search.gif" title=""/>
+                                    <p:commandLink action="#{eventBean.customerStatistic()}" update=":grow_statistic" title="Search">
+                                        <img src="../images/icon/search.gif" />
+                                    </p:commandLink>
                                 </div>
-
                             </h:form>
                         </div>
                         <div class="resuilt">

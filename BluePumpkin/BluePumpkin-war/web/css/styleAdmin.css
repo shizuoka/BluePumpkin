@@ -224,7 +224,7 @@ input.loginform_submit{float:right; clear:both; margin:0px 5px 0 0px;color:#fff;
     margin-top: 4px;
     width: 80px;
 }
-.resuilt, #chart {
+.resuilt, #chart, .customer-resuilt {
     float: left;
     width: 100%;
 }
@@ -242,3 +242,14 @@ input.loginform_submit{float:right; clear:both; margin:0px 5px 0 0px;color:#fff;
 .chart{
     float: left;
 }
+.customer-resuilt ul li {
+    line-height: 30px;
+    list-style: none outside none;
+    padding-left: 32px;
+    padding-top: 2px;
+}
+/*#button_search .button_search{
+    width: 50px;
+    height: 50px;
+    background: url("../images/icon/search.gif") no-repeat scroll 0 5px transparent;
+}*/
