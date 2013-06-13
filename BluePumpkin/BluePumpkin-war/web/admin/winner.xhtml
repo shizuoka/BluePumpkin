@@ -13,7 +13,7 @@
             <h1><h:outputText value="List"/></h1>
             <p:growl id="growl" showDetail="true" />
             <p:dataTable id="set-winner" value="#{prizeBean.listPrizes}"
-                         var="item" paginatorAlwaysVisible="false" emptyMessage="No item found" rows="5" paginator="true" >
+                         var="item" emptyMessage="No item found" rows="5" paginator="true" >
                 <p:column>
                     <f:facet name="header"><h:outputText value="PrizeID" /></f:facet>
                     <h:outputText value="#{item.prizeID}" />
@@ -32,7 +32,7 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header"><h:outputText value="Laureates" /></f:facet>
-                    <p:dataList value="#{winnerBean.showWinnersByPrize(item.prizeID)}" var="winner" itemType="square">  
+                    <p:dataList id="winner" value="#{winnerBean.showWinnersByPrize(item.prizeID)}" var="winner" itemType="square">  
                         #{winner.employeesName}  
                     </p:dataList>              
                 </p:column>
@@ -69,7 +69,7 @@
                         <p:commandButton id="multiViewButton" value="Submit" icon="ui-icon-add" 
                                          actionListener="#{prizeBean.saveWin}"
                                          oncomplete="list_register.hide()"
-                                         update=":form:growl, :form:set-winner">                            
+                                         update=":form">
                         </p:commandButton>
                     </f:facet>  
                 </p:dataTable>

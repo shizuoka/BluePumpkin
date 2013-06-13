@@ -148,6 +148,7 @@ public class PrizeBean implements Serializable {
     public void setSelectedEmployees(Employee[] selectedEmployees) {
         this.selectedEmployees = selectedEmployees;
     }
+    
 
     public void saveWin(ActionEvent actionEvent) {
 //        System.out.println(numberOfPrize);
@@ -167,7 +168,8 @@ public class PrizeBean implements Serializable {
                 winnersFacade.addWinner(selectedEmployees[i].getFullName(), selectedEmployees[i].getEmployeeID(), isWin, prize_id);
             }
             //setListPrizes(prizesFacade.getPrize(eventId));
-            listPrizes = prizesFacade.getPrize(eventId);
+//            pz = new Prizes();
+//            listPrizes = prizesFacade.getPrize(eventId);
         }
 
     }
