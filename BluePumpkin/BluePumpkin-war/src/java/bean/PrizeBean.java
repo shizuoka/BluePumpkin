@@ -315,4 +315,19 @@ public class PrizeBean implements Serializable {
         setEventId(eventId);
         return "addPrize.xhtml?faces-redirect=true";
     }
+    
+    private Prizes prizeEdit;
+
+    public Prizes getPrizeEdit() {
+        return prizeEdit;
+    }
+
+    public void setPrizeEdit(Prizes prizeEdit) {
+        this.prizeEdit = prizeEdit;
+    }
+    
+    public String showPrizeEdit(Prizes p){
+        setPrizeEdit(p);
+        return "addPrize.xhtml";
+    }
 }
