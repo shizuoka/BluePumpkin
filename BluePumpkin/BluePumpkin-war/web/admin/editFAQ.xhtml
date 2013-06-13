@@ -35,7 +35,10 @@ and open the template in the editor.
                                     <h:commandButton value="Update" action="#{faqBean.updateFaq()}"/>                                        
                                 </div>                                                                
 
-                                <div class="clear"></div>                                
+                                <div class="clear"></div> 
+                                <c:if test="#{not empty requestScope.update}">
+                                    <h:outputText value="#{requestScope.update}" style="color: green"/>
+                                </c:if>
                             </div>
                         </h:form>
                     </div>

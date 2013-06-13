@@ -36,55 +36,56 @@ and open the template in the editor.
     <h:body>   
         <ui:composition template="shared/layout.xhtml">
             <ui:define name="content">
-                <table width="650" border="1" id="detail_table">
-                    <tr>
-                        <td colspan="2"><div align="center">
-                                <h2 class="style1" style="color: cornflowerblue">Event Detail </h2>
-                            </div></td>
-                    </tr>
-                    <tr>
-                        <td> <div align="center">Event ID </div></td>
-                        <td>#{eventBean.event.eventID}</td>
-                    </tr>
-                    <tr>
-                        <td><div align="center">Event Name </div></td>
-                        <td>#{eventBean.event.eventTitle}</td>
-                    </tr>
-                    <tr>
-                        <td><div align="center">Description</div></td>
-                        <td><textarea name="" rows="6" cols="35" disabled="true">
-                                #{eventBean.event.description}
-                            </textarea></td>
-                    </tr>              
-                    <tr>
-                        <td><div align="center">Start Event Date</div></td>
-                        <td>
-                            <h:outputText value="#{eventBean.event.startDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText></td>
-                    </tr>
-                    <tr>
-                        <td><div align="center">End Event Date</div></td>
-                        <td><h:outputText value="#{eventBean.event.endDate}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText></td>
-                    </tr>
-                    <tr>
-                        <td><div align="center">Event Type</div></td>
-                        <td>#{eventBean.event.eventTypeID.eventTypeName}</td>
-                    </tr> 
-                    <tr>
-                        <td><div align="center">Status</div></td>
-                        <td>#{eventBean.event.status}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <h:form><h:commandButton value="Register" action="#{registerBean.registerEvent(eventBean.event.eventID)}"
-                                                     rendered="#{eventBean.event.status!='Ended'}"/>
-                            </h:form>
-                        </td>
-                    </tr>
-                </table>
+                <h:form>
+                    <table width="650" border="1" id="detail_table">
+                        <tr>
+                            <td colspan="2"><div align="center">
+                                    <h2 class="style1" style="color: cornflowerblue">Event Detail </h2>
+                                </div></td>
+                        </tr>
+                        <tr>
+                            <td> <div align="center">Event ID </div></td>
+                            <td>#{eventBean.event.eventID}</td>
+                        </tr>
+                        <tr>
+                            <td><div align="center">Event Name </div></td>
+                            <td>#{eventBean.event.eventTitle}</td>
+                        </tr>
+                        <tr>
+                            <td><div align="center">Description</div></td>
+                            <td><textarea name="" rows="6" cols="35" disabled="true">
+                                    #{eventBean.event.description}
+                                </textarea></td>
+                        </tr>              
+                        <tr>
+                            <td><div align="center">Start Event Date</div></td>
+                            <td>
+                                <h:outputText value="#{eventBean.event.startDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText></td>
+                        </tr>
+                        <tr>
+                            <td><div align="center">End Event Date</div></td>
+                            <td><h:outputText value="#{eventBean.event.endDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText></td>
+                        </tr>
+                        <tr>
+                            <td><div align="center">Event Type</div></td>
+                            <td>#{eventBean.event.eventTypeID.eventTypeName}</td>
+                        </tr> 
+                        <tr>
+                            <td><div align="center">Status</div></td>
+                            <td>#{eventBean.event.status}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <h:commandButton value="Register" action="#{registerBean.registerEvent(eventBean.event.eventID)}"
+                                                 rendered="#{eventBean.event.status!='Ended'}"/>                            
+                            </td>
+                        </tr>
+                    </table>
+                </h:form>
                 <c:if test="#{not empty requestScope.msg}">
                     <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>
                 </c:if>
@@ -107,7 +108,8 @@ and open the template in the editor.
                         <tr>
                             <td></td>
                             <td>
-                                <h:commandButton value="Send" action="#{employeeBean.createComment(eventBean.event.eventID)}" />
+                                <h:commandButton value="Send" action="#{employeeBean.createComment(eventBean.event.eventID)}" 
+                                                 disabled="#{loginBean.isLoggedEmployee==false}"/>
                             </td>
                         </tr>
                     </table>

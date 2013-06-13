@@ -115,10 +115,10 @@ public class FaqBean implements Serializable {
     public void deleteFaq(Faq faq) {
         if (faqFacade.delete(faq)) {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("delete", "delSuccess " + faq.getFaqid() + " successfully");
+            rq.setAttribute("delSuccess", "Delete " + faq.getFaqid() + " successfully");
         } else {
             rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("update", "delFail " + faq.getFaqid() + " Unsuccessfully");
+            rq.setAttribute("delFail", "Delete " + faq.getFaqid() + " Unsuccessfully");
         }
     }
 
