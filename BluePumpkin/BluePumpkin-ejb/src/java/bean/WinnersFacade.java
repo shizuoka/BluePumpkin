@@ -67,4 +67,8 @@ public class WinnersFacade extends AbstractFacade<Winners> {
                 .setParameter("prizeID", prizeID).getResultList();
     }
     
+    public void deleteWinnerByPrizeId(int prizeId) {
+        em.createQuery("DELETE FROM Winners w where w.prizeID.prizeID = "+prizeId).executeUpdate();
+    }
+    
 }

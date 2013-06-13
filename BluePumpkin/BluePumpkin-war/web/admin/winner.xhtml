@@ -9,73 +9,72 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <f:view>
+        <h:form id="form">
             <h1><h:outputText value="List"/></h1>
-            
-            <table id="set-winner">
-                <thead>
-                    <tr>
-                        <th>PrizeID</th>
-                        <th>PrizeName</th>
-                        <th>Number Of Prize</th>
-                        <th>Description</th>
-                        <th>Laureates</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach items="#{prizeBean.listPrizes}" var="item">
-                        <tr class="odd">
-                            <td>#{item.prizeID}</td>
-                            <td>#{item.prizeName}</td>
-                            <td>#{item.numberOfPrize}</td>
-                            <td>#{item.description}</td>
-                            <td>
-                                <c:forEach items="#{winnerBean.showWinnersByPrize(item.prizeID)}" var="winner">
-                                    #{winner.employeesName}, 
-                                </c:forEach>
-                            </td>
-                            <td><p:commandButton id="modalDialogButton" value="Set Winner" onclick="list_register.show()" type="button"/>
-                                <p:dialog id="modalDialog_#{item.prizeID}" header="Add employee winner" widgetVar="list_register" modal="true" height="auto" width="900">  
-                                    <p:dataTable id="multiEmployee" var="emp" value="#{prizeBean.listEmp}" paginator="true" rows="10"
-                                                 selection="#{prizeBean.selectedEmployees}"
-                                                 rowKey="#{emp.employeeID}">>
-                                        
+            <p:growl id="growl" showDetail="true" />
+            <p:dataTable id="set-winner" value="#{prizeBean.listPrizes}"
+                         var="item" paginatorAlwaysVisible="false" emptyMessage="No item found" rows="5" paginator="true" >
+                <p:column>
+                    <f:facet name="header"><h:outputText value="PrizeID" /></f:facet>
+                    <h:outputText value="#{item.prizeID}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header"><h:outputText value="PrizeName" /></f:facet>
+                    <h:outputText value="#{item.prizeName}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header"><h:outputText value="Number Of Prize" /></f:facet>
+                    <h:outputText value="#{item.numberOfPrize}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header"><h:outputText value="Description" /></f:facet>
+                    <h:outputText value="#{item.description}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header"><h:outputText value="Laureates" /></f:facet>
+                    <p:dataList value="#{winnerBean.showWinnersByPrize(item.prizeID)}" var="winner" itemType="square">  
+                        #{winner.employeesName}  
+                    </p:dataList>              
+                </p:column>
+                <p:column>
+                    <f:facet name="header"><h:outputText value="Set Winner" /></f:facet>
+                    <p:commandButton class="modalDialogButton_#{item.prizeID}" value="Set Winner" update=":form:multiEmployee" onclick="list_register.show()"
+                                     action="#{prizeBean.btnSetWinner(item.prizeID, item.numberOfPrize, item.isWin, item.eventID)}"/>
+                </p:column>
+            </p:dataTable>            
+            <p:dialog id="modalDialog" header="Add employee winner" widgetVar="list_register" modal="true" height="auto" width="900">  
+                <p:dataTable id="multiEmployee" var="emp" value="#{prizeBean.listEmp}" paginator="true" rows="10"
+                             selection="#{prizeBean.selectedEmployees}"
+                             rowKey="#{emp.employeeID}">
 
-                                        <f:facet name="header">Checkbox</f:facet>
-                                        <p:column selectionMode="multiple" />
+                    <f:facet name="header">List employee register event</f:facet>
+                    <p:column selectionMode="multiple"/>                    
+                    <p:column headerText="EmployeeID" style="width:25%">  
+                        #{emp.employeeID}  
+                    </p:column>  
 
-                                        <p:column headerText="EmployeeID" style="width:25%">  
-                                            #{emp.employeeID}  
-                                        </p:column>  
+                    <p:column headerText="Full Name" style="width:25%">  
+                        #{emp.fullName}  
+                    </p:column>  
 
-                                        <p:column headerText="Full Name" style="width:25%">  
-                                            #{emp.fullName}  
-                                        </p:column>  
+                    <p:column headerText="Email" style="width:24%">  
+                        #{emp.email}  
+                    </p:column>  
 
-                                        <p:column headerText="Email" style="width:24%">  
-                                            #{emp.email}  
-                                        </p:column>  
+                    <p:column headerText="Phone" style="width:24%">  
+                        #{emp.phone}  
+                    </p:column>  
 
-                                        <p:column headerText="Phone" style="width:24%">  
-                                            #{emp.phone}  
-                                        </p:column>  
-
-                                        <f:facet name="footer">  
-                                            <p:commandButton id="multiViewButton" value="Submit" icon="ui-icon-search" 
-                                                             actionListener="#{prizeBean.saveWin}"
-                                                             onclick="list_register.hide()" />  
-                                        </f:facet>  
-                                    </p:dataTable>
-                                </p:dialog>
-                            </td>
-                        </tr>  
-                    </c:forEach>
-                </tbody>
-            </table>
-
-        </f:view>
-
+                    <f:facet name="footer">  
+                        <p:commandButton id="multiViewButton" value="Submit" icon="ui-icon-add" 
+                                         actionListener="#{prizeBean.saveWin}"
+                                         oncomplete="list_register.hide()"
+                                         update=":form:growl, :form:set-winner">                            
+                        </p:commandButton>
+                    </f:facet>  
+                </p:dataTable>
+            </p:dialog>
+        </h:form>
     </h:body>
 </html>
 

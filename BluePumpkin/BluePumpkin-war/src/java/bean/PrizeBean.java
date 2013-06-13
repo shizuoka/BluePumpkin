@@ -11,6 +11,7 @@ import entities.Winners;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -38,7 +39,6 @@ public class PrizeBean implements Serializable {
      */
     public PrizeBean() {
     }
-    
     private Boolean winPrize;
 
     public Boolean getWinPrize() {
@@ -48,7 +48,6 @@ public class PrizeBean implements Serializable {
     public void setWinPrize(Boolean winPrize) {
         this.winPrize = winPrize;
     }
-    
     private Boolean selectTypeWin;
 
     public Boolean getSelectTypeWin() {
@@ -57,8 +56,7 @@ public class PrizeBean implements Serializable {
 
     public void setSelectTypeWin(Boolean selectTypeWin) {
         this.selectTypeWin = selectTypeWin;
-    }    
-    
+    }
     private List<Prizes> filteredPrizes;
 
     public List<Prizes> getFilteredPrizes() {
@@ -68,7 +66,6 @@ public class PrizeBean implements Serializable {
     public void setFilteredPrizes(List<Prizes> filteredPrizes) {
         this.filteredPrizes = filteredPrizes;
     }
-    
     private String employeeName;
 
     public String getEmployeeName() {
@@ -96,6 +93,15 @@ public class PrizeBean implements Serializable {
     public void setPrize_id(int prize_id) {
         this.prize_id = prize_id;
     }
+    private boolean isWin;
+
+    public boolean isIsWin() {
+        return isWin;
+    }
+
+    public void setIsWin(boolean isWin) {
+        this.isWin = isWin;
+    }
     private List<Prizes> listPrizes;
 
     public List<Prizes> getListPrizes() {
@@ -105,7 +111,6 @@ public class PrizeBean implements Serializable {
     public void setListPrizes(List<Prizes> listPrizes) {
         this.listPrizes = listPrizes;
     }
-
     private List<Employee> listEmp;
 
     public List<Employee> getListEmp() {
@@ -115,14 +120,25 @@ public class PrizeBean implements Serializable {
     public void setListEmp(List<Employee> listEmp) {
         this.listEmp = listEmp;
     }
-    
-        
+
     public String redirectWinner(String eventID) {
         setListEmp(registerEventFacade.findEmployeeByEventId(eventID));
         setListPrizes(prizesFacade.getPrize(eventID));
         return "winner.xhtml?faces-redirect=true";
     }
+    private String eventId;
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
     
+    public void btnSetWinner(int prizeId, String numberOfPrize, boolean isWin, String eventId) {
+        //setListEmp(registerEventFacade.findEmployeeByEventId("EV03"));
+        setPrize_id(prizeId);
+        setNumberOfPrize(numberOfPrize);
+        setIsWin(isWin);
+        setEventId(eventId);
+    }
     private Employee[] selectedEmployees;
 
     public Employee[] getSelectedEmployees() {
@@ -132,10 +148,29 @@ public class PrizeBean implements Serializable {
     public void setSelectedEmployees(Employee[] selectedEmployees) {
         this.selectedEmployees = selectedEmployees;
     }
-    
-    public void saveWin(ActionEvent actionEvent) {  
-        
-    }  
+
+    public void saveWin(ActionEvent actionEvent) {
+//        System.out.println(numberOfPrize);
+//        System.out.println(prize_id);
+//        System.out.println(selectedEmployees.length);
+        if (selectedEmployees.length == 0) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Choose atleast one person won!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (selectedEmployees.length > Integer.parseInt(numberOfPrize)) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "The number of winners mustn't be greater than:" + numberOfPrize);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            winnersFacade.deleteWinnerByPrizeId(prize_id);
+            for (int i = 0; i < selectedEmployees.length; i++) {
+                //System.out.println(selectedEmployees[i].getEmployeeID());
+                //System.out.println(selectedEmployees[i].getFullName());
+                winnersFacade.addWinner(selectedEmployees[i].getFullName(), selectedEmployees[i].getEmployeeID(), isWin, prize_id);
+            }
+            //setListPrizes(prizesFacade.getPrize(eventId));
+            listPrizes = prizesFacade.getPrize(eventId);
+        }
+
+    }
 
     public List<RegisterEvent> showAllRegister() {
         return registerEventFacade.findAll();
@@ -235,16 +270,14 @@ public class PrizeBean implements Serializable {
             rq.setAttribute("del", "Delete detail UnSuccessful");
         }
     }
-    
     private boolean win;
 
     public void setWin(boolean win) {
         this.win = win;
     }
-    
+
     public boolean showWin(String eventId) {
         win = prizesFacade.isFirstPrizeExisted(eventId);
         return win;
     }
-    
 }
