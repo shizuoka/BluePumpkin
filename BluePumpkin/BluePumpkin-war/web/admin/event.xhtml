@@ -74,13 +74,10 @@ and open the template in the editor.
                                       filterMatchMode="contains" sortBy="#{event.eventTypeID.eventTypeName}">  
                                 <h:outputText value="#{event.eventTypeID.eventTypeName}" />  
                             </p:column>
-
+                            
                             <p:column id="addPrizeColumn" headerText="AddPrize">  
-                                <a href="/BluePumpkin-war/admin/addPrize.xhtml?eventID=#{event.eventID}">
-                                    <img src="../images/icon/prize.jpg" alt="" />
-                                </a>
+                                <p:commandButton value="InsertPrize" action="#{prizeBean.redirectInsertEvent(event.eventID)}"/>
                             </p:column>
-
 
                             <p:column id="editColumn" headerText="Edit">  
                                 <h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/>                                  

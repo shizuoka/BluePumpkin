@@ -13,7 +13,9 @@
             <h1><h:outputText value="List"/></h1>
             <p:growl id="growl" showDetail="true" />
             <p:dataTable id="set-winner" value="#{prizeBean.listPrizes}"
-                         var="item" emptyMessage="No item found" rows="5" paginator="true" >
+                         var="item" emptyMessage="No item found" rows="5" paginator="true" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="5,10,15">
                 <p:column>
                     <f:facet name="header"><h:outputText value="PrizeID" /></f:facet>
                     <h:outputText value="#{item.prizeID}" />
@@ -45,23 +47,30 @@
             <p:dialog id="modalDialog" header="Add employee winner" widgetVar="list_register" modal="true" height="auto" width="900">  
                 <p:dataTable id="multiEmployee" var="emp" value="#{prizeBean.listEmp}" paginator="true" rows="10"
                              selection="#{prizeBean.selectedEmployees}"
-                             rowKey="#{emp.employeeID}">
+                             rowKey="#{emp.employeeID}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                             rowsPerPageTemplate="5,10,15" filteredValue="#{prizeBean.filteredmultiEmployee}" widgetVar="multiEmployeeTable">
 
                     <f:facet name="header">List employee register event</f:facet>
+                    <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Search all fields:" />  
+                                    <p:inputText id="globalFilter" onkeyup="multiEmployeeTable.filter()" style="width:150px" />  
+                                </p:outputPanel>  
+                            </f:facet>
                     <p:column selectionMode="multiple"/>                    
-                    <p:column headerText="EmployeeID" style="width:25%">  
+                    <p:column headerText="EmployeeID" style="width:25%" filterBy="#{emp.employeeID}" filterMatchMode="contains">  
                         #{emp.employeeID}  
                     </p:column>  
 
-                    <p:column headerText="Full Name" style="width:25%">  
+                    <p:column headerText="Full Name" style="width:25%" filterBy="#{emp.fullName}" filterMatchMode="startsWith">  
                         #{emp.fullName}  
                     </p:column>  
 
-                    <p:column headerText="Email" style="width:24%">  
+                    <p:column headerText="Email" style="width:24%" filterBy="#{emp.email}" filterMatchMode="contains">  
                         #{emp.email}  
                     </p:column>  
 
-                    <p:column headerText="Phone" style="width:24%">  
+                    <p:column headerText="Phone" style="width:24%" filterBy="#{emp.phone}" filterMatchMode="contains">  
                         #{emp.phone}  
                     </p:column>  
 

@@ -131,6 +131,12 @@ public class PrizeBean implements Serializable {
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
+
+    public String getEventId() {
+        return eventId;
+    }
+    
+    
     
     public void btnSetWinner(int prizeId, String numberOfPrize, boolean isWin, String eventId) {
         //setListEmp(registerEventFacade.findEmployeeByEventId("EV03"));
@@ -149,6 +155,15 @@ public class PrizeBean implements Serializable {
         this.selectedEmployees = selectedEmployees;
     }
     
+    private List<Employee> filteredmultiEmployee;
+
+    public List<Employee> getFilteredmultiEmployee() {
+        return filteredmultiEmployee;
+    }
+
+    public void setFilteredmultiEmployee(List<Employee> filteredmultiEmployee) {
+        this.filteredmultiEmployee = filteredmultiEmployee;
+    }    
 
     public void saveWin(ActionEvent actionEvent) {
 //        System.out.println(numberOfPrize);
@@ -222,15 +237,28 @@ public class PrizeBean implements Serializable {
         return prizesFacade.findAll();
     }
 
-    public void insertPrize(String eventID) {
-        boolean result = prizesFacade.addPrize(prizeName, description, Integer.parseInt(numberOfPrize), eventID, win);
-        if (result) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Add New Successfull");
+    public void insertPrize(ActionEvent event) {
+        //System.out.println(evId);
+        int numberPrize;
+        if (numberOfPrize == null || numberOfPrize.equals("")) {
+            numberPrize = 1;
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Add New UnSuccessfull");
+            numberPrize = Integer.parseInt(numberOfPrize);
         }
+        if (isWin && numberPrize > 1) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Number Of Prize khong duoc lon hon 1");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            boolean result = prizesFacade.addPrize(prizeName, description, numberPrize, eventId, isWin);
+            if (result) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Add New successfull");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "SUCCESSFULL", "Add New UnSuccessfull ");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
+        }
+
     }
 
     public void pickWinner(Prizes p) {
@@ -272,14 +300,18 @@ public class PrizeBean implements Serializable {
             rq.setAttribute("del", "Delete detail UnSuccessful");
         }
     }
-    private boolean win;
-
-    public void setWin(boolean win) {
-        this.win = win;
-    }
+//    private boolean win;
+//
+//    public void setWin(boolean win) {
+//        this.win = win;
+//    }
 
     public boolean showWin(String eventId) {
-        win = prizesFacade.isFirstPrizeExisted(eventId);
-        return win;
+        return prizesFacade.isFirstPrizeExisted(eventId);
+    }
+    
+    public String redirectInsertEvent(String eventId) {
+        setEventId(eventId);
+        return "addPrize.xhtml?faces-redirect=true";
     }
 }
