@@ -55,6 +55,19 @@ public class WinnerBean implements Serializable{
         this.seletedEmID = seletedEmID;
     }
     
+    public List<Winners> showWinnerDetail() {
+        return winnersFacade.findAll();
+    }
     
+    private List<Winners> filteredWinners;
+
+    public List<Winners> getFilteredWinners() {
+        return filteredWinners;
+    }
+
+    public void setFilteredWinners(List<Winners> filteredWinners) {
+        this.filteredWinners = filteredWinners;
+    }
+        
     
 }

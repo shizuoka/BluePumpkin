@@ -32,10 +32,8 @@ and open the template in the editor.
                     <div class="loginform_row">
                         <h:commandButton value="Login" action="#{loginBean.loginAdmin()}" class="loginform_submit"/>                     
                     </div>                 
-                    <div class="clear"></div>    
-                    <c:if test="#{not empty requestScope.error}">
-                        <h:outputText value="#{requestScope.error}" style="color: red"/>
-                    </c:if>
+                    <div class="clear"></div>                        
+                    <h:outputText value="#{requestScope.error}" style="color: red"/>                    
                 </div>                 
             </div>
         </h:form>

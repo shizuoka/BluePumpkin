@@ -7,7 +7,9 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Prizes Page</title>
         <link rel="stylesheet" type="text/css" href="../css/styleAdmin.css" />
@@ -27,234 +29,126 @@ and open the template in the editor.
         </script>
     </h:head>
     <h:body>
-        <div id="panelwrap">
-
-            <div class="header">
-                <div class="title"><a href="#">Blue Pumpkin Admin Control Panel</a></div>
-
-                <div class="header_right">Welcome #{sessionScope.admin.userName.fullName}, <a href="editProfile.xhtml" class="settings">Settings</a> 
-                    <h:form><h:commandLink value="Logout" class="logout" action="#{loginBean.logOutAdmin()}"/></h:form> </div>
-
-                <div class="menu">
-                    <ul>
-                        <li><a href="index.xhtml" class="selected">Main page</a></li>
-                        <li><a href="addEventType.xhtml">Manager Event</a></li>
-                        <li><a href="suggest.xhtml">Manager Suggest</a></li>
-                        <li><a href="createAccount.xhtml">Manger Employee</a></li>
-                        <li><a href="#">Manager Request</a></li>
-                        <li><a href="viewFAQ.xhtml">Manager FAQs</a></li>
-                        <li><a href="statistic.xhtml">Reports</a></li>                               
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content"> 
+                    <ul id="tabsmenu" class="tabsmenu">                            
+                        <li class="active"><a href="#tab1">Tab List Prize</a></li>
+                        <li><a href="#tab2">Tab List Winner Detail</a></li>
+                        <li><a href="#tab3">Tab List Register Event</a></li>
                     </ul>
-                </div>
-
-            </div>       
-
-            <div class="center_content">  
-
-                <div id="right_wrap">
-                    <div id="right_content">   
-                        <ul id="tabsmenu" class="tabsmenu">                            
-                            <li class="active"><a href="#tab1">Tab List Prize</a></li>
-                            <li><a href="#tab2">Tab List Winner Detail</a></li>
-                            <li><a href="#tab3">Tab List Register Event</a></li>
-                        </ul>
-                        <div id="tab1" class="tabcontent">                            
-                            <div class="form">
-                                <h2>View List Prize</h2> 
-                                <h:form>                            
-                                    <h:dataTable value="#{eventBean.findEventEnded()}" var="item">
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="EventID"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.eventID}"/>
-                                        </h:column>                                        
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Title"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.eventTitle}"/>
-                                        </h:column>  
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Description"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.description}"/>
-                                        </h:column>                                        
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Action"/>
-                                            </f:facet>
-                                            <h:commandButton value="Select" action="#{prizeBean.redirectWinner(item.eventID)}"/>
-                                        </h:column>
-                                    </h:dataTable>
-                                    <br/>
-                                    Choose:
-                                    <table>
-                                        <tr>
-                                            <td>Prize ID:</td>
-                                            <td><h:outputText value="#{prizeBean.pz.prizeID}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Event ID:</td>
-                                            <td><h:outputText value="#{prizeBean.pz.eventID.eventID}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Employee Name</td>
-                                            <td><h:inputText value="#{prizeBean.employeeName}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Employee ID:</td>
-                                            <td><h:inputText value="#{prizeBean.employeeID}"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">
-                                                <h:selectOneRadio value="#{prizeBean.select1st}">
-                                                    <f:selectItem itemValue="1" itemLabel="1st"></f:selectItem>
-                                                    <f:selectItem itemValue="0" itemLabel="Another"></f:selectItem>
-                                                </h:selectOneRadio>
-                                            </td>
-                                        </tr>
-                                        <tr>                                            
-                                            <td colspan="2"><h:commandButton value="Submit" action="#{prizeBean.addWinner(prizeBean.pz.prizeID)}"/></td>
-                                        </tr>
-                                    </table>
-                                    <c:if test="#{not empty requestScope.info}">
-                                        <h:outputText value="#{requestScope.info}" style="color: blue"/>
-                                    </c:if>
-                                </h:form> 
-                                <div class="clear"></div>
-                            </div>
+                    <div id="tab1" class="tabcontent">                            
+                        <div class="form">
+                            <h2>View List Prize</h2> 
+                            <h:form>   
+                                <p:dataTable id="listEventEndedTable" var="event" value="#{eventBean.findEventEnded()}" widgetVar="eventsEndedTable"   
+                                             emptyMessage="No event found with given criteria" filteredValue="#{eventBean.filteredEvents}"
+                                             paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                             rowsPerPageTemplate="5,10,15" sortMode="multiple">  
+                                    <f:facet name="header">  
+                                        <p:outputPanel>  
+                                            <h:outputText value="Search all fields:" />  
+                                            <p:inputText id="globalEndedFilter" onkeyup="eventsEndedTable.filter()" style="width:150px" />  
+                                        </p:outputPanel>  
+                                    </f:facet>
+                                    <p:column id="eventEndedID" headerText="EventID" filterBy="#{event.eventID}"   
+                                              filterMatchMode="contains" sortBy="#{event.eventID}">
+                                        <h:outputText value="#{event.eventID}"/>
+                                    </p:column>                                        
+                                    <p:column id="eventTitle" headerText="Title" filterBy="#{event.eventTitle}"   
+                                              filterMatchMode="startsWith" sortBy="#{event.eventTitle}">
+                                        <h:outputText value="#{event.eventTitle}"/>
+                                    </p:column>                                                                       
+                                    <p:column id="actionSelect" headerText="Action">
+                                        <h:commandButton value="Select" action="#{prizeBean.redirectWinner(event.eventID)}"/>
+                                    </p:column>
+                                </p:dataTable>                           
+                            </h:form> 
+                            <div class="clear"></div>
                         </div>
-
-                        <div id="tab2" class="tabcontent"> 
-                            <div class="form">
-                                <h2>View List Winner Detail</h2> 
-                                <h:form>                                
-                                    <h:dataTable value="#{prizeBean.showWinnerDetail()}" var="detail">                                        
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Event"/>
-                                            </f:facet>
-                                            <h:outputText value="#{detail.prizeID.eventID.eventTitle}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="PrizeName"/>
-                                            </f:facet>
-                                            <h:outputText value="#{detail.prizeID.prizeName}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Description"/>
-                                            </f:facet>
-                                            <h:outputText value="#{detail.prizeID.description}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="WinnerEmpID"/>
-                                            </f:facet>
-                                            <h:outputText value="#{detail.employeesId}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="WinnerName"/>
-                                            </f:facet>
-                                            <h:outputText value="#{detail.employeesName}"/>
-                                        </h:column>                                        
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Action"/>
-                                            </f:facet>
-                                            <h:commandButton value="Delete" action="#{prizeBean.deleteWinnerDetail(detail.id)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
-                                        </h:column>
-                                    </h:dataTable>
-                                    <c:if test="#{not empty requestScope.del}">                                
-                                        <h:outputText value="#{requestScope.del}" style="color: red;text-align: center"/>                                
-                                    </c:if>
-                                </h:form>
-                            </div>
-                        </div>
-
-                        <div id="tab3" class="tabcontent">
-                            <div class="form">
-                                <h2>View List Register Event</h2>
-                                <h:form>                                
-                                    <h:dataTable value="#{registerBean.showAllRegister()}" var="regist" >
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="RegisterID"/>
-                                            </f:facet>
-                                            <h:outputText value="#{regist.registerID}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="RegisterDate"/>
-                                            </f:facet>
-                                            <h:outputText value="#{regist.registerDate}">
-                                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                                            </h:outputText>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Status"/>
-                                            </f:facet>
-                                            <h:outputText value="Accepted" rendered="#{regist.isAccept==true}"/>
-                                            <h:outputText value="Not Yet Accept" rendered="#{regist.isAccept==false}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="EventID"/>
-                                            </f:facet>
-                                            <h:outputText value="#{regist.eventID.eventID}"/>
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="EmployeeID"/>
-                                            </f:facet>
-                                            <h:outputText value="#{regist.employeeID.employeeID}"/>
-                                        </h:column>
-                                    </h:dataTable>
-                                </h:form>
-                            </div>
-                        </div> 
                     </div>
-                </div><!-- end of right content-->
 
-                <div class="sidebar" id="sidebar">                    
+                    <div id="tab2" class="tabcontent"> 
+                        <div class="form">
+                            <h2>View List Winner Detail</h2> 
+                            <h:form>  
+                                <p:dataTable id="listWinnerTable" var="detail" value="#{winnerBean.showWinnerDetail()}" widgetVar="winnersTable"   
+                                             emptyMessage="No winner found with given criteria" filteredValue="#{winnerBean.filteredWinners}"
+                                             paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                             rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
+                                    <f:facet name="header">  
+                                        <p:outputPanel>  
+                                            <h:outputText value="Search all fields:" />  
+                                            <p:inputText id="globalWinnerFilter" onkeyup="winnersTable.filter()" style="width:150px" />  
+                                        </p:outputPanel>  
+                                    </f:facet>
+                                    <p:column id="eventCol" headerText="Event" filterBy="#{detail.prizeID.eventID.eventTitle}"   
+                                              filterMatchMode="contains" sortBy="#{detail.prizeID.eventID.eventTitle}">
+                                        <h:outputText value="#{detail.prizeID.eventID.eventTitle}"/>
+                                    </p:column>
+                                    <p:column id="prizeNameCol" headerText="PrizeName" filterBy="#{detail.prizeID.prizeName}"   
+                                              filterMatchMode="startsWith" sortBy="#{detail.prizeID.prizeName}">
+                                        <h:outputText value="#{detail.prizeID.prizeName}"/>
+                                    </p:column>
+                                    <p:column id="desCol" headerText="Description">
+                                        <h:outputText value="#{detail.prizeID.description}"/>
+                                    </p:column>                               
+                                    <p:column id="winnerName" headerText="WinnerName" filterBy="#{detail.employeesName}"   
+                                              filterMatchMode="startsWith" sortBy="#{detail.employeesName}">
+                                        <h:outputText value="#{detail.employeesName}"/>
+                                    </p:column>                                        
+                                    <p:column id="delCol" headerText="Action">
+                                        <h:commandButton value="Delete" action="#{prizeBean.deleteWinnerDetail(detail.id)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/>
+                                    </p:column>
+                                </p:dataTable>                           
+                                <c:if test="#{not empty requestScope.del}">                                
+                                    <h:outputText value="#{requestScope.del}" style="color: red;text-align: center"/>                                
+                                </c:if>
+                            </h:form>
+                        </div>
+                    </div>
 
-                    <h2>Page Section</h2>
-
-                    <ul>
-                        <li><a href="addEventType.xhtml">Add New Event Type</a></li>
-                        <li><a href="addFAQ.xhtml">Add New FAQ</a></li>                        
-                        <li><a href="event.xhtml">Add New Event</a></li>
-                        <li><a href="suggest.xhtml">View Suggest Register</a></li>
-                        <li><a href="statistic.xhtml">View Statistics</a></li>
-                    </ul> 
-
-                    <h2>User Settings</h2>
-
-                    <ul>
-                        <li><a href="editProfile.xhtml">Edit Profile</a></li>
-                        <li><a href="createAccount.xhtml">Add New Account</a></li>                        
-                        <li><a href="#">Help</a></li>
-                    </ul>   
-
-                    <h2>Text Section</h2> 
-                    <div class="sidebar_section_text">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </div>         
-
-                </div>           
-
-                <div class="clear"></div>
-            </div> <!--end of center_content-->
-
-            <div class="footer">
-                Blue Pumpkin - C1007L by <a href="" target="_blank">Group 1 FPT Aptech Education Computer</a>
-            </div>
-
-        </div>
+                    <div id="tab3" class="tabcontent">
+                        <div class="form">
+                            <h2>View List Register Event</h2>
+                            <h:form>   
+                                <p:dataTable id="listRegisterTable" var="regist" value="#{registerBean.showAllRegister()}" widgetVar="registersTable"   
+                                             emptyMessage="No winner found with given criteria" filteredValue="#{registerBean.filteredRegister}"
+                                             paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                             rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
+                                    <f:facet name="header">  
+                                        <p:outputPanel>  
+                                            <h:outputText value="Search all fields:" />  
+                                            <p:inputText id="globalRegisterFilter" onkeyup="registersTable.filter()" style="width:150px" />  
+                                        </p:outputPanel>  
+                                    </f:facet>
+                                    <p:column id="registID" headerText="RegisterID">
+                                        <h:outputText value="#{regist.registerID}"/>
+                                    </p:column>
+                                    <p:column id="registDate" headerText="RegisterDate" filterBy="#{regist.registerDate}"   
+                                              filterMatchMode="contains" sortBy="#{regist.registerDate}">
+                                        <h:outputText value="#{regist.registerDate}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column id="registStatus" headerText="Status">
+                                        <h:outputText value="Accepted" rendered="#{regist.isAccept==true}" style="color: green"/>
+                                        <h:outputText value="Not Yet Accept" rendered="#{regist.isAccept==false}" style="color: red"/>
+                                    </p:column>
+                                    <p:column id="registEventID" headerText="EventID" filterBy="#{regist.eventID.eventID}"   
+                                              filterMatchMode="contains" sortBy="#{regist.eventID.eventID}">
+                                        <h:outputText value="#{regist.eventID.eventID}"/>
+                                    </p:column>
+                                    <p:column id="registEmpID" headerText="EmployeeID" filterBy="#{regist.employeeID.employeeID}"   
+                                              filterMatchMode="contains" sortBy="#{regist.employeeID.employeeID}">
+                                        <h:outputText value="#{regist.employeeID.employeeID}"/>
+                                    </p:column>
+                                </p:dataTable>                           
+                            </h:form>
+                        </div>
+                    </div>   
+                </div>
+            </ui:define>
+        </ui:composition>        
     </h:body>
 </html>
