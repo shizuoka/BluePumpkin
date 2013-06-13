@@ -21,8 +21,7 @@ and open the template in the editor.
 
                     <table id="rounded-corner">
                         <thead>
-                            <tr>
-                                <th></th>
+                            <tr>                                
                                 <th>EventID</th>
                                 <th>Title</th>
                                 <th>Image</th>
@@ -37,13 +36,12 @@ and open the template in the editor.
                         </thead>
                         <tfoot>
                             <tr>
-                                <td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
+                                <td colspan="12"></td>
                             </tr>
                         </tfoot>
                         <tbody>
                             <c:forEach items="#{eventBean.showAll()}" var="event">
-                                <tr class="odd">
-                                    <td><input type="checkbox" name="" /></td>
+                                <tr class="odd">                                    
                                     <td>#{event.eventID}</td>
                                     <td>#{event.eventTitle}</td>
                                     <td><h:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>  </td>
@@ -64,11 +62,6 @@ and open the template in the editor.
                             </c:forEach>
                         </tbody>
                     </table>                        
-
-                    <div class="form_sub_buttons">
-                        <a href="#" class="button green">Edit selected</a>
-                        <a href="#" class="button red">Delete selected</a>
-                    </div>
 
                     <ul id="tabsmenu" class="tabsmenu">
                         <li class="active"><a href="#tab1">Form Edit Structure</a></li>                                                     
