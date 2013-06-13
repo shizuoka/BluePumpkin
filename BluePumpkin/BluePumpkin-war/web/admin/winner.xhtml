@@ -4,86 +4,96 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Set winner</title>
     </h:head>
     <h:body>
-        <h:form id="form">
-            <h1><h:outputText value="List"/></h1>
-            <p:growl id="growl" showDetail="true" />
-            <p:dataTable id="set-winner" value="#{prizeBean.listPrizes}"
-                         var="item" emptyMessage="No item found" rows="5" paginator="true" 
-                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                         rowsPerPageTemplate="5,10,15">
-                <p:column>
-                    <f:facet name="header"><h:outputText value="PrizeID" /></f:facet>
-                    <h:outputText value="#{item.prizeID}" />
-                </p:column>
-                <p:column>
-                    <f:facet name="header"><h:outputText value="PrizeName" /></f:facet>
-                    <h:outputText value="#{item.prizeName}" />
-                </p:column>
-                <p:column>
-                    <f:facet name="header"><h:outputText value="Number Of Prize" /></f:facet>
-                    <h:outputText value="#{item.numberOfPrize}" />
-                </p:column>
-                <p:column>
-                    <f:facet name="header"><h:outputText value="Description" /></f:facet>
-                    <h:outputText value="#{item.description}" />
-                </p:column>
-                <p:column>
-                    <f:facet name="header"><h:outputText value="Laureates" /></f:facet>
-                    <p:dataList id="winner" value="#{winnerBean.showWinnersByPrize(item.prizeID)}" var="winner" itemType="square">  
-                        #{winner.employeesName}  
-                    </p:dataList>              
-                </p:column>
-                <p:column>
-                    <f:facet name="header"><h:outputText value="Set Winner" /></f:facet>
-                    <p:commandButton class="modalDialogButton_#{item.prizeID}" value="Set Winner" update=":form:multiEmployee" onclick="list_register.show()"
-                                     action="#{prizeBean.btnSetWinner(item.prizeID, item.numberOfPrize, item.isWin, item.eventID)}"/>
-                </p:column>
-            </p:dataTable>            
-            <p:dialog id="modalDialog" header="Add employee winner" widgetVar="list_register" modal="true" height="auto" width="900">  
-                <p:dataTable id="multiEmployee" var="emp" value="#{prizeBean.listEmp}" paginator="true" rows="10"
-                             selection="#{prizeBean.selectedEmployees}"
-                             rowKey="#{emp.employeeID}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                             rowsPerPageTemplate="5,10,15" filteredValue="#{prizeBean.filteredmultiEmployee}" widgetVar="multiEmployeeTable">
-
-                    <f:facet name="header">List employee register event</f:facet>
-                    <f:facet name="header">  
-                                <p:outputPanel>  
-                                    <h:outputText value="Search all fields:" />  
-                                    <p:inputText id="globalFilter" onkeyup="multiEmployeeTable.filter()" style="width:150px" />  
-                                </p:outputPanel>  
+        <ui:composition template="template/templateAdmin.xhtml">
+            <ui:define name="content">
+                <div id="right_content">
+                    <h:form id="form">
+                        <p:growl id="growl" showDetail="true" />
+                        <p:dataTable id="set-winner" value="#{prizeBean.listPrizes}"
+                                     var="item" emptyMessage="No item found" rows="5" paginator="true" 
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15">
+                            <f:facet name="header">  
+                                List prizes of event: #{prizeBean.eventId}
                             </f:facet>
-                    <p:column selectionMode="multiple"/>                    
-                    <p:column headerText="EmployeeID" style="width:25%" filterBy="#{emp.employeeID}" filterMatchMode="contains">  
-                        #{emp.employeeID}  
-                    </p:column>  
+                            <p:column style="width:50px">
+                                <f:facet name="header"><h:outputText value="PrizeID" /></f:facet>
+                                <h:outputText value="#{item.prizeID}" />
+                            </p:column>
+                            <p:column style="width:145px">
+                                <f:facet name="header"><h:outputText value="PrizeName" /></f:facet>
+                                <h:outputText value="#{item.prizeName}" />
+                            </p:column>
+                            <p:column style="width:50px">
+                                <f:facet name="header"><h:outputText value="Number Of Prize" /></f:facet>
+                                <h:outputText value="#{item.numberOfPrize}" />
+                            </p:column>
+                            <p:column style="width:210px">
+                                <f:facet name="header"><h:outputText value="Description" /></f:facet>
+                                <h:outputText value="#{item.description}" />
+                            </p:column>
+                            <p:column style="width:200px">
+                                <f:facet name="header"><h:outputText value="Laureates" /></f:facet>
+                                <p:dataList id="winner" value="#{winnerBean.showWinnersByPrize(item.prizeID)}" var="winner" itemType="square">  
+                                    #{winner.employeesName}  
+                                </p:dataList>              
+                            </p:column>
+                            <p:column style="width:80px">
+                                <f:facet name="header"><h:outputText value="Set Winner" /></f:facet>
+                                <p:commandButton class="modalDialogButton_#{item.prizeID}" value="Set Winner" update=":form:multiEmployee" onclick="list_register.show()"
+                                                 action="#{prizeBean.btnSetWinner(item.prizeID, item.numberOfPrize, item.isWin, item.eventID)}"/>
+                            </p:column>
+                        </p:dataTable>            
+                        <p:dialog id="modalDialog" header="Add employee winner" widgetVar="list_register" modal="true" height="auto" width="900">  
+                            <p:dataTable id="multiEmployee" var="emp" value="#{prizeBean.listEmp}" paginator="true" rows="10"
+                                         selection="#{prizeBean.selectedEmployees}"
+                                         rowKey="#{emp.employeeID}" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,15" filteredValue="#{prizeBean.filteredmultiEmployee}" widgetVar="multiEmployeeTable">
 
-                    <p:column headerText="Full Name" style="width:25%" filterBy="#{emp.fullName}" filterMatchMode="startsWith">  
-                        #{emp.fullName}  
-                    </p:column>  
+                                <f:facet name="header">List employee register event</f:facet>
+                                <f:facet name="header">  
+                                    <p:outputPanel>  
+                                        <h:outputText value="Search all fields:" />  
+                                        <p:inputText id="globalFilter" onkeyup="multiEmployeeTable.filter()" style="width:150px" />  
+                                    </p:outputPanel>  
+                                </f:facet>
+                                <p:column selectionMode="multiple"/>                    
+                                <p:column headerText="EmployeeID" style="width:10%" filterBy="#{emp.employeeID}" filterMatchMode="contains">  
+                                    #{emp.employeeID}  
+                                </p:column>  
 
-                    <p:column headerText="Email" style="width:24%" filterBy="#{emp.email}" filterMatchMode="contains">  
-                        #{emp.email}  
-                    </p:column>  
+                                <p:column headerText="Full Name" style="width:30%" filterBy="#{emp.fullName}" filterMatchMode="startsWith">  
+                                    #{emp.fullName}  
+                                </p:column>  
 
-                    <p:column headerText="Phone" style="width:24%" filterBy="#{emp.phone}" filterMatchMode="contains">  
-                        #{emp.phone}  
-                    </p:column>  
+                                <p:column headerText="Email" style="width:24%" filterBy="#{emp.email}" filterMatchMode="contains">  
+                                    #{emp.email}  
+                                </p:column>  
 
-                    <f:facet name="footer">  
-                        <p:commandButton id="multiViewButton" value="Submit" icon="ui-icon-add" 
-                                         actionListener="#{prizeBean.saveWin}"
-                                         oncomplete="list_register.hide()"
-                                         update=":form">
-                        </p:commandButton>
-                    </f:facet>  
-                </p:dataTable>
-            </p:dialog>
-        </h:form>
+                                <p:column headerText="Phone" style="width:24%" filterBy="#{emp.phone}" filterMatchMode="contains">  
+                                    #{emp.phone}  
+                                </p:column>  
+
+                                <f:facet name="footer">  
+                                    <p:commandButton id="multiViewButton" value="Submit" icon="ui-icon-add" 
+                                                     actionListener="#{prizeBean.saveWin}"
+                                                     oncomplete="list_register.hide()"
+                                                     update=":form">
+                                    </p:commandButton>
+                                </f:facet>  
+                            </p:dataTable>
+                        </p:dialog>
+                    </h:form>
+                </div>
+            </ui:define>
+        </ui:composition>
+
     </h:body>
 </html>
 

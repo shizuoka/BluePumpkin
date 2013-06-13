@@ -124,6 +124,7 @@ public class PrizeBean implements Serializable {
     public String redirectWinner(String eventID) {
         setListEmp(registerEventFacade.findEmployeeByEventId(eventID));
         setListPrizes(prizesFacade.getPrize(eventID));
+        setEventId(eventID);
         return "winner.xhtml?faces-redirect=true";
     }
     private String eventId;
