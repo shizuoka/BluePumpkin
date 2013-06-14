@@ -41,7 +41,15 @@ and open the template in the editor.
                         <div id="templatemo_menu">
                             <ul>
                                 <li><a href="index.xhtml" target="_parent" class="current">Home</a></li>
-                                <li><a href="registerEvent.xhtml" target="_parent">Event</a></li>
+                                <li><a href="registerEvent.xhtml" target="_parent">Event</a>
+                                    <ul>
+                                        <c:forEach var="item" items="#{eventTypeBean.showAllEventType()}">
+                                            <li>
+                                                <a href="showEventsByType.xhtml?type=#{item.eventTypeName}">#{item.eventTypeName}</a>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </li>
                                 <c:if test="#{loginBean.isLoggedEmployee==true}">  
                                     <li><a href="viewRegisterEvent.xhtml" target="_parent">View Register</a></li>
                                     <li><a href="changeInfo.xhtml" target="_parent">Profile Setting</a></li>

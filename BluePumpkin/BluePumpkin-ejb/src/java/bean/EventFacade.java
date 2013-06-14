@@ -143,4 +143,8 @@ public class EventFacade extends AbstractFacade<Event> {
     public List<Event> showAllEvent(){
         return em.createQuery("SELECT e FROM Event e ORDER BY e.createDate DESC").getResultList();
     }
+    public List<Event> showEventsByType(String type){
+        return em.createQuery("SELECT e FROM Event e WHERE e.eventTypeID.eventTypeName=:type").
+                setParameter("type", type).getResultList();
+    }
 }
