@@ -128,7 +128,7 @@ public class RegisterEvent implements Serializable {
     }
     
     public boolean isCancelable() {
-        return !isAccept && eventID.getEndDate().before(new Date());
+        return !isAccept && !eventID.getStatus().equals("Ended");
     }
 
     @Override

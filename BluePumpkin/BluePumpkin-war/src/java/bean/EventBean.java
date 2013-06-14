@@ -35,7 +35,7 @@ import org.primefaces.model.UploadedFile;
 @ManagedBean
 @SessionScoped
 public class EventBean implements Serializable {
-
+    
     @EJB
     private CommentsFacade commentsFacade;
     @EJB
@@ -56,118 +56,118 @@ public class EventBean implements Serializable {
     public EventBean() {
     }
     private List<Event> filteredEvents;
-
+    
     public List<Event> getFilteredEvents() {
         return filteredEvents;
     }
-
+    
     public void setFilteredEvents(List<Event> filteredEvents) {
         this.filteredEvents = filteredEvents;
     }
     private String eventID;
-
+    
     public String getEventID() {
         return eventID;
     }
-
+    
     public void setEventID(String eventID) {
         this.eventID = eventID;
     }
     private String eventTitle;
-
+    
     public String getEventTitle() {
         return eventTitle;
     }
-
+    
     public void setEventTitle(String eventTitle) {
         this.eventTitle = eventTitle;
     }
     private String description;
-
+    
     public String getDescription() {
         return description;
     }
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
     private Date startDate;
-
+    
     public Date getStartDate() {
         return startDate;
     }
-
+    
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
     private Date endDate;
-
+    
     public Date getEndDate() {
         return endDate;
     }
-
+    
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
     private String status;
-
+    
     public String getStatus() {
         return status;
     }
-
+    
     public void setStatus(String status) {
         this.status = status;
     }
     private String eventTypeID;
-
+    
     public String getEventTypeID() {
         return eventTypeID;
     }
-
+    
     public void setEventTypeID(String eventTypeID) {
         this.eventTypeID = eventTypeID;
     }
     private String message;
-
+    
     public String getMessage() {
         return message;
     }
-
+    
     public void setMessage(String message) {
         this.message = message;
     }
     private String choiceEventType;
-
+    
     public String getChoiceEventType() {
         return choiceEventType;
     }
-
+    
     public void setChoiceEventType(String choiceEventType) {
         this.choiceEventType = choiceEventType;
     }
     private String prizeName;
-
+    
     public String getPrizeName() {
         return prizeName;
     }
-
+    
     public void setPrizeName(String prizeName) {
         this.prizeName = prizeName;
     }
-
+    
     public List<Event> showAll() {
         return eventFacade.findAll();
     }
-
+    
     public Event findByEventID(String id) {
         return eventFacade.findByEventID(id);
     }
     //Primitives
     private static final int BUFFER_SIZE = 6124;
-
+    
     public void handleFileUpload(FileUploadEvent event) {
         ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
-
+        
         File result = new File(extContext.getRealPath("//images//event//" + event.getFile().getFileName()));
         System.out.println(extContext.getRealPath("//images//event//" + event.getFile().getFileName()));
         setImageName(event.getFile().getFileName());
@@ -194,24 +194,24 @@ public class EventBean implements Serializable {
         }
     }
     private UploadedFile file;
-
+    
     public UploadedFile getFile() {
         return file;
     }
-
+    
     public void setFile(UploadedFile file) {
         this.file = file;
     }
     private String imageName;
-
+    
     public String getImageName() {
         return imageName;
     }
-
+    
     public void setImageName(String imageName) {
         this.imageName = imageName;
     }
-
+    
     public void addNewEvent() {
         int noAccount = numberAccount();
         boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount, new Date(), imageName);
@@ -224,29 +224,33 @@ public class EventBean implements Serializable {
             rq.setAttribute("add", "Add New Event Unsuccessfull !!!");
         }
     }
-
+    
     public int numberAccount() {
         return accountFacade.findAll().size();
     }
     private Event event;
-
-    public Event getEvent() {
-        String eventID = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("eventID");
-        if (event == null || (event != null && !event.getEventID().equals(eventID))) {
-            event = eventFacade.findByEventID(eventID);
-        }
-        return event;
-    }
-
+    
+//    public Event getEvent() {
+//        String eventID = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("eventID");
+//        if (event == null || (event != null && !event.getEventID().equals(eventID))) {
+//            event = eventFacade.findByEventID(eventID);
+//        }
+//        return event;
+//    }
+    
     public void setEvent(Event event) {
         this.event = event;
     }
 
+    public Event getEvent() {
+        return event;
+    }    
+    
     public String editEvent(Event e) {
         event = e;
         return "editEvent.xhtml?eventID=" + e.getEventID() + "&faces-redirect=true";
     }
-
+    
     public String updateEvent() {
         boolean update = eventFacade.updateEvent(event.getEventID(), event.getEventTitle(), event.getDescription(), event.getStartDate(), event.getEndDate(), event.getStatus(), this.choiceEventType);
         if (update) {
@@ -259,7 +263,7 @@ public class EventBean implements Serializable {
             return "editEvent.xhtml";
         }
     }
-
+    
     public String deleteEvent(Event e) {
         boolean del = eventFacade.deleteEvent(e);
         if (del) {
@@ -272,7 +276,7 @@ public class EventBean implements Serializable {
             return "event.xhtml";
         }
     }
-
+    
     public void reset() {
         eventID = "";
         eventTitle = "";
@@ -282,25 +286,25 @@ public class EventBean implements Serializable {
         status = "";
         prizeName = "";
     }
-
+    
     public String cancel() {
         return "event.xhtml?faces-redirect=true";
     }
     private String evID;
-
+    
     public String getEvID() {
         return evID;
     }
-
+    
     public void setEvID(String evID) {
         this.evID = evID;
     }
-
+    
     public String redirectInsertPrize(String eventID) {
         setEvID(eventID);
         return "addPrize.xhtml?eventID=" + eventID + "&faces-redirect=true";
     }
-
+    
     public List<Event> findEventEnded() {
         return eventFacade.findByStatus("Ended");
     }
@@ -312,41 +316,41 @@ public class EventBean implements Serializable {
     private int incoming;
     private int oncoming;
     private int ended;
-
+    
     public int getTotal() {
         return total;
     }
-
+    
     public void setTotal(int total) {
         this.total = total;
     }
-
+    
     public int getIncoming() {
         return incoming;
     }
-
+    
     public void setIncoming(int incoming) {
         this.incoming = incoming;
     }
-
+    
     public int getOncoming() {
         return oncoming;
     }
-
+    
     public void setOncoming(int oncoming) {
         this.oncoming = oncoming;
     }
-
+    
     public int getEnded() {
         return ended;
     }
-
+    
     public void setEnded(int ended) {
         this.ended = ended;
     }
-
+    
     public void statistic() {
-
+        
         List<Event> listEvent = eventFacade.findAll();
         int totalEvent = listEvent.size();
         int incoming = 0, oncoming = 0, ended = 0;
@@ -359,32 +363,32 @@ public class EventBean implements Serializable {
                 oncoming++;
             }
         }
-
+        
         setTotal(totalEvent);
         setIncoming(incoming);
         setOncoming(oncoming);
         setEnded(ended);
-
+        
     }
     private Date fromDate;
     private Date todate;
-
+    
     public Date getFromDate() {
         return fromDate;
     }
-
+    
     public void setFromDate(Date fromDate) {
         this.fromDate = fromDate;
     }
-
+    
     public Date getTodate() {
         return todate;
     }
-
+    
     public void setTodate(Date todate) {
         this.todate = todate;
     }
-
+    
     public String redirectStatistic() {
         return "customer-statistic.xhtml?fromDate=" + fromDate.toString() + "&toDate=" + todate.toString() + "&faces-redirect=true";
     }
@@ -392,43 +396,43 @@ public class EventBean implements Serializable {
     private List<EventDetail> listEventIncoming;
     private List<EventDetail> listEventOncoming;
     private List<EventDetail> listEventEnded;
-
+    
     public EventDetail getEventDetail() {
         return eventDetail;
     }
-
+    
     public void setEventDetail(EventDetail eventDetail) {
         this.eventDetail = eventDetail;
     }
-
+    
     public List<EventDetail> getListEventIncoming() {
         return listEventIncoming;
     }
-
+    
     public void setListEventIncoming(List<EventDetail> listEventIncoming) {
         this.listEventIncoming = listEventIncoming;
     }
-
+    
     public List<EventDetail> getListEventOncoming() {
         return listEventOncoming;
     }
-
+    
     public void setListEventOncoming(List<EventDetail> listEventOncoming) {
         this.listEventOncoming = listEventOncoming;
     }
-
+    
     public List<EventDetail> getListEventEnded() {
         return listEventEnded;
     }
-
+    
     public void setListEventEnded(List<EventDetail> listEventEnded) {
         this.listEventEnded = listEventEnded;
     }
-
+    
     public List<Comments> getComments(String eventId) {
         return commentsFacade.findCommentByEventId(eventId);
     }
-
+    
     public String customerStatistic() {
         if (fromDate == null || todate == null) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please choose a time interval!");
@@ -444,7 +448,7 @@ public class EventBean implements Serializable {
             int totalEvent = listEvent.size();
             int incoming = 0, oncoming = 0, ended = 0;
             Collections.reverse(listEvent);
-
+            
             for (int i = 0; i < totalEvent; i++) {
                 int numberEm = listEvent.get(i).getNumberEmployee();
                 int countRegister = registerEventFacade.countRegisterByStatus(listEvent.get(i).getEventID());
@@ -453,7 +457,7 @@ public class EventBean implements Serializable {
                 Date startDate = listEvent.get(i).getStartDate();
                 Date endDate = listEvent.get(i).getEndDate();
                 String typeEvent = listEvent.get(i).getEventTypeID().getEventTypeName();
-
+                
                 if (listEvent.get(i).getStatus().equals("Incoming")) {
                     EventDetail eventDetail = new EventDetail(eventId, eventTitle, startDate, endDate, typeEvent, numberEm, countRegister);
                     listEventIncoming.add(eventDetail);
@@ -481,7 +485,6 @@ public class EventBean implements Serializable {
         return "";
     }
     
-
     public List<EventDetail> statisticEventByStatus(String status) {
         List<Event> listEvent = eventFacade.findByDate(fromDate, todate);
         List<EventDetail> list = new ArrayList<EventDetail>();
@@ -520,15 +523,15 @@ public class EventBean implements Serializable {
     public Statistic getStatistic() {
         return statistic;
     }
-
+    
     public void setStatistic(Statistic statistic) {
         this.statistic = statistic;
     }
-
+    
     public List<Statistic> showEventsTop() {
         List<Event> list = eventFacade.showEventsTop(6);
         List<Statistic> listSta = new ArrayList<Statistic>();
-
+        
         for (int i = 0; i < list.size(); i++) {
             int numberEm = list.get(i).getNumberEmployee();
             int countRegister = registerEventFacade.countRegisterByStatus(list.get(i).getEventID());
@@ -536,5 +539,10 @@ public class EventBean implements Serializable {
             listSta.add(sta);
         }
         return listSta;
+    }
+    
+    public String detailEvent(Event e) {
+        event = e;
+        return "detailEvent.xhtml?faces-redirect=true";
     }
 }

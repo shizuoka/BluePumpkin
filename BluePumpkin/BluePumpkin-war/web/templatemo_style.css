@@ -279,3 +279,66 @@ h2.new_services { background: url(images/icon_02.png) center left no-repeat }
 .ui-paginator.ui-paginator-top.ui-widget-header.ui-corner-top{
     border-color: #777700;
 }
+.event-detail .left {
+    float: left;
+    width: 41%;
+    margin-right: 8px;
+    margin-top: 7px;
+    height: 210px;
+    border: solid 1px #ccc;
+}
+
+.event-detail .right {
+    float: right;
+    width: 323px;
+    border: solid 1px #ccc;
+    height: 285px;
+    margin: 7px;
+}
+.btn_register{
+    float: left;
+    width: 200px;
+    margin-left: 95px;
+}
+.event-detail .right ul {
+    padding: 0;
+    margin: 0px 0 10px;
+}
+.event-detail .right ul li {
+    margin: 0;
+    line-height: 22px;
+    border-bottom: dotted 1px #ccc;
+    padding: 5px 10px;
+    list-style: none;
+}
+.event-detail .right h1 {
+    padding: 10px 0;
+    font-size: 16px;
+    color: #0A0A0A;
+    margin: 0;
+}
+.event-detail .description {
+    display: block;
+    overflow: hidden;
+    padding: 10px 0;
+    width: 100%;
+    float: left;
+}
+.comment{
+    float: left;
+    width: 100%;
+}
+#list-event div.ui-widget-content{
+    margin: 7px;
+}
+#list-event div.ui-widget-content:hover {
+    background: #f9f9f9;
+    border-color: #ccc;
+}
+#list-event .ui-widget-header{
+    background: none;
+    border: none;
+}
+#list-event div.ui-widget-content td a{
+    font: bold 14px Arial;
+}

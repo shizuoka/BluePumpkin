@@ -16,6 +16,9 @@ and open the template in the editor.
 
     </h:head>
     <h:body>
+        <c:if test="#{eventBean.fromDate ==  null and eventBean.todate == null}">
+            #{facesContext.externalContext.redirect("statistic.xhtml")}
+        </c:if>
         <div id="panelwrap">
 
             <div class="header">

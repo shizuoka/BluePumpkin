@@ -65,6 +65,8 @@ public class RegisterBean implements Serializable {
         try {
             boolean register = registerEventFacade.registerEvent(eventID, account.getUserName().getEmployeeID());
             if (register) {
+                rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                rq.setAttribute("success", "Register successful!");
                 return "viewRegisterEvent.xhtml?faces-redirect=true";
             } else {
                 rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

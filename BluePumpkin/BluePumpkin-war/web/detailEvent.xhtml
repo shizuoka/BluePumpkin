@@ -36,94 +36,78 @@ and open the template in the editor.
     <h:body>   
         <ui:composition template="shared/layout.xhtml">
             <ui:define name="content">
-                <h:form>
-                    <table width="650" border="1" id="detail_table">
-                        <tr>
-                            <td colspan="2"><div align="center">
-                                    <h2 class="style1" style="color: cornflowerblue">Event Detail </h2>
-                                </div></td>
-                        </tr>
-                        <tr>
-                            <td> <div align="center">Event ID </div></td>
-                            <td>#{eventBean.event.eventID}</td>
-                        </tr>
-                        <tr>
-                            <td><div align="center">Event Name </div></td>
-                            <td>#{eventBean.event.eventTitle}</td>
-                        </tr>
-                        <tr>
-                            <td><div align="center">Description</div></td>
-                            <td><textarea name="" rows="6" cols="35" disabled="true">
-                                    #{eventBean.event.description}
-                                </textarea></td>
-                        </tr>              
-                        <tr>
-                            <td><div align="center">Start Event Date</div></td>
-                            <td>
-                                <h:outputText value="#{eventBean.event.startDate}">
-                                    <f:convertDateTime pattern="MM/dd/yyyy" />
-                                </h:outputText></td>
-                        </tr>
-                        <tr>
-                            <td><div align="center">End Event Date</div></td>
-                            <td><h:outputText value="#{eventBean.event.endDate}">
-                                    <f:convertDateTime pattern="MM/dd/yyyy" />
-                                </h:outputText></td>
-                        </tr>
-                        <tr>
-                            <td><div align="center">Event Type</div></td>
-                            <td>#{eventBean.event.eventTypeID.eventTypeName}</td>
-                        </tr> 
-                        <tr>
-                            <td><div align="center">Status</div></td>
-                            <td>#{eventBean.event.status}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <h:commandButton value="Register" action="#{registerBean.registerEvent(eventBean.event.eventID)}"
-                                                 rendered="#{eventBean.event.status!='Ended'}"/>                            
-                            </td>
-                        </tr>
-                    </table>
-                </h:form>
-                <c:if test="#{not empty requestScope.msg}">
-                    <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>
+                <c:if test="#{eventBean.event ==  null}">
+                    #{facesContext.externalContext.redirect("registerEvent.xhtml")}
                 </c:if>
-                <br/>
-                <h3>Comments</h3>
+                <c:if test="#{not empty requestScope.msg}">
+                    <h:outputText value="#{requestScope.msg}" style="color: red; text-align: center; font-size: 16px"/>
+                </c:if>
                 <h:form>
-                    <table id="table_comment">
-                        <tr>
-                            <td>Title</td>
-                            <td>
-                                <h:inputText value="#{employeeBean.comment.title}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Content</td>
-                            <td>
-                                <h:inputTextarea value="#{employeeBean.comment.content}" />
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <h:commandButton value="Send" action="#{employeeBean.createComment(eventBean.event.eventID)}" 
-                                                 disabled="#{loginBean.isLoggedEmployee==false}"/>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="event-detail">
+                        <div class="left">
+                            <div class="image-event">
+                                <img src="images/event/#{eventBean.event.image}" style="width: 250px;height: 210px"/>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <ul>
+                                <li><h1>#{eventBean.event.eventTitle}</h1></li>
+                                <li><strong>Event ID: </strong>#{eventBean.event.eventID}</li>
+                                <li><strong>Event Type: </strong>#{eventBean.event.eventTypeID.eventTypeName}</li>
+                                <li><strong>Start Event Date: </strong><h:outputText value="#{eventBean.event.startDate}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </h:outputText></li>
+                                <li><strong>End Event Date: </strong><h:outputText value="#{eventBean.event.endDate}">
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                                    </h:outputText></li>
+                                <li><strong>Status: </strong>#{eventBean.event.status}</li>
+                            </ul>
+                            <di class="btn_register">
+                                <h:commandButton value="Register" image="images/register.jpg" style="width: 150px; height: 50px" action="#{registerBean.registerEvent(eventBean.event.eventID)}" rendered="#{eventBean.event.status =='Oncoming'}"/>
+                            </di>
+
+                        </div>
+                        <div class="description">
+                            #{eventBean.event.description}
+                        </div>
+                    </div>                    
                 </h:form>
 
-                <ul>
-                    <c:forEach var="item" items="#{eventBean.getComments(eventBean.event.eventID)}">
-                        <li>
-                            <span>#{item.title}</span>
-                            <span>#{item.content}</span>
-                        </li>
-                    </c:forEach>
-                </ul>
+                <div class="comment">
+                    <h3>Comments</h3>
+                    <h:form>
+                        <table id="table_comment">
+                            <tr>
+                                <td>Title</td>
+                                <td>
+                                    <h:inputText value="#{employeeBean.comment.title}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Content</td>
+                                <td>
+                                    <h:inputTextarea value="#{employeeBean.comment.content}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <h:commandButton value="Send" action="#{employeeBean.createComment(eventBean.event.eventID)}" 
+                                                     disabled="#{loginBean.isLoggedEmployee==false}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </h:form>
 
+                    <ul>
+                        <c:forEach var="item" items="#{eventBean.getComments(eventBean.event.eventID)}">
+                            <li>
+                                <span>#{item.title}</span>
+                                <span>#{item.content}</span>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </div>
                 <br/>
                 <a href="registerEvent.xhtml">Back to View All Event</a>
                 <tt></tt>
