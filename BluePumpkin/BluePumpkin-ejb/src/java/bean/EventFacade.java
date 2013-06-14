@@ -140,14 +140,7 @@ public class EventFacade extends AbstractFacade<Event> {
                 setParameter("evtID", evt.getEventID()).setMaxResults(4).getResultList();
     }
     
-    public List<Event> showNewerEvents(Event evt){
-        return em.createQuery("select e from Event e where e.eventTypeID.eventTypeName =:evtTypeName and e.endDate >:evtEndDate and e.eventID !=:evtID").
-                setParameter("evtTypeName", evt.getEventTypeID().getEventTypeName()).setParameter("evtEndDate", evt.getEndDate()).
-                setParameter("evtID", evt.getEventID()).setMaxResults(4).getResultList();
-    }
-    public List<Event> showOlderEvents(Event evt){
-        return em.createQuery("select e from Event e where e.eventTypeID.eventTypeName =:evtTypeName and e.endDate <:evtEndDate and e.eventID !=:evtID").
-                setParameter("evtTypeName", evt.getEventTypeID().getEventTypeName()).setParameter("evtEndDate", evt.getEndDate()).
-                setParameter("evtID", evt.getEventID()).setMaxResults(4).getResultList();
+    public List<Event> showAllEvent(){
+        return em.createQuery("SELECT e FROM Event e ORDER BY e.createDate DESC").getResultList();
     }
 }
