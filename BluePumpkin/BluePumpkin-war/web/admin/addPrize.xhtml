@@ -19,7 +19,7 @@ and open the template in the editor.
                 <div id="right_content">             
                     <h:form id="list-prize">  
 
-                        <p:dataTable id="prizeTable" var="prize" value="#{prizeBean.showAllPrize()}" widgetVar="prizesTable"   
+                        <p:dataTable id="prizeTable" var="prize" value="#{prizeBean.listPrizes}" widgetVar="prizesTable"   
                                      emptyMessage="No prize found with given criteria" filteredValue="#{prizeBean.filteredPrizes}"
                                      paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                      rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
@@ -32,13 +32,7 @@ and open the template in the editor.
                                     <h:outputText value="Search all fields:" />  
                                     <p:inputText id="globalFilter" onkeyup="prizesTable.filter()" style="width:150px" />  
                                 </p:outputPanel>  
-                            </f:facet>  
-
-                            <p:column id="eventColumn" filterBy="#{prize.eventID.eventID}"   
-                                      headerText="Event" filterMatchMode="contains" sortBy="#{prize.eventID.eventID}">  
-                                <h:outputText value="#{prize.eventID.eventID}" />  
-                            </p:column>  
-
+                            </f:facet>
                             <p:column id="prizeNameColumn" filterBy="#{prize.prizeName}"  
                                       headerText="PrizeName" sortBy="#{prize.prizeName}">  
                                 <h:outputText value="#{prize.prizeName}" />  
@@ -63,46 +57,8 @@ and open the template in the editor.
                         </p:dataTable>  
 
                     </h:form>                       
-
-                    <ul id="tabsmenu" class="tabsmenu">
-                        <li class="active"><a href="#tab1">Form Edit</a></li>
-                        <li><a href="#tab2">Tab Add</a></li>                            
-                    </ul>
-
-                    <div id="tab1" class="tabcontent">                            
-                        <div class="form">
-                            <h2>Edit Prize</h2> 
-                            <h:form>   
-                                <div class="form">
-                                    <div class="form_row">
-                                        <label for="ID">
-                                            <span >
-                                                Event ID
-                                            </span>
-                                        </label>
-                                        <h:outputLabel value="#{prizeBean.prizeEdit.eventID}" class="form_input" id="txtID"/>                        
-                                        <label for="ID" class="error" ></label>                                                                                              
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>Description:</label>
-                                        <h:inputTextarea class="form_textarea" id="des" rows="4" cols="20" value="#{prizeBean.prizeEdit.description}"/>                                    
-                                    </div>
-
-                                    <div class="form_row">
-                                        <label>NumberOfPrize</label>
-                                        <h:inputText  id="noOfPrice" value="#{prizeBean.prizeEdit.numberOfPrize}"  class="form_input"/>                                    
-                                    </div>
-                                    <div class="form_row">                                    
-                                        <h:commandButton class="form_submit" value="Update" action="#"/>                                                                     
-                                    </div> 
-                                </div>                     
-                            </h:form> 
-                            <div class="clear"></div>
-                        </div>
-                    </div>
-
-                    <div id="tab2" class="tabcontent">                              
+                    
+                    <div class="tabcontent">                              
                         <h3>Add New Prize</h3>
 
                         <h:form id="form">
@@ -141,7 +97,7 @@ and open the template in the editor.
                                 <div class="clear"></div>
                             </div>
                         </h:form>
-                    </div>                        
+                    </div>
 
                 </div>
             </ui:define>
