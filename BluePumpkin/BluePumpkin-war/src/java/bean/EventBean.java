@@ -49,7 +49,27 @@ public class EventBean implements Serializable {
     @EJB
     private WinnersFacade winnersFacade;
     private HttpServletRequest rq;
+    private List<Event> lstNewerEvents;
+    private List<Event> lstOlderEvents;
 
+   
+
+    public void setLstNewerEvents(List<Event> lstNewerEvents) {
+        this.lstNewerEvents = lstNewerEvents;
+    }
+
+    public List<Event> getLstOlderEvents() {
+        return lstOlderEvents;
+    }
+
+    public List<Event> getLstNewerEvents() {
+        return lstNewerEvents;
+    }
+    
+    public void setLstOlderEvents(List<Event> lstOlderEvents) {
+        this.lstOlderEvents = lstOlderEvents;
+    }
+    
     /**
      * Creates a new instance of EventBean
      */
@@ -556,6 +576,8 @@ public class EventBean implements Serializable {
 
     public String detailEvent(Event e) {
         event = e;
+        lstNewerEvents = eventFacade.showNewerEvents(e);
+        lstOlderEvents = eventFacade.showOlderEvents(e);
         return "detailEvent.xhtml?faces-redirect=true";
     }
 }
