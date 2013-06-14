@@ -259,13 +259,21 @@ public class EventBean implements Serializable {
     }
 
     public String updateEvent() {
-        boolean update = eventFacade.updateEvent(event.getEventID(), event.getEventTitle(), event.getDescription(), event.getStartDate(), event.getEndDate(), event.getStatus(), this.choiceEventType);
-        if (update) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Update " + event.getEventID() + " Successfull");
+        if (event.getEventTitle().equals("") || event.getDescription().equals("") || event.getStartDate() == null || event.getEndDate() == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (startDate.getTime() >= endDate.getTime()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Start Date must less than End Date");
             FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Update " + event.getEventID() + " Fail !!!");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            boolean update = eventFacade.updateEvent(event.getEventID(), event.getEventTitle(), event.getDescription(), event.getStartDate(), event.getEndDate(), event.getStatus(), this.choiceEventType);
+            if (update) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Update " + event.getEventID() + " Successfull");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Update " + event.getEventID() + " Fail !!!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
         }
         return "";
     }
