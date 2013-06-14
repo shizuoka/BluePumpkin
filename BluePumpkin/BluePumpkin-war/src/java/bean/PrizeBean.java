@@ -136,9 +136,7 @@ public class PrizeBean implements Serializable {
     public String getEventId() {
         return eventId;
     }
-    
-    
-    
+
     public void btnSetWinner(int prizeId, String numberOfPrize, boolean isWin, String eventId) {
         //setListEmp(registerEventFacade.findEmployeeByEventId("EV03"));
         setPrize_id(prizeId);
@@ -155,7 +153,6 @@ public class PrizeBean implements Serializable {
     public void setSelectedEmployees(Employee[] selectedEmployees) {
         this.selectedEmployees = selectedEmployees;
     }
-    
     private List<Employee> filteredmultiEmployee;
 
     public List<Employee> getFilteredmultiEmployee() {
@@ -164,7 +161,7 @@ public class PrizeBean implements Serializable {
 
     public void setFilteredmultiEmployee(List<Employee> filteredmultiEmployee) {
         this.filteredmultiEmployee = filteredmultiEmployee;
-    }    
+    }
 
     public void saveWin(ActionEvent actionEvent) {
 //        System.out.println(numberOfPrize);
@@ -310,12 +307,12 @@ public class PrizeBean implements Serializable {
     public boolean showWin(String eventId) {
         return prizesFacade.isFirstPrizeExisted(eventId);
     }
-    
+
     public String redirectInsertEvent(String eventId) {
         setEventId(eventId);
+        listPrizes = prizesFacade.getPrize(eventId);
         return "addPrize.xhtml?faces-redirect=true";
     }
-    
     private Prizes prizeEdit;
 
     public Prizes getPrizeEdit() {
@@ -325,9 +322,9 @@ public class PrizeBean implements Serializable {
     public void setPrizeEdit(Prizes prizeEdit) {
         this.prizeEdit = prizeEdit;
     }
-    
-    public String showPrizeEdit(Prizes p){
+
+    public String showPrizeEdit(Prizes p) {
         setPrizeEdit(p);
-        return "addPrize.xhtml";
+        return "editPrize.xhtml?faces-redirect=true";
     }
 }
