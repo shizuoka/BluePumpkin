@@ -16,6 +16,7 @@ and open the template in the editor.
     <h:body>
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
+                <p:growl id="grow_editEvent" showDetail="true"/>
                 <div id="right_content">                                      
                     <h:form>
                         <div id="tab1" class="tabcontent">
@@ -77,12 +78,9 @@ and open the template in the editor.
                                     <h:outputText value="#{eventBean.event.status}"/>
                                 </div>
                                 <div class="form_row">                                    
-                                    <h:commandButton class="form_submit" value="Update" action="#{eventBean.updateEvent()}"/>                                                                     
+                                    <p:commandButton id="btn_SubmitEventType" value="Update" action="#{eventBean.updateEvent()}" update=":grow_editEvent"/>                                                                     
                                 </div> 
-                                <div class="clear"></div>
-                                <c:if test="#{not empty requestScope.update}">
-                                    <h:outputText value="#{requestScope.update}" style="color: red"/>
-                                </c:if>
+                                <div class="clear"></div>                                
                             </div>
                         </div>                    
                     </h:form>
