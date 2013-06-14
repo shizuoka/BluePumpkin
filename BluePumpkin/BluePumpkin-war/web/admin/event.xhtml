@@ -33,31 +33,12 @@ and open the template in the editor.
                                     <h:outputText value="Search all fields:" />  
                                     <p:inputText id="globalFilter" onkeyup="eventsTable.filter()" style="width:150px" />  
                                 </p:outputPanel>  
-                            </f:facet>  
-
-                            <p:column id="eventIDColumn" filterBy="#{event.eventID}"   
-                                      headerText="EventID" filterMatchMode="contains" sortBy="#{event.eventID}">  
-                                <h:outputText value="#{event.eventID}" />  
-                            </p:column>  
+                            </f:facet>   
 
                             <p:column id="titleColumn" filterBy="#{event.eventTitle}"  
                                       headerText="Title" filterMatchMode="startsWith" sortBy="#{event.eventTitle}">  
                                 <h:outputText value="#{event.eventTitle}" />  
                             </p:column>  
-
-                            <p:column id="imageColumn" headerText="Image">  
-                                <p:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>
-                            </p:column>  
-
-                            <p:column id="descriptionColumn" headerText="Description">  
-                                <h:outputText value="#{event.description}" />  
-                            </p:column>  
-
-                            <p:column id="startDateColumn" headerText="StartDate" sortBy="#{event.startDate}">  
-                                <h:outputText value="#{event.startDate}">
-                                    <f:convertDateTime pattern="MM/dd/yyyy" />
-                                </h:outputText>
-                            </p:column>
 
                             <p:column id="endDateColumn" headerText="EndDate" sortBy="#{event.endDate}">  
                                 <h:outputText value="#{event.endDate}">
@@ -65,18 +46,19 @@ and open the template in the editor.
                                 </h:outputText>
                             </p:column>
 
-                            <p:column id="statusColumn" headerText="Status" filterBy="#{event.status}"
-                                      filterMatchMode="startsWith" sortBy="#{event.status}">  
-                                <h:outputText value="#{event.status}"/>                                    
-                            </p:column>
-
                             <p:column id="typeColumn" headerText="Type" filterBy="#{event.eventTypeID.eventTypeName}"
                                       filterMatchMode="contains" sortBy="#{event.eventTypeID.eventTypeName}">  
                                 <h:outputText value="#{event.eventTypeID.eventTypeName}" />  
                             </p:column>
-                            
-                            <p:column id="addPrizeColumn" headerText="AddPrize">  
-                                <p:commandButton value="InsertPrize" action="#{prizeBean.redirectInsertEvent(event.eventID)}"/>
+
+                            <p:column id="setWin" headerText="Action">  
+                                <p:commandLink value="SetWinner" action="#{prizeBean.redirectWinner(event.eventID)}" rendered="#{event.status=='Ended'}" style="color: blue"/>
+                            </p:column>
+
+                            <p:column id="addPrizeColumn" headerText="Prize">  
+                                <p:commandLink action="#{prizeBean.redirectInsertEvent(event.eventID)}">
+                                    <img src="../images/icon/prize.jpg" />
+                                </p:commandLink>
                             </p:column>
 
                             <p:column id="editColumn" headerText="Edit">  
