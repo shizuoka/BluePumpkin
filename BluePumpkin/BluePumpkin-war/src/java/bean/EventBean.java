@@ -213,15 +213,23 @@ public class EventBean implements Serializable {
     }
 
     public void addNewEvent() {
-        int noAccount = numberAccount();
-        boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount, new Date(), imageName);
-        if (add) {
-            String eID = eventFacade.getMaxEventID().getEventID();
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Add New Event Successfull !!!");
+        if (eventID.equals("") || eventTitle.equals("") || description.equals("") || startDate == null || endDate == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (startDate.getTime() >= endDate.getTime()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Start Date must less than End Date");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Add New Event Unsuccessfull !!!");
+            int noAccount = numberAccount();
+            boolean add = eventFacade.addNewEvent(eventID, eventTitle, description, startDate, endDate, "Incoming", this.choiceEventType, noAccount, new Date(), imageName);
+            if (add) {
+                String eID = eventFacade.getMaxEventID().getEventID();
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Add New Event Successfull !!!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Add New Event Unsuccessfull !!!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
         }
     }
 
@@ -251,13 +259,21 @@ public class EventBean implements Serializable {
     }
 
     public String updateEvent() {
-        boolean update = eventFacade.updateEvent(event.getEventID(), event.getEventTitle(), event.getDescription(), event.getStartDate(), event.getEndDate(), event.getStatus(), this.choiceEventType);
-        if (update) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Update " + event.getEventID() + " Successfull");
+        if (event.getEventTitle().equals("") || event.getDescription().equals("") || event.getStartDate() == null || event.getEndDate() == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (startDate.getTime() >= endDate.getTime()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Start Date must less than End Date");
             FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Update " + event.getEventID() + " Fail !!!");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            boolean update = eventFacade.updateEvent(event.getEventID(), event.getEventTitle(), event.getDescription(), event.getStartDate(), event.getEndDate(), event.getStatus(), this.choiceEventType);
+            if (update) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Update " + event.getEventID() + " Successfull");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Update " + event.getEventID() + " Fail !!!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
         }
         return "";
     }

@@ -19,10 +19,10 @@ and open the template in the editor.
                 <div id="right_content">   
                     <p:growl id="grow_deleteAccount" showDetail="true"/>
                     <h2>View All Account</h2> 
-                    <h:form>
+                    <h:form id="form-list-acount">
                         <p:dataTable id="accountTable" var="account" value="#{employeeBean.showAllAccount()}" widgetVar="accountsTable"   
                                      emptyMessage="No account found with given criteria" filteredValue="#{employeeBean.filteredAccounts}"
-                                     paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     paginator="true" rows="10" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
                                      rowsPerPageTemplate="5,10,15" sortMode="multiple" >
                             <f:facet name="header">  
                                 <p:outputPanel>  
@@ -52,10 +52,9 @@ and open the template in the editor.
                             </p:column>
 
                             <p:column id="delColumn" headerText="Delete">  
-                                <p:commandLink action="#{accountBean.deleteAccountEmp(account)}" onclick="return confirm('Are you sure?')"
-                                                 update=":grow_deleteAccount" title="Delete">
-                                    <img src="../images/icon/trash.gif" />
-                                </p:commandLink>
+                                <p:commandButton action="#{accountBean.deleteAccountEmp(account)}" icon="ui-icon-trash" onclick="return confirm('Are you sure?')"
+                                                 update=":grow_deleteAccount, :form-list-acount" title="Delete">
+                                </p:commandButton>
                             </p:column>
 
                         </p:dataTable>
@@ -126,7 +125,7 @@ and open the template in the editor.
                             <tr>
                                 <td></td>
                                 <td>
-                                    <p:commandButton value="Create" actionListener="#{employeeBean.createEmpAccount()}" update=":grow1_create"/>
+                                    <p:commandButton value="Create" actionListener="#{employeeBean.createEmpAccount()}" update=":grow1_create, :form-list-acount"/>
                                     <h:commandButton value="Reset" action="#{employeeBean.reset()}"/>
                                 </td>
                             </tr>
