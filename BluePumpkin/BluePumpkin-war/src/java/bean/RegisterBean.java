@@ -100,11 +100,19 @@ public class RegisterBean implements Serializable {
     }
 
     public void cancelRegister(RegisterEvent r) {
-        if (registerEventFacade.cancelRegister(r)) {
-            check = 1;
+        boolean del = registerEventFacade.cancelRegister(r);
+        if (del) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "You canceled register successful!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            check = 2;
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Cancel Unsuccessful! Please try again!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
+//        if (registerEventFacade.cancelRegister(r)) {
+//            check = 1;
+//        } else {
+//            check = 2;
+//        }
     }
 
     public List<Employee> showEmployeeByEventId(String eventId) {

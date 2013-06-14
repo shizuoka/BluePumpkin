@@ -20,53 +20,46 @@ and open the template in the editor.
                     <fieldset style="text-align: left">
                         <legend><h3>View Event Request</h3></legend>
                         <div align="center">
-                            <p:dataTable id="registerTable" var="reg" value="#{registerBean.registerEventByEmployee}" widgetVar="registersTable"   
-                                         emptyMessage="No register found with given criteria" filteredValue="#{registerBean.filteredRegister}"
-                                         paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                                         rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
+                            <h:form id="list-register">
+                                <p:growl id="grow_list_register" showDetail="true"/>
+                                <p:dataTable id="registerTable" var="reg" value="#{registerBean.registerEventByEmployee}" widgetVar="registersTable"   
+                                             emptyMessage="No register found with given criteria" filteredValue="#{registerBean.filteredRegister}"
+                                             paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                             rowsPerPageTemplate="5,10,15" sortMode="multiple"> 
 
-                                <f:facet name="header">  
-                                    <p:outputPanel>  
-                                        <h:outputText value="Search all fields:" />  
-                                        <p:inputText id="globalFilter" onkeyup="registersTable.filter()" style="width:150px" />  
-                                    </p:outputPanel>  
-                                </f:facet>  
+                                    <f:facet name="header">  
+                                        <p:outputPanel>  
+                                            <h:outputText value="Search all fields:" />  
+                                            <p:inputText id="globalFilter" onkeyup="registersTable.filter()" style="width:150px" />  
+                                        </p:outputPanel>  
+                                    </f:facet>  
 
-                                <p:column id="employeeNameColumn" headerText="Employee Name">  
-                                    <h:outputText value="#{reg.employeeID.fullName}" />  
-                                </p:column>  
+                                    <p:column id="employeeNameColumn" headerText="Employee Name">  
+                                        <h:outputText value="#{reg.employeeID.fullName}" />  
+                                    </p:column>  
 
-                                <p:column id="eventNameColumn" filterBy="#{reg.eventID.eventTitle}"  
-                                          headerText="Event Name" filterMatchMode="contains" sortBy="#{reg.eventID.eventTitle}">  
-                                    <h:outputText value="#{reg.eventID.eventTitle}" />  
-                                </p:column>  
+                                    <p:column id="eventNameColumn" filterBy="#{reg.eventID.eventTitle}"  
+                                              headerText="Event Name" filterMatchMode="contains" sortBy="#{reg.eventID.eventTitle}">  
+                                        <h:outputText value="#{reg.eventID.eventTitle}" />  
+                                    </p:column>  
 
-                                <p:column id="requestDateColumn" headerText="Request Date" sortBy="#{reg.registerDate}">  
-                                    <h:outputText value="#{reg.registerDate}">
-                                        <f:convertDateTime pattern="MM/dd/yyyy"/>
-                                    </h:outputText>
-                                </p:column>  
+                                    <p:column id="requestDateColumn" headerText="Request Date" sortBy="#{reg.registerDate}">  
+                                        <h:outputText value="#{reg.registerDate}">
+                                            <f:convertDateTime pattern="MM/dd/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>  
 
-                                <p:column id="statusColumn" headerText="Status" sortBy="#{reg.isAccept}">  
-                                    <h:outputText value="Accepted" style="color: green" rendered="#{reg.isAccept==true}"/>
-                                    <h:outputText value="Not Yet Accept" style="color: red" rendered="#{reg.isAccept==false}"/>  
-                                </p:column>                               
+                                    <p:column id="statusColumn" headerText="Status" sortBy="#{reg.isAccept}">  
+                                        <h:outputText value="Accepted" style="color: green" rendered="#{reg.isAccept==true}"/>
+                                        <h:outputText value="Not Yet Accept" style="color: red" rendered="#{reg.isAccept==false}"/>  
+                                    </p:column>                               
 
-                                <p:column id="actionColumn" headerText="Action">  
-                                    <h:commandButton value="Cancel" action="#{registerBean.cancelRegister(reg)}" rendered="#{reg.cancelable}"/>
-                                </p:column>
-                                <h:inputHidden value="#{reg.registerID}"/>
-                            </p:dataTable> 
-                            <h:panelGrid rendered="#{registerBean.check==1}">
-                                <script>
-                                    alert("You canceled register successful!");
-                                </script>
-                            </h:panelGrid>
-                            <h:panelGrid rendered="#{register.check == 2}">
-                                <script>
-                                    alert("Cancel Unsuccessful! Please try again.");
-                                </script>
-                            </h:panelGrid>
+                                    <p:column id="actionColumn" headerText="Action">  
+                                        <p:commandButton value="Cancel" action="#{registerBean.cancelRegister(reg)}" rendered="#{reg.cancelable}" icon="ui-icon-trash" onclick="return confirm('Are you sure?')" update=":list-register"/>
+                                    </p:column>
+                                    <h:inputHidden value="#{reg.registerID}"/>
+                                </p:dataTable>
+                            </h:form>
                         </div>
                     </fieldset>  
                 </c:if>

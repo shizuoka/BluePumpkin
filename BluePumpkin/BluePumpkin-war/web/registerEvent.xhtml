@@ -43,27 +43,24 @@ and open the template in the editor.
         <ui:composition template="shared/layout.xhtml">
             <ui:define name="content">
                 <h:form>
-                    <fieldset style="text-align: left" >
-                        <legend><h3>Register Event</h3></legend>
-                        <div align="center" id="list-event">
-                            <p:dataGrid var="event" value="#{eventBean.showAll()}" columns="2"  
-                                        rows="10" paginator="true"  
-                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">  
-                                <p:panel header="#{event.eventTitle}" style="text-align:center;" id="aaaaaaaa">  
-                                    <h:panelGrid columns="1" style="width:100%">
-                                        <p:commandLink action="#{eventBean.detailEvent(event)}" title="#{event.eventTitle}">
-                                            <img src="images/event/#{event.image}" style="width: 140px;height: 140px"/>
-                                        </p:commandLink>
-                                        <p:commandLink action="#{eventBean.detailEvent(event)}" title="#{event.eventTitle}">
-                                            Detail
-                                        </p:commandLink>
-                                        <div><span>Status: #{event.status}</span></div>
-                                    </h:panelGrid>  
-                                </p:panel>  
-                            </p:dataGrid>
-                        </div>
-
-                    </fieldset>
+                    <h1>List Events</h1>
+                    <div align="center" id="list-event">
+                        <p:dataGrid var="event" value="#{eventBean.showAll()}" columns="3"  
+                                    rows="9" paginator="true"  
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">  
+                            <p:panel header="#{event.eventTitle}" style="text-align:center;" id="aaaaaaaa">  
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <p:commandLink action="#{eventBean.detailEvent(event)}" title="#{event.eventTitle}">
+                                        <img src="images/event/#{event.image}" style="width: 140px;height: 140px"/>
+                                    </p:commandLink>
+                                    <p:commandLink action="#{eventBean.detailEvent(event)}" title="#{event.eventTitle}">
+                                        Detail
+                                    </p:commandLink>
+                                    <div><span>Status: #{event.status}</span></div>
+                                </h:panelGrid>  
+                            </p:panel>  
+                        </p:dataGrid>
+                    </div>
                 </h:form>
             </ui:define>
         </ui:composition>                     

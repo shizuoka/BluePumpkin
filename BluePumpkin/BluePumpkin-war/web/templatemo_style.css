@@ -143,8 +143,8 @@ em { color: #000; }
 
 #templatemo_main {
     position: relative;
-    width: 900px;
-    padding: 10px 42px;
+    width: 930px;
+    padding: 10px 25px;
     background: url(images/templatemo_content_middle.png) repeat-y
 }
 
@@ -230,7 +230,7 @@ em { color: #000; }
 
 #templatemo_content {
     float: right;
-    width: 610px;
+    width: 650px;
 }
 
 .content_box {
@@ -281,16 +281,17 @@ h2.new_services { background: url(images/icon_02.png) center left no-repeat }
 }
 .event-detail .left {
     float: left;
-    width: 41%;
+    width: 38%;
     margin-right: 8px;
     margin-top: 7px;
     height: 210px;
     border: solid 1px #ccc;
+    margin-left: 15px;
 }
 
 .event-detail .right {
     float: right;
-    width: 323px;
+    width: 345px;
     border: solid 1px #ccc;
     height: 285px;
     margin: 7px;
@@ -329,7 +330,7 @@ h2.new_services { background: url(images/icon_02.png) center left no-repeat }
     width: 100%;
 }
 #list-event div.ui-widget-content{
-    margin: 7px;
+    margin: 5px;
 }
 #list-event div.ui-widget-content:hover {
     background: #f9f9f9;
@@ -342,3 +343,4 @@ h2.new_services { background: url(images/icon_02.png) center left no-repeat }
 #list-event div.ui-widget-content td a{
     font: bold 14px Arial;
 }
+#templatemo_content .event-detail{width: 640px;}

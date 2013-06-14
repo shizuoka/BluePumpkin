@@ -37,7 +37,7 @@ public class EventFacade extends AbstractFacade<Event> {
         return (Event) em.createNamedQuery("Event.findByEventID").setParameter("eventID", eventID).getSingleResult();
     }
 
-    public boolean addNewEvent(String eventID, String eventTitle, String des, Date startDate, Date endDate, String status, String eventTypeID,int noAccount,Date createDate,String image) {
+    public boolean addNewEvent(String eventID, String eventTitle, String des, Date startDate, Date endDate, String status, String eventTypeID, int noAccount, Date createDate, String image) {
         boolean flag = false;
         try {
             EventType et = em.find(EventType.class, eventTypeID);
@@ -108,27 +108,29 @@ public class EventFacade extends AbstractFacade<Event> {
         return em.createQuery("select e from Event e where e.startDate BETWEEN :startDate and :endDate")
                 .setParameter("startDate", start, TemporalType.DATE).setParameter("endDate", end, TemporalType.DATE).getResultList();
     }
-    
+
 //    public int searchStatistic(String status){
 //        return (Integer)em.createQuery("select count(e.eventID) from Event e where e.status = :status").setParameter("status", status).s;
 //    }
-    
-    public List<Event> findByStatus(String status){
+    public List<Event> findByStatus(String status) {
         return em.createNamedQuery("Event.findByStatus").setParameter("status", status).getResultList();
     }
-    
-    public List<Event> showEventsTop(int limit){
+
+    public List<Event> showEventsTop(int limit) {
         return em.createQuery("select e from Event e WHERE e.status = 'Oncoming' OR e.status='Ended' order by e.eventID DESC").setMaxResults(limit).getResultList();
         //return em.createQuery("select e from Event e ORDER BY e.eventID DESC").g;
     }
-    
-    public List<Event> findByDate(Date fromDate, Date toDate){
+
+    public List<Event> findByDate(Date fromDate, Date toDate) {
         return em.createNamedQuery("Event.findByDate").setParameter("fromDate", fromDate).setParameter("toDate", toDate).getResultList();
     }
-    
+
     public void changeStatus() {
         em.createNativeQuery("update Event set Status = 'Oncoming' where StartDate <= GETDATE() and EndDate > GETDATE() and Status != 'Oncoming'").executeUpdate();
         em.createNativeQuery("update Event set Status = 'Ended' where EndDate < GETDATE() and Status != 'Ended'").executeUpdate();
     }
-    
+
+    public List<Event> showAllEvent() {
+        return em.createQuery("SELECT e FROM Event e ORDER BY e.createDate DESC").getResultList();
+    }
 }

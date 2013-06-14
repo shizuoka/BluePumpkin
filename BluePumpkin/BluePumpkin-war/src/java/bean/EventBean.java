@@ -156,7 +156,7 @@ public class EventBean implements Serializable {
     }
 
     public List<Event> showAll() {
-        return eventFacade.findAll();
+        return eventFacade.showAllEvent();
     }
 
     public Event findByEventID(String id) {

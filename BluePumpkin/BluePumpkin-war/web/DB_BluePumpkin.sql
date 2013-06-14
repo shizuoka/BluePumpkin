@@ -198,3 +198,4 @@ begin
 	where Status in ('Oncoming', 'Incoming')
 end
 go
+select * from Event order by CreateDate DESC
