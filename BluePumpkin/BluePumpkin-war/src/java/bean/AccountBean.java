@@ -7,6 +7,7 @@ package bean;
 import entities.Account;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -62,11 +63,11 @@ public class AccountBean implements Serializable {
     public void deleteAccountEmp(Account acc) {
         boolean del = accountFacade.deleteAccountEmp(acc);
         if (del) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete Account Of EmpID " + acc.getUserName().getEmployeeID() + " Successful !!!");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Delete Account Of EmpID " + acc.getUserName().getEmployeeID() + " Successful !!!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Delete Account Of EmpID " + acc.getUserName().getEmployeeID() + " UnSuccessful !!!");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Delete Account Of EmpID " + acc.getUserName().getEmployeeID() + " UnSuccessful !!!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
 

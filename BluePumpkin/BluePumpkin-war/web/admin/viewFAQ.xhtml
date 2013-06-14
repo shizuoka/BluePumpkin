@@ -17,6 +17,7 @@ and open the template in the editor.
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
                 <div id="right_content"> 
+                    <p:growl id="grow_deleteFAQ" showDetail="true"/>
                     <h2>Tables FAQ</h2> 
                     <h:form>
                         <p:dataTable id="faqTable" var="faq" value="#{faqBean.showAllFaqs()}" widgetVar="faqsTable"   
@@ -50,18 +51,15 @@ and open the template in the editor.
                             </p:column>  
 
                             <p:column id="delFaqColumn" headerText="Delete">  
-                                <h:commandButton action="#{faqBean.deleteFaq(faq)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
+                                <p:commandLink action="#{faqBean.deleteFaq(faq)}" title="Delete" onclick="return confirm('Are you sure?')"
+                                               update=":grow_deleteFAQ">
+                                    <img src="../images/icon/trash.gif" />
+                                </p:commandLink>
                             </p:column>
 
                         </p:dataTable>   
                         <h1><h:commandLink value="Add new faq" action="addFAQ.xhtml"/></h1> 
-                    </h:form>
-                    <c:if test="#{not empty requestScope.delSuccess}">
-                        <h:outputText value="#{requestScope.delSuccess}" style="color: green"/>
-                    </c:if>
-                    <c:if test="#{not empty requestScope.delFail}">
-                        <h:outputText value="#{requestScope.delFail}" style="color: red"/>
-                    </c:if>
+                    </h:form>             
                     <br/>
 
                 </div>

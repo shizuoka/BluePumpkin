@@ -8,6 +8,7 @@ import entities.RegisterEvent;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -66,12 +67,12 @@ public class SuggestBean implements Serializable {
     public String acceptRegist(int registID) {
         boolean accept = registerEventFacade.acceptRegist(registID);
         if (accept) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Register ID " + registID + " accepted");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Register ID " + registID + " accepted");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("msg", "Register ID " + registID + " not accepted");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Register ID " + registID + " not accepted");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
-        return "suggest.xhtml";
+        return "";
     }
 }

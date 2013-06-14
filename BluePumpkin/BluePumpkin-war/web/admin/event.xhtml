@@ -16,7 +16,8 @@ and open the template in the editor.
     <h:body>
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
-                <div id="right_content">             
+                <div id="right_content">
+                    <p:growl id="grow_deleteEvent" showDetail="true"/>
                     <h:form>  
 
                         <p:dataTable id="dataTable" var="event" value="#{eventBean.showAll()}" widgetVar="eventsTable"   
@@ -66,15 +67,14 @@ and open the template in the editor.
                             </p:column>
 
                             <p:column id="delColumn" headerText="Delete">  
-                                <h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/> 
+                                <p:commandLink action="#{eventBean.deleteEvent(event)}" title="Delete" onclick="return confirm('Are you sure?')"
+                                                 update=":grow_deleteEvent">
+                                    <img src="../images/icon/trash.gif" />
+                                </p:commandLink>
                             </p:column>
                         </p:dataTable>  
 
                     </h:form> 
-
-                    <c:if test="#{not empty requestScope.del}">
-                        <h:outputText value="#{requestScope.del}" style="color: red"/>
-                    </c:if>
 
                     <ul id="tabsmenu" class="tabsmenu">
                         <li class="active"><a href="#tab1">Form Add Structure</a></li>                                                      

@@ -51,8 +51,8 @@ and open the template in the editor.
                             </p:column>
 
                             <p:column id="delTypeColumn" headerText="Delete">  
-                                <p:commandButton action="#{eventTypeBean.deleteEventType(eventType)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"
-                                                 update=":grow_deleteEventType"/>
+                                <p:commandButton action="#{eventTypeBean.deleteEventType(eventType)}" value="Delete" title="Delete" onclick="return confirm('Are you sure?')"
+                                               update=":grow_deleteEventType"/>
                             </p:column>
 
                         </p:dataTable>

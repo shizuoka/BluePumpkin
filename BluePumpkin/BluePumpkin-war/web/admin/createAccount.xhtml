@@ -16,7 +16,8 @@ and open the template in the editor.
     <h:body>
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
-                <div id="right_content">             
+                <div id="right_content">   
+                    <p:growl id="grow_deleteAccount" showDetail="true"/>
                     <h2>View All Account</h2> 
                     <h:form>
                         <p:dataTable id="accountTable" var="account" value="#{employeeBean.showAllAccount()}" widgetVar="accountsTable"   
@@ -51,17 +52,17 @@ and open the template in the editor.
                             </p:column>
 
                             <p:column id="delColumn" headerText="Delete">  
-                                <h:commandButton action="#{accountBean.deleteAccountEmp(account)}" onclick="return confirm('Are you sure?')" image="../images/icon/trash.gif"/> 
+                                <p:commandLink action="#{accountBean.deleteAccountEmp(account)}" onclick="return confirm('Are you sure?')"
+                                                 update=":grow_deleteAccount" title="Delete">
+                                    <img src="../images/icon/trash.gif" />
+                                </p:commandLink>
                             </p:column>
 
                         </p:dataTable>
                     </h:form>
-                    <c:if test="#{not empty requestScope.del}">
-                        <h:outputText value="#{requestScope.del}" style="color: blue"/>
-                    </c:if>
 
-                    <h:form>
-                        <p:growl id="grow1_create" showDetail="true"/>
+                    <p:growl id="grow1_create" showDetail="true"/>
+                    <h:form id="frm_createAccount">                        
                         <table style="margin: 0 auto;">
                             <tr>
                                 <td colspan="3" style="text-align: center;"><h2>Create New Account</h2></td>
@@ -129,10 +130,7 @@ and open the template in the editor.
                                     <h:commandButton value="Reset" action="#{employeeBean.reset()}"/>
                                 </td>
                             </tr>
-                        </table>            
-                        <c:if test="#{not empty requestScope.add}">                                
-                            <h:outputText value="#{requestScope.add}" style="color: blue;text-align: center"/>                                
-                        </c:if>
+                        </table>                                   
                     </h:form>
                 </div>
             </ui:define>

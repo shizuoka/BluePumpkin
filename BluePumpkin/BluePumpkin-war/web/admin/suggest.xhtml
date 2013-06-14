@@ -17,6 +17,7 @@ and open the template in the editor.
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
                 <div id="right_content"> 
+                    <p:growl id="grow_suggest" showDetail="true"/>
                     <h:form>
                         <p:dataTable id="suggestTable" var="suggest" value="#{suggestBean.showNotAcceptRegister()}" widgetVar="suggestsTable"   
                                      emptyMessage="No register found with given criteria" filteredValue="#{suggestBean.filteredRegister}"
@@ -50,13 +51,11 @@ and open the template in the editor.
                             </p:column>  
 
                             <p:column id="actionColumn" headerText="Action">  
-                                <h:commandButton value="Accept" action="#{suggestBean.acceptRegist(suggest.registerID)}"/>
+                                <p:commandButton value="Accept" action="#{suggestBean.acceptRegist(suggest.registerID)}"
+                                                 update=":grow_suggest"/>
                             </p:column>
 
-                        </p:dataTable>  
-                        <c:if test="#{not empty requestScope.msg}">                                
-                            <h:outputText value="#{requestScope.msg}" style="color: blue;text-align: center"/>                                
-                        </c:if>
+                        </p:dataTable>                          
                     </h:form>             
 
                 </div>

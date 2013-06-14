@@ -198,10 +198,12 @@ public class EmployeeBean implements Serializable {
         if (employeeID.equals("") || fullName.equals("") || address.equals("") || email.equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
             FacesContext.getCurrentInstance().addMessage(null, message);
-        } else if (control.validEmail(email)) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email invalid");
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        } else if (dateOfBirth.getTime() > new Date().getTime()) {
+        }
+//        else if (control.validEmail(email)) {
+//            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email invalid");
+//            FacesContext.getCurrentInstance().addMessage(null, message);
+//        } 
+        else if (dateOfBirth.getTime() > new Date().getTime()) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "DateOfBirth must less than current time");
             FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
