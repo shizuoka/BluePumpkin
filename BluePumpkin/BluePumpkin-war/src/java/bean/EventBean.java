@@ -51,7 +51,20 @@ public class EventBean implements Serializable {
     private HttpServletRequest rq;
     private List<Event> lstNewerEvents;
     private List<Event> lstOlderEvents;
+    private List<Event> lstEventsByType;
 
+    public List<Event> getLstEventsByType() {
+        String type = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
+        if(type != null) {
+           lstEventsByType = eventFacade.showEventsByType(type);
+        }
+        return lstEventsByType;
+    }
+
+    public void setLstEventsByType(List<Event> lstEventsByType) {
+        this.lstEventsByType = lstEventsByType;
+    }
+    
    
 
     public void setLstNewerEvents(List<Event> lstNewerEvents) {
