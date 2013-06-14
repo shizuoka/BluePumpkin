@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 /**
  *
@@ -54,5 +56,34 @@ public class control {
 
     public static String conver2String(Date d, String pattern) {
         return new SimpleDateFormat(pattern).format(d);
+    }
+
+    public static boolean validEmail(String email) {
+        try {
+            InternetAddress idd = new InternetAddress(email, true);
+            if (validEmpty(email)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (AddressException ex) {
+            return false;
+        }
+    }
+
+    public static boolean validEmpty(String s) {
+        if (s == "" || s == null || s.length() < 3) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public static boolean compare(String s1, String s2) {
+        if (validEmpty(s1) && validEmpty(s2) && s1.equals(s2)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

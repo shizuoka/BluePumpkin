@@ -8,6 +8,7 @@ import entities.EventType;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -22,8 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 public class EventTypeBean implements Serializable {
 
     @EJB
-    private EventTypeFacade eventTypeFacade;
-    private HttpServletRequest rq;
+    private EventTypeFacade eventTypeFacade;    
 
     /**
      * Creates a new instance of EventTypeBean
@@ -77,16 +77,21 @@ public class EventTypeBean implements Serializable {
     }
 
     public String addEventType() {
-        EventType et = new EventType(eventTypeID, eventTypeName, descriptionType);
-        boolean result = eventTypeFacade.addEventType(et);
-        if (result) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Add EventType Successfull !!!");
+        if (eventTypeID.equals("") || eventTypeName.equals("") || descriptionType.equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Add EventType Unsuccessfull !!!");
+            EventType et = new EventType(eventTypeID, eventTypeName, descriptionType);
+            boolean result = eventTypeFacade.addEventType(et);
+            if (result) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Add EventType Successfull !!!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Add EventType Unsuccessfull !!!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
         }
-        return "addEventType.xhtml";
+        return "";
     }
 
     public String deleteEventType(EventType et) {
@@ -95,21 +100,21 @@ public class EventTypeBean implements Serializable {
             if (countEvent < 1) {
                 boolean delete = eventTypeFacade.deleteEventType(et);
                 if (delete) {
-                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                    rq.setAttribute("del", "Delete EventType Successfull !!!");
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Delete EventType Successfull !!!");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
                 } else {
-                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                    rq.setAttribute("del", "Delete EventType UnSuccessfull !!!");
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Delete EventType UnSuccessfull !!!");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
                 }
             } else {
-                rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                rq.setAttribute("error", "Can't delete event type!!!");
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Can't delete event type!!!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
             }
         } catch (Exception e) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("error", "Delete Fail!!!");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Delete Fail!!!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
-        return "addEventType.xhtml";
+        return "";
     }
 
     public List<EventType> showAllEventType() {

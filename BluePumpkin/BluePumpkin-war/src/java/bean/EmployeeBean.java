@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -194,30 +195,37 @@ public class EmployeeBean implements Serializable {
     }
 
     public String createEmpAccount() {
-        Employee e = new Employee(new Date(), employeeID, fullName, gender, address, email, phone, dateOfBirth);
-        boolean result_1 = employeeFacade.createEmployee(e);
-        if (result_1) {
-            String password = "123456";
-            try {
-                boolean result_2 = accountFacade.createAccount(control.generateMD5(password), chooseRole, e.getEmployeeID());
-                if (result_2) {
-                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                    rq.setAttribute("add", "Create New Employee Successfull !!!");
-                    return "createAccount.xhtml";
-                } else {
-                    rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                    rq.setAttribute("add", "Create Fail !!!");
-                    return "createAccount.xhtml";
+        if (employeeID.equals("") || fullName.equals("") || address.equals("") || email.equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (control.validEmail(email)) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email invalid");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (dateOfBirth.getTime() > new Date().getTime()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "DateOfBirth must less than current time");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            Employee e = new Employee(new Date(), employeeID, fullName, gender, address, email, phone, dateOfBirth);
+            boolean result_1 = employeeFacade.createEmployee(e);
+            if (result_1) {
+                String password = "123456";
+                try {
+                    boolean result_2 = accountFacade.createAccount(control.generateMD5(password), chooseRole, e.getEmployeeID());
+                    if (result_2) {
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Create New Employee Successfull !!!");
+                        FacesContext.getCurrentInstance().addMessage(null, message);
+                    } else {
+                        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Create Fail !!!");
+                        FacesContext.getCurrentInstance().addMessage(null, message);
+                    }
+                } catch (Exception ex) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Create Fail !!!");
+                    FacesContext.getCurrentInstance().addMessage(null, message);
                 }
-            } catch (Exception ex) {
-                rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                rq.setAttribute("add", "Create Fail !!!");
-                return "createAccount.xhtml";
-            }
 
+            }
         }
-        msg = "Error";
-        return "createAccount.xhtml?result=" + msg + "&faces-redirect=true";
+        return "";
     }
 
     public List<Account> showAllAccount() {
@@ -235,11 +243,11 @@ public class EmployeeBean implements Serializable {
     public void deleteEmployee(Employee emp) {
         boolean del = employeeFacade.deleteEmployee(emp);
         if (del) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("del", "Delete EmpID " + emp.getEmployeeID() + " Successful !!!");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Delete EmpID " + emp.getEmployeeID() + " Successful !!!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("del", "Delete EmpID " + emp.getEmployeeID() + " UnSuccessful !!!");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Delete EmpID " + emp.getEmployeeID() + " UnSuccessful !!!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
 

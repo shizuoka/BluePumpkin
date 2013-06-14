@@ -61,6 +61,7 @@ and open the template in the editor.
                     </c:if>
 
                     <h:form>
+                        <p:growl id="grow1_create" showDetail="true"/>
                         <table style="margin: 0 auto;">
                             <tr>
                                 <td colspan="3" style="text-align: center;"><h2>Create New Account</h2></td>
@@ -124,7 +125,7 @@ and open the template in the editor.
                             <tr>
                                 <td></td>
                                 <td>
-                                    <h:commandButton value="Create" action="#{employeeBean.createEmpAccount()}"/>
+                                    <p:commandButton value="Create" actionListener="#{employeeBean.createEmpAccount()}" update=":grow1_create"/>
                                     <h:commandButton value="Reset" action="#{employeeBean.reset()}"/>
                                 </td>
                             </tr>

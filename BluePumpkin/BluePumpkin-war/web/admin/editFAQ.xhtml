@@ -8,7 +8,8 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Edit FAQ Page</title>
     </h:head>
@@ -16,7 +17,8 @@ and open the template in the editor.
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
                 <div id="right_content">
-                    <div id="tab2" class="tabcontent">                              
+                    <div id="tab2" class="tabcontent"> 
+                        <p:growl id="grow_editFAQ" showDetail="true"/>
                         <h3>Edit FAQ</h3>
                         <h:form>
                             <div class="form">
@@ -32,13 +34,10 @@ and open the template in the editor.
                                 </div>
 
                                 <div class="form_row">
-                                    <h:commandButton value="Update" action="#{faqBean.updateFaq()}"/>                                        
+                                    <p:commandButton value="Update" action="#{faqBean.updateFaq()}" update=":grow_editFAQ"/>                                        
                                 </div>                                                                
 
-                                <div class="clear"></div> 
-                                <c:if test="#{not empty requestScope.update}">
-                                    <h:outputText value="#{requestScope.update}" style="color: green"/>
-                                </c:if>
+                                <div class="clear"></div>                                
                             </div>
                         </h:form>
                     </div>

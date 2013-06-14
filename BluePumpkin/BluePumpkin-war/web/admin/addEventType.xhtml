@@ -16,7 +16,8 @@ and open the template in the editor.
     <h:body>
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
-                <div id="right_content">             
+                <div id="right_content"> 
+                    <p:growl id="grow_deleteEventType" showDetail="true"/>
                     <h2>Tables Event Type</h2> 
                     <h:form>
                         <p:dataTable id="eventTypeTable" var="eventType" value="#{eventTypeBean.showAllEventType()}" widgetVar="eventTypeTable"   
@@ -50,21 +51,12 @@ and open the template in the editor.
                             </p:column>
 
                             <p:column id="delTypeColumn" headerText="Delete">  
-                                <h:commandButton action="#{eventTypeBean.deleteEventType(eventType)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/>
+                                <p:commandButton action="#{eventTypeBean.deleteEventType(eventType)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"
+                                                 update=":grow_deleteEventType"/>
                             </p:column>
 
                         </p:dataTable>
-                        <br/>
-                        <c:if test="#{not empty requestScope.del}">
-                            <div class="form_row">
-                                <h:outputText value="#{requestScope.del}" style="color: green;text-align: center"/>
-                            </div>
-                        </c:if>
-                        <c:if test="#{not empty requestScope.error}">
-                            <div class="form_row">
-                                <h:outputText value="#{requestScope.error}" style="color: red;text-align: center"/>
-                            </div>
-                        </c:if>
+                        <br/>                                              
                     </h:form>
                     <ul id="tabsmenu" class="tabsmenu">
                         <li class="active"><a href="#tab1">Form Edit Type</a></li>
@@ -73,7 +65,8 @@ and open the template in the editor.
 
                     <div id="tab2" class="tabcontent">                              
                         <h3>Add New Type</h3>
-                        <h:form>
+                        <p:growl id="grow_addEventType" showDetail="true"/>
+                        <h:form id="frm_AddType">
                             <div class="form">
 
                                 <div class="form_row">
@@ -91,15 +84,10 @@ and open the template in the editor.
                                     <h:inputTextarea class="form_textarea" id="txtDescription"  rows="4" cols="20" value="#{eventTypeBean.descriptionType}"/>
                                 </div>
                                 <div class="form_row">
-                                    <h:commandButton class="form_submit" value="Add" action="#{eventTypeBean.addEventType()}"/>
+                                    <p:commandButton id="btn_SubmitEventType" value="Add" action="#{eventTypeBean.addEventType()}"
+                                                     update=":grow_addEventType"/>
                                     <h:commandButton value="Reset" action="#{eventTypeBean.reset()}"/>                                        
-                                </div> 
-
-                                <c:if test="#{not empty requestScope.add}">
-                                    <div class="form_row">
-                                        <h:outputText value="#{requestScope.add}" style="color: green;text-align: center"/>
-                                    </div>
-                                </c:if>                                    
+                                </div>                                
 
                                 <div class="form_row">
                                     <a href="event.xhtml">Create New Event</a>

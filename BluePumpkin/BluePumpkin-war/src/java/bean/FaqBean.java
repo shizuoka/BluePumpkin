@@ -8,6 +8,7 @@ import entities.Faq;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -83,16 +84,20 @@ public class FaqBean implements Serializable {
     }
 
     public String addFaq() {
-        Faq f = new Faq(question, answer);
-        if (faqFacade.addFaq(f)) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Added Faq successfully!");
-            return "viewFAQ.xhtml";
+        if (question.equals("") || answer.equals("")) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("add", "Failed!");
-            return "viewFAQ.xhtml";
+            Faq f = new Faq(question, answer);
+            if (faqFacade.addFaq(f)) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Added Faq successfully!");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            } else {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Failed");
+                FacesContext.getCurrentInstance().addMessage(null, message);
+            }
         }
+        return "";
     }
 
     public String editFaq(Faq f) {
@@ -102,23 +107,22 @@ public class FaqBean implements Serializable {
 
     public String updateFaq() {
         if (faqFacade.editFaq(faq.getFaqid(), faq.getQuestion(), faq.getAnswer())) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("update", "Update Faq " + faq.getFaqid() + " successfully");
-            return "editFAQ.xhtml";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Update Faq " + faq.getFaqid() + " successfully");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("update", "Update Faq " + faq.getFaqid() + " failed!");
-            return "editFAQ.xhtml";
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "FAIL", "Update Faq " + faq.getFaqid() + " failed!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
+        return "";
     }
 
     public void deleteFaq(Faq faq) {
         if (faqFacade.delete(faq)) {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("delSuccess", "Delete " + faq.getFaqid() + " successfully");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "SUCCESSFULL", "Delete " + faq.getFaqid() + " successfully");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
-            rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            rq.setAttribute("delFail", "Delete " + faq.getFaqid() + " Unsuccessfully");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Delete " + faq.getFaqid() + " Unsuccessfully");
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
 
