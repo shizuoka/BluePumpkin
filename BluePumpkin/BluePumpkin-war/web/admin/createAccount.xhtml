@@ -68,9 +68,10 @@ and open the template in the editor.
                             </tr>
                             <tr>
                                 <td>EmployeeID: </td>
-                                <td><p:inputText id="employeeID" size="30" value="#{employeeBean.employeeID}" required="true" 
-                                                 requiredMessage="* EmployeeID required"/></td>                                    
-                                <td><p:message for="employeeID" display="text"/></td>
+                                <td>
+                                    <h:inputText value="#{employeeBean.employeeID}" disabled="true" />
+                                </td>
+                                <td></td>
                             </tr>
                             <tr>
                                 <td>FullName:</td>

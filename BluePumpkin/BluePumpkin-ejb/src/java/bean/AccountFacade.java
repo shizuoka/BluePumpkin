@@ -31,8 +31,12 @@ public class AccountFacade extends AbstractFacade<Account> {
     }
 
     public Account login(String username, String password) {
-        return (Account) em.createQuery("SELECT a FROM Account a WHERE a.userName.employeeID = :username and a.passWord = :password")
-                .setParameter("username", username).setParameter("password", password).getSingleResult();
+        try {
+            return (Account) em.createQuery("SELECT a FROM Account a WHERE a.userName.employeeID = :username and a.passWord = :password")
+                    .setParameter("username", username).setParameter("password", password).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public boolean createAccount(String password, int roleID, String customerID) {
@@ -54,7 +58,7 @@ public class AccountFacade extends AbstractFacade<Account> {
 
     public boolean deleteAccountEmp(Account acc) {
         boolean flag = false;
-        try {            
+        try {
             Employee emp = em.find(Employee.class, acc.getUserName().getEmployeeID());
             em.remove(em.merge(acc));
             em.remove(em.merge(emp));
@@ -64,5 +68,9 @@ public class AccountFacade extends AbstractFacade<Account> {
             flag = false;
         }
         return flag;
+    }
+
+    public String generateValidID() {
+        return (String) em.createNativeQuery("select dbo.GenerateEmployeeID()").getSingleResult();
     }
 }

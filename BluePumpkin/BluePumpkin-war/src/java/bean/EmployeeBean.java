@@ -198,12 +198,10 @@ public class EmployeeBean implements Serializable {
         if (employeeID.equals("") || fullName.equals("") || address.equals("") || email.equals("")) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please input field");
             FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-//        else if (control.validEmail(email)) {
-//            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email invalid");
-//            FacesContext.getCurrentInstance().addMessage(null, message);
-//        } 
-        else if (dateOfBirth.getTime() > new Date().getTime()) {
+        } else if (checkEmailExisted(email)) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Email is existed!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (dateOfBirth.getTime() > new Date().getTime()) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "DateOfBirth must less than current time");
             FacesContext.getCurrentInstance().addMessage(null, message);
         } else {
@@ -260,5 +258,17 @@ public class EmployeeBean implements Serializable {
         email = "";
         dateOfBirth = null;
         phone = "";
+    }
+
+    public String generateValidEmployeeID() {
+        return accountFacade.generateValidID();
+    }
+
+    public boolean checkEmployeeExisted(String employeeID) {
+        return employeeFacade.checkEmployeeExisted(employeeID);
+    }
+
+    public boolean checkEmailExisted(String email) {
+        return employeeFacade.checkEmailExisted(email);
     }
 }

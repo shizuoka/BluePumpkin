@@ -55,8 +55,8 @@ public class EventBean implements Serializable {
 
     public List<Event> getLstEventsByType() {
         String type = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("type");
-        if(type != null) {
-           lstEventsByType = eventFacade.showEventsByType(type);
+        if (type != null) {
+            lstEventsByType = eventFacade.showEventsByType(type);
         }
         return lstEventsByType;
     }
@@ -64,8 +64,6 @@ public class EventBean implements Serializable {
     public void setLstEventsByType(List<Event> lstEventsByType) {
         this.lstEventsByType = lstEventsByType;
     }
-    
-   
 
     public void setLstNewerEvents(List<Event> lstNewerEvents) {
         this.lstNewerEvents = lstNewerEvents;
@@ -78,11 +76,11 @@ public class EventBean implements Serializable {
     public List<Event> getLstNewerEvents() {
         return lstNewerEvents;
     }
-    
+
     public void setLstOlderEvents(List<Event> lstOlderEvents) {
         this.lstOlderEvents = lstOlderEvents;
     }
-    
+
     /**
      * Creates a new instance of EventBean
      */
@@ -100,6 +98,7 @@ public class EventBean implements Serializable {
     private String eventID;
 
     public String getEventID() {
+        eventID = eventFacade.generateEventValidID();
         return eventID;
     }
 

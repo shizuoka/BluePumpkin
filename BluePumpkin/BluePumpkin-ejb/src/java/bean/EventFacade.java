@@ -129,12 +129,14 @@ public class EventFacade extends AbstractFacade<Event> {
         em.createNativeQuery("update Event set Status = 'Oncoming' where StartDate <= GETDATE() and EndDate > GETDATE() and Status != 'Oncoming'").executeUpdate();
         em.createNativeQuery("update Event set Status = 'Ended' where EndDate < GETDATE() and Status != 'Ended'").executeUpdate();
     }
-    public List<Event> showNewerEvents(Event evt){
+
+    public List<Event> showNewerEvents(Event evt) {
         return em.createQuery("select e from Event e where e.eventTypeID.eventTypeName =:evtTypeName and e.endDate >:evtEndDate and e.eventID !=:evtID").
                 setParameter("evtTypeName", evt.getEventTypeID().getEventTypeName()).setParameter("evtEndDate", evt.getEndDate()).
                 setParameter("evtID", evt.getEventID()).setMaxResults(4).getResultList();
     }
-    public List<Event> showOlderEvents(Event evt){
+
+    public List<Event> showOlderEvents(Event evt) {
         return em.createQuery("select e from Event e where e.eventTypeID.eventTypeName =:evtTypeName and e.endDate <:evtEndDate and e.eventID !=:evtID").
                 setParameter("evtTypeName", evt.getEventTypeID().getEventTypeName()).setParameter("evtEndDate", evt.getEndDate()).
                 setParameter("evtID", evt.getEventID()).setMaxResults(4).getResultList();
@@ -143,8 +145,13 @@ public class EventFacade extends AbstractFacade<Event> {
     public List<Event> showAllEvent(){
         return em.createQuery("SELECT e FROM Event e ORDER BY e.eventID DESC").getResultList();
     }
-    public List<Event> showEventsByType(String type){
+
+    public List<Event> showEventsByType(String type) {
         return em.createQuery("SELECT e FROM Event e WHERE e.eventTypeID.eventTypeName=:type").
                 setParameter("type", type).getResultList();
+    }
+
+    public String generateEventValidID() {
+        return (String) em.createNativeQuery("select dbo.GenerateEventID()").getSingleResult();
     }
 }
