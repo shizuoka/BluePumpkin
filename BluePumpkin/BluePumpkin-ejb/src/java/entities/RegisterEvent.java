@@ -9,8 +9,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author TrungThanh
+ * @author SONPV90
  */
 @Entity
 @Table(name = "RegisterEvent")
@@ -38,8 +36,8 @@ public class RegisterEvent implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "RegisterID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer registerID;
     @Column(name = "RegisterDate")
     @Temporal(TemporalType.TIMESTAMP)
@@ -59,13 +57,6 @@ public class RegisterEvent implements Serializable {
     public RegisterEvent(Integer registerID) {
         this.registerID = registerID;
     }
-
-    public RegisterEvent(Date registerDate, Boolean isAccept, Event eventID, Employee employeeID) {
-        this.registerDate = registerDate;
-        this.isAccept = isAccept;
-        this.eventID = eventID;
-        this.employeeID = employeeID;
-    }        
 
     public Integer getRegisterID() {
         return registerID;
@@ -126,14 +117,16 @@ public class RegisterEvent implements Serializable {
         }
         return true;
     }
-    
-    public boolean isCancelable() {
-        return !isAccept && !eventID.getStatus().equals("Ended");
-    }
 
     @Override
     public String toString() {
         return "entities.RegisterEvent[ registerID=" + registerID + " ]";
     }
-    
+    public RegisterEvent(Date registerDate, Boolean isAccept, Event eventID, Employee employeeID) {
+        this.registerDate = registerDate;
+        this.isAccept = isAccept;
+        this.eventID = eventID;
+        this.employeeID = employeeID;
+    }        
+
 }
