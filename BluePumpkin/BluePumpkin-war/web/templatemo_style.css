@@ -387,3 +387,7 @@ h3.blog_title {
     padding-bottom: 5px;
     text-transform: uppercase;
 }
+#list-incoming, #list-oncoming, #list-ended{
+    float: left;
+    width: 100%;
+}

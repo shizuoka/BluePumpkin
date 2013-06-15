@@ -530,6 +530,58 @@ public class EventBean implements Serializable {
         }
         return "";
     }
+    
+    public String searchStatistic() {
+        if (fromDate == null || todate == null) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "Please choose a time interval!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else if (fromDate.getTime() >= todate.getTime()) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR", "To date mustn't be greater than from date!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } else {
+            List<Event> listEvent = eventFacade.findByDate(fromDate, todate);
+            listEventIncoming = new ArrayList<EventDetail>();
+            listEventOncoming = new ArrayList<EventDetail>();
+            listEventEnded = new ArrayList<EventDetail>();
+            int totalEvent = listEvent.size();
+            int incoming = 0, oncoming = 0, ended = 0;
+            Collections.reverse(listEvent);
+
+            for (int i = 0; i < totalEvent; i++) {
+                int numberEm = listEvent.get(i).getNumberEmployee();
+                int countRegister = registerEventFacade.countRegisterByStatus(listEvent.get(i).getEventID());
+                String eventTitle = listEvent.get(i).getEventTitle();
+                String eventId = listEvent.get(i).getEventID();
+                Date startDate = listEvent.get(i).getStartDate();
+                Date endDate = listEvent.get(i).getEndDate();
+                String typeEvent = listEvent.get(i).getEventTypeID().getEventTypeName();
+
+                if (listEvent.get(i).getStatus().equals("Incoming")) {
+                    EventDetail eventDetail = new EventDetail(eventId, eventTitle, startDate, endDate, typeEvent, numberEm, countRegister);
+                    listEventIncoming.add(eventDetail);
+                    incoming++;
+                } else if (listEvent.get(i).getStatus().equals("Ended")) {
+                    String winner = winnersFacade.getWinner(listEvent.get(i).getEventID());
+                    EventDetail eventDetail = new EventDetail(eventId, eventTitle, startDate, endDate, typeEvent, numberEm, countRegister, winner);
+                    listEventEnded.add(eventDetail);
+                    ended++;
+                } else {
+                    EventDetail eventDetail = new EventDetail(eventId, eventTitle, startDate, endDate, typeEvent, numberEm, countRegister);
+                    listEventOncoming.add(eventDetail);
+                    oncoming++;
+                }
+            }
+            setListEventIncoming(listEventIncoming);
+            setListEventOncoming(listEventOncoming);
+            setListEventEnded(listEventEnded);
+            setTotal(totalEvent);
+            setIncoming(incoming);
+            setOncoming(oncoming);
+            setEnded(ended);
+            return "searchStatistic.xhtml?fromDate=" + fromDate.getTime() + "&toDate=" + todate.getTime() + "&faces-redirect=true";
+        }
+        return "";
+    }
 
     public List<EventDetail> statisticEventByStatus(String status) {
         List<Event> listEvent = eventFacade.findByDate(fromDate, todate);

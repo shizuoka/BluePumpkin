@@ -156,7 +156,7 @@ go
 --Bảng chi tiết danh sách cần liên hệ
 go
 select * from Event
-select * from RegisterEvent
+select * from Comments
 go
 insert into RegisterEvent values(GETDATE(),1,'E01','EV03')
 insert into RegisterEvent values(GETDATE(),1,'E02','EV03')

@@ -16,21 +16,23 @@ and open the template in the editor.
         <ui:composition template="shared/layout.xhtml">
             <ui:define name="content">
                 <div id="faq_content">
+                    <p:growl id="grow_statistic" showDetail="true"/>
                     <div id="form_statistic">
                         <h:form>
                             <div class="form_statistic_row">
                                 <label>From date:</label>
-                                <p:calendar value="#{eventBean.fromDate}" id="popup_Startdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
+                                <p:calendar value="#{eventBean.fromDate}" id="popupStartdate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>
                             </div>
 
                             <div class="form_statistic_row">
                                 <label>To date:</label>
-                                <p:calendar value="#{eventBean.todate}" id="popup_Enddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
+                                <p:calendar value="#{eventBean.todate}" id="popupEnddate" showOn="button" pattern="MM/dd/yyyy" mode="popup"/>                                   
                             </div>
                             <div id="button_search">
-                                <h:commandButton action="#{eventBean.customerStatistic()}" image="images/icon/search.gif" title=""/>
+                                <p:commandLink action="#{eventBean.searchStatistic()}" update=":grow_statistic" title="Search">
+                                    <img src="images/icon/search.gif" />
+                                </p:commandLink>
                             </div>
-
                         </h:form>
                     </div>
                     <div class="resuilt">
@@ -42,7 +44,7 @@ and open the template in the editor.
                             <li><span>Number of events ended</span><strong>: #{eventBean.ended}</strong></li>
                         </ul>
                     </div>
-                    <div id="chart_statistic">
+                    <div id="chart">
                         <c:forEach items="#{eventBean.showEventsTop()}" var="statistic">                            
                             <script type="text/javascript">
                                 google.load("visualization", "1", {packages:["corechart"]});
@@ -67,7 +69,7 @@ and open the template in the editor.
                                     chart.draw(data, options);
                                 }
                             </script>
-                            <div id="#{statistic.eventId}" class="chart" style="width: 370px; height: 200px;"></div>   
+                            <div id="#{statistic.eventId}" class="chart" style="width: 310px; height: 180px;"></div>   
                         </c:forEach>
                     </div>
                 </div>
