@@ -16,10 +16,10 @@ and open the template in the editor.
         <link href="/BluePumpkin-war/css_pirobox/white/style.css" media="screen" title="shadow" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="/BluePumpkin-war/js/piroBox.1_2.js"></script>
         <script type="text/javascript" src="/BluePumpkin-war/js/jsapi.js"></script>
-        
+
     </h:head>
     <h:body>
-        
+
         <div id="templatemo_body_wrapper">
             <div id="templatemo_wrapper">
 
@@ -27,9 +27,9 @@ and open the template in the editor.
                     <span id="header_icon"></span>
                     <div id="header_content">
                         <div id="site_title">
-                            <a href="#" target="_parent"><img src="images/templatemo_logo.png" alt="LOGO" /></a>            </div>
-                        <p>This is a free CSS website layout from templatemo.com website.  Feel free to edit and apply for your websites. Duis vitae velit sed dui malesuad mollis aliquet ligula.</p>
-                        <a href="#" class="detail float_r">Detail</a>
+                            <h1><a href="index.xhtml" title="Home"><span class="title_blue">Blue</span><span class="pumpkin">Pumpkin</span></a></h1>
+                        </div>
+                        <p>Our client is a marketing agent of an internet marketing company, who provides different services like dial up services and the broadband services. They want a website for the interactive and entertainment purpose of the Employees.</p>
                     </div>
                 </div> <!-- end of header -->
 
@@ -42,7 +42,7 @@ and open the template in the editor.
                             <ul>
                                 <li><a href="index.xhtml" target="_parent" class="current">Home</a></li>
                                 <li><a href="registerEvent.xhtml" target="_parent">Event</a>
-                                    <ul>
+                                    <ul class="type_event">
                                         <c:forEach var="item" items="#{eventTypeBean.showAllEventType()}">
                                             <li>
                                                 <a href="showEventsByType.xhtml?type=#{item.eventTypeName}">#{item.eventTypeName}</a>
@@ -97,7 +97,7 @@ and open the template in the editor.
                             <div>
                                 <h3>BirthDate</h3>
                                 <ui:repeat value="#{employeeBean.findEmployeeByBirthDate()}" var="e">
-                                <ul>
+                                    <ul>
                                         <li>
                                             <span>
                                                 <h:outputText value="#{e[1]}" />
@@ -105,7 +105,7 @@ and open the template in the editor.
                                         </li>
                                     </ul>
                                 </ui:repeat>
-                               
+
                             </div>
                             <div class="sb_content">
 

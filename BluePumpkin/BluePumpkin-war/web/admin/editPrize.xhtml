@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Edit Prize Page</title>
     </h:head>
@@ -32,10 +33,10 @@
 
                                     <div class="form_row">
                                         <label>NumberOfPrize</label>
-                                        <h:inputText  id="noOfPrice" value="#{prizeBean.prizeEdit.numberOfPrize}"  class="form_input"/>                                    
+                                        <h:inputText  id="noOfPrice" value="#{prizeBean.prizeEdit.numberOfPrize}"  class="form_input" disabled="#{prizeBean.prizeEdit.isWin}"/>                                    
                                     </div>
                                     <div class="form_row">                                    
-                                        <h:commandButton class="form_submit" value="Update" action="#"/>                                                                     
+                                        <p:commandButton value="Update" actionListener="#{prizeBean.updatePize}"/>                                                                     
                                     </div> 
                                 </div>                     
                             </h:form> 

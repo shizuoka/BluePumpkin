@@ -17,51 +17,63 @@ and open the template in the editor.
         <ui:composition template="template/templateAdmin.xhtml">
             <ui:define name="content">
                 <div id="right_content">             
-                    <h2>Tables Event</h2> 
+                    <p:growl id="grow_deleteEvent" showDetail="true"/>
+                    <h:form id="frm_ViewEvent">  
 
-                    <table id="rounded-corner">
-                        <thead>
-                            <tr>                                
-                                <th>EventID</th>
-                                <th>Title</th>
-                                <th>Image</th>
-                                <th>Description</th>
-                                <th>StartDate</th>
-                                <th>EndDate</th>
-                                <th>Status</th>
-                                <th>Type</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tfoot>
-                            <tr>
-                                <td colspan="12"></td>
-                            </tr>
-                        </tfoot>
-                        <tbody>
-                            <c:forEach items="#{eventBean.showAll()}" var="event">
-                                <tr class="odd">                                    
-                                    <td>#{event.eventID}</td>
-                                    <td>#{event.eventTitle}</td>
-                                    <td><h:graphicImage value="/images/event/#{event.image}" style="width: 100px;height: 100px"/>  </td>
-                                    <td>#{event.description}</td>
-                                    <td><h:outputText value="#{event.startDate}">
-                                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                                        </h:outputText></td>
-                                    <td><h:outputText value="#{event.endDate}">
-                                            <f:convertDateTime pattern="MM/dd/yyyy" />
-                                        </h:outputText></td>
-                                    <td>#{event.status}</td>
-                                    <td>#{event.eventTypeID.eventTypeName}</td>
-                                    <h:form>
-                                        <td><h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/></td>
-                                        <td><h:commandButton action="#{eventBean.deleteEvent(event)}" image="../images/icon/trash.gif" title="" onclick="return confirm('Are you sure?')"/></td>                                        
-                                    </h:form>
-                                </tr>  
-                            </c:forEach>
-                        </tbody>
-                    </table>                        
+                        <p:dataTable id="dataTable" var="event" value="#{eventBean.showAll()}" widgetVar="eventsTable"   
+                                     emptyMessage="No event found with given criteria" filteredValue="#{eventBean.filteredEvents}"
+                                     paginator="true" rows="5" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,15" sortMode="multiple">  
+
+                            <f:facet name="header">  
+                                Tables Event 
+                            </f:facet>  
+
+                            <f:facet name="header">  
+                                <p:outputPanel>  
+                                    <h:outputText value="Search all fields:" />  
+                                    <p:inputText id="globalFilter" onkeyup="eventsTable.filter()" style="width:150px" />  
+                                </p:outputPanel>  
+                            </f:facet>   
+
+                            <p:column id="titleColumn" filterBy="#{event.eventTitle}"  
+                                      headerText="Title" filterMatchMode="startsWith" sortBy="#{event.eventTitle}">  
+                                <h:outputText value="#{event.eventTitle}" />  
+                            </p:column>  
+
+                            <p:column id="endDateColumn" headerText="EndDate" sortBy="#{event.endDate}">  
+                                <h:outputText value="#{event.endDate}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+                            <p:column id="typeColumn" headerText="Type" filterBy="#{event.eventTypeID.eventTypeName}"
+                                      filterMatchMode="contains" sortBy="#{event.eventTypeID.eventTypeName}">  
+                                <h:outputText value="#{event.eventTypeID.eventTypeName}" />  
+                            </p:column>
+
+                            <p:column id="setWin" headerText="Action">  
+                                <p:commandLink value="SetWinner" action="#{prizeBean.redirectWinner(event.eventID)}" rendered="#{event.status=='Ended'}" style="color: blue"/>
+                            </p:column>
+
+                            <p:column id="addPrizeColumn" headerText="Prize">  
+                                <p:commandLink action="#{prizeBean.redirectInsertEvent(event.eventID)}">
+                                    <img src="../images/icon/prize.jpg" />
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column id="editColumn" headerText="Edit">  
+                                <h:commandButton action="#{eventBean.editEvent(event)}" image="../images/icon/edit.png" title=""/>                                  
+                            </p:column>
+
+                            <p:column id="delColumn" headerText="Delete">  
+                                <p:commandButton action="#{eventBean.deleteEvent(event)}" icon="ui-icon-trash" title="Delete" onclick="return confirm('Are you sure?')"
+                                                 update=":grow_deleteEvent,:frm_ViewEvent">                                  
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>  
+
+                    </h:form>                     
 
                     <ul id="tabsmenu" class="tabsmenu">
                         <li class="active"><a href="#tab1">Form Edit Structure</a></li>                                                     
@@ -129,7 +141,6 @@ and open the template in the editor.
 
                                 <div class="form_row">
                                     <h:commandButton class="form_submit" value="Create" action="#{eventBean.addNewEvent()}"/> 
-                                    <h:commandButton value="Reset" action="#{eventBean.reset()}"/>
                                 </div>                                                                
 
                                 <div class="clear"></div>

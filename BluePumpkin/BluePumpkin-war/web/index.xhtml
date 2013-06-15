@@ -7,11 +7,32 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:c="http://java.sun.com/jsp/jstl/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
     <h:body>
         <ui:composition template="shared/layout.xhtml">
             <ui:define name="content">
+                <h:form>
+                    <h1>List Events</h1>
+                    <div align="center" id="list-event">
+                        <p:dataGrid var="event" value="#{eventBean.showAll()}" columns="3"  
+                                    rows="9" paginator="true"  
+                                    paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">  
+                            <p:panel header="#{event.eventTitle}" style="text-align:center;" id="aaaaaaaa">  
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <p:commandLink action="#{eventBean.detailEvent(event)}" title="#{event.eventTitle}">
+                                        <img src="images/event/#{event.image}" style="width: 140px;height: 140px"/>
+                                    </p:commandLink>
+                                    <p:commandLink action="#{eventBean.detailEvent(event)}" title="#{event.eventTitle}">
+                                        Detail
+                                    </p:commandLink>
+                                    <div><span>Status: #{event.status}</span></div>
+                                </h:panelGrid>  
+                            </p:panel>  
+                        </p:dataGrid>
+                    </div>
+                </h:form>
             </ui:define>
         </ui:composition>        
     </h:body>

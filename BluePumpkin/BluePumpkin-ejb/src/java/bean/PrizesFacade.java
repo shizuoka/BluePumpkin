@@ -53,5 +53,19 @@ public class PrizesFacade extends AbstractFacade<Prizes> {
         return (Long)em.createQuery("SELECT COUNT(p) FROM Prizes p WHERE p.eventID.eventID = '" + eventId + "' AND p.isWin = 1").getSingleResult() == 1;
     }
     
+    public boolean upatePrize(String prizeID, String description, int numberOfPrize) {
+        boolean flag = false;
+        try {            
+            Prizes p=em.find(Prizes.class, prizeID);
+            Prizes pm=new Prizes(description, numberOfPrize, numberOfPrize);
+            em.merge(pm);
+            em.persist(p);
+            flag = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
+        }
+        return flag;
+    }
     
 }
