@@ -60,11 +60,22 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         }
         return flag;
     }
-    
+
     public List<Employee> findEmployeeByBirthDate() {
 //        int date = new Date().getDate();
 //        int month = new Date().getMonth();
         return (List<Employee>) em.createNativeQuery("select * from Employee where MONTH(DateOfBirth) = MONTH(GETDATE()) and DAY(DateOfBirth) = DAY(GETDATE())").getResultList();
     }
-}
 
+    public boolean checkEmployeeExisted(String employeeID) {
+        return (Long) em.createQuery("SELECT COUNT(e) FROM Employee e WHERE e.employeeID = :employeeID")
+                .setParameter("employeeID", employeeID)
+                .getSingleResult() == 1;
+    }
+
+    public boolean checkEmailExisted(String email) {
+        return (Long) em.createQuery("SELECT COUNT(e) FROM Employee e WHERE e.email = :email")
+                .setParameter("email", email)
+                .getSingleResult() == 1;
+    }
+}

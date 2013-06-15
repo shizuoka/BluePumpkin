@@ -96,7 +96,6 @@ public class LoginBean implements Serializable {
     public void setEmployee(Account employee) {
         this.employee = employee;
     }
-    
     private Account acc;
 
     public Account getAcc() {
@@ -106,7 +105,6 @@ public class LoginBean implements Serializable {
     public void setAcc(Account acc) {
         this.acc = acc;
     }
-    
 
 //    public String loginEmployee() {
 //        String page = "";
@@ -162,7 +160,6 @@ public class LoginBean implements Serializable {
 //        }
 //        return page;
 //    }
-
     public String loginEmployee() {
         try {
             acc = accountFacade.login(username, control.generateMD5(password));
@@ -174,6 +171,9 @@ public class LoginBean implements Serializable {
                     HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
                     rq.setAttribute("error", "Access denied !!! You don't have permission");
                 }
+            } else {
+                HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                rq.setAttribute("error", "Username or Password isn't correct....");
             }
         } catch (EJBException e) {
             HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -181,6 +181,7 @@ public class LoginBean implements Serializable {
         }
         return "index.xhtml";
     }
+
     public String loginAdmin() {
         try {
             Account acc = accountFacade.login(username, control.generateMD5(password));
@@ -193,6 +194,9 @@ public class LoginBean implements Serializable {
                     HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
                     rq.setAttribute("error", "Access denied !!! You don't have permission");
                 }
+            } else {
+                HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                rq.setAttribute("error", "Username or Password isn't correct....");
             }
         } catch (Exception e) {
             HttpServletRequest rq = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -200,6 +204,7 @@ public class LoginBean implements Serializable {
         }
         return "login.xhtml";
     }
+
     public String logOutEmployee() {
         sessionTool.removeSession("employee");
         isLoggedEmployee = false;
